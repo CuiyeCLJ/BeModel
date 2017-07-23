@@ -1,14 +1,23 @@
 package android.bemodel.com.bemodel.view;
 
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-public class PersonalCenterActivity extends AppCompatActivity {
+public class PersonalCenterActivity extends Fragment {
 
+    private View rootView;
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_center);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.activity_personal_center, container, false);
+
+        return rootView;
     }
 }
