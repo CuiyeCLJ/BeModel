@@ -1,9 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="android.bemodel.com.bemodel.view.RegisterActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/et_telephone_number_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_phone_number_register"
+            android:inputType="phone"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@drawable/edit_bg"
+            android:layout_gravity="center" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_identifying_code"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/et_identifying_code_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_identifying_code_"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:background="@drawable/edit_bg"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/get_verification_code_register"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <EditText
+            android:id="@+id/et_password_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_password_register"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:background="@drawable/edit_bg"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

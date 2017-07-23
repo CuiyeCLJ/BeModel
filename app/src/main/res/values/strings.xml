@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">BeModel</string>
+    <string name="prompt_phone_number">电话号码</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_sign_in">登录</string>
+    <string name="action_register">注册</string>
+    <string name="prompt_phone_number_register">电话号码</string>
+    <string name="prompt_identifying_code_">验证码</string>
+    <string name="get_verification_code_register">获取验证码</string>
+    <string name="prompt_password_register">密码</string>
+    <string name="man_register2">男</string>
+    <string name="woman_register2">女</string>
+    <string name="nickname_register2">昵称</string>
+    <string name="prompt_describing_content">描述两句</string>
+    <string name="add_voice">添加语音</string>
+    <string name="location">所在位置</string>
+    <string name="my_works">我的作品</string>
+    <string name="invite_friends">邀请好友</string>
+    <string name="feedback">意见反馈</string>
+    <string name="set_up_gesture_cipher">设置手势密码</string>
+    <string name="log_off">退出登录</string>
 </resources>
