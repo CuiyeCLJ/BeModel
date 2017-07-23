@@ -40,7 +40,7 @@
             android:layout_height="1px"
             android:layout_alignParentBottom="true"
             android:layout_toEndOf="@+id/et_content_uw"
-            android:background="@android:color/dim_foreground_dark"
+            android:background="@color/colorDark"
             android:layout_toRightOf="@+id/et_content_uw" />
 
     </LinearLayout>
@@ -76,7 +76,7 @@
                 android:layout_height="1px"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@+id/rl_voice"
-                android:background="@android:color/dim_foreground_dark"
+                android:background="@color/colorDark"
                 android:layout_toRightOf="@+id/rl_voice" />
 
             <RelativeLayout
@@ -117,7 +117,7 @@
                 android:layout_height="1px"
                 android:layout_alignParentBottom="true"
                 android:layout_toEndOf="@+id/linearlayout"
-                android:background="@android:color/dim_foreground_dark"
+                android:background="@color/colorDark"
                 android:layout_toRightOf="@+id/linearlayout" />
 
         </LinearLayout>

@@ -20,7 +20,7 @@
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/ll_logging_status"
-        android:background="@android:color/dim_foreground_dark"
+        android:background="@color/colorDark"
         android:layout_toRightOf="@+id/ll_logging_status" />
 
     <RelativeLayout
@@ -42,7 +42,7 @@
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/rl_my_works"
-        android:background="@android:color/dim_foreground_dark"
+        android:background="@color/colorDark"
         android:layout_toRightOf="@+id/rl_my_works" />
 
     <RelativeLayout
@@ -64,7 +64,7 @@
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/rl_invite_friends"
-        android:background="@android:color/dim_foreground_dark"
+        android:background="@color/colorDark"
         android:layout_toRightOf="@+id/rl_invite_friends" />
 
     <RelativeLayout
@@ -86,7 +86,7 @@
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/rl_feedback"
-        android:background="@android:color/dim_foreground_dark"
+        android:background="@color/colorDark"
         android:layout_toRightOf="@+id/rl_feedback" />
 
     <RelativeLayout
@@ -108,7 +108,7 @@
         android:layout_height="1px"
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/rl_gesture_cipher"
-        android:background="@android:color/dim_foreground_dark"
+        android:background="@color/colorDark"
         android:layout_toRightOf="@+id/rl_gesture_cipher" />
 
     <Button
