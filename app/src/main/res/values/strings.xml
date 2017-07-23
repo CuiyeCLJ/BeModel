@@ -20,4 +20,6 @@
     <string name="feedback">意见反馈</string>
     <string name="set_up_gesture_cipher">设置手势密码</string>
     <string name="log_off">退出登录</string>
+    <string name="comment">评论</string>
+    <string name="private_chat">私聊</string>
 </resources>
