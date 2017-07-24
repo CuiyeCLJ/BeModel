@@ -19,8 +19,10 @@ public class ModelCircleActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.activity_model_circle, container, false);
-        
+
 
         return rootView;
     }
+
+
 }
