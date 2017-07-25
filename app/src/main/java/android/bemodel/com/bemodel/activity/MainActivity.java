@@ -2,10 +2,10 @@ package android.bemodel.com.bemodel.activity;
 
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.adapter.ViewPagerAdapter;
-import android.bemodel.com.bemodel.view.MessagesActivity;
-import android.bemodel.com.bemodel.view.ModelCircleActivity;
-import android.bemodel.com.bemodel.view.PersonalCenterActivity;
-import android.bemodel.com.bemodel.view.UploadWorksActivity;
+import android.bemodel.com.bemodel.view.MessagesFragment;
+import android.bemodel.com.bemodel.view.ModelCircleFragment;
+import android.bemodel.com.bemodel.view.PersonalCenterFragment;
+import android.bemodel.com.bemodel.view.UploadWorksFragment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.ViewPager;
@@ -45,10 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        viewPagerAdapter.addFragment(new ModelCircleActivity());
-        viewPagerAdapter.addFragment(new MessagesActivity());
-        viewPagerAdapter.addFragment(new UploadWorksActivity());
-        viewPagerAdapter.addFragment(new PersonalCenterActivity());
+        viewPagerAdapter.addFragment(new ModelCircleFragment());
+        viewPagerAdapter.addFragment(new MessagesFragment());
+        viewPagerAdapter.addFragment(new UploadWorksFragment());
+        viewPagerAdapter.addFragment(new PersonalCenterFragment());
 
         viewPager.setAdapter(viewPagerAdapter);
 

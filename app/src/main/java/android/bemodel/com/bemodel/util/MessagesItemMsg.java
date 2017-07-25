@@ -13,6 +13,15 @@ public class MessagesItemMsg {
     private String username;
     private String position;
     private String distance;
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public static List<MessagesItemMsg> messagesItemMsgList = new ArrayList<>();
 
