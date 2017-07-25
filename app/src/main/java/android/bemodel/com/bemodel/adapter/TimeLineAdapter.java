@@ -7,7 +7,7 @@ import android.view.ViewGroup;
  * Created by Administrator on 2017.07.23.
  */
 
-public class UserItemAdapter extends RecyclerView.Adapter {
+public class TimeLineAdapter extends RecyclerView.Adapter {
 
     
     @Override

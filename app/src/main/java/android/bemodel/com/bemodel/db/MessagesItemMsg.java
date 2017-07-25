@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.util;
+package android.bemodel.com.bemodel.db;
 
 import java.util.ArrayList;
 import java.util.List;
