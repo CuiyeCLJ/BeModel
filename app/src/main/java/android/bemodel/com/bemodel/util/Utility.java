@@ -19,11 +19,9 @@ import java.util.Date;
 public class Utility {
 
 
+    public static ArrayList<ModelCircleInfo> getModelCircleContent(String response) {
 
-
-    public ArrayList<Object> getModelCircleContent(String response) {
-
-        ArrayList<Object> modelCircleList = null;
+        ArrayList<ModelCircleInfo> modelCircleList = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
 

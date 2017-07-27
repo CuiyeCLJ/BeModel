@@ -3,6 +3,7 @@ package android.bemodel.com.bemodel.adapter;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.db.MessagesItemMsg;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
+import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.content.Context;
 import android.os.HardwarePropertiesManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,9 +27,10 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     private List<ModelCircleInfo> mModelCircleInfoList;
     private Context mContext;
 
-    public ModelCircleAdapter(List<ModelCircleInfo> mModelCircleInfoList, Context mContext) {
+    public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList) {
         this.mModelCircleInfoList = mModelCircleInfoList;
         this.mContext = mContext;
+
     }
 
     @Override
