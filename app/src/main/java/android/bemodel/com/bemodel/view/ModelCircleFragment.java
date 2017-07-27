@@ -33,7 +33,7 @@ public class ModelCircleFragment extends Fragment {
     }
 
     protected void initView(View view, Bundle savedInstanceState) {
-
+        //展示逻辑
     }
 
     public void requestModelCircleInfo() {
