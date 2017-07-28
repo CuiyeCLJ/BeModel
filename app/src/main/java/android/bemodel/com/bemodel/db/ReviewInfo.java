@@ -8,10 +8,27 @@ import java.lang.ref.SoftReference;
 
 public class ReviewInfo {
 
+    private int id;
     private int imageId;
-    private String reviewerName;
+    private UserInfo reviewer;
     private String reviewTime;
     private String reviewContent;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public UserInfo getReviewer() {
+        return reviewer;
+    }
+
+    public void setReviewer(UserInfo reviewer) {
+        this.reviewer = reviewer;
+    }
 
     public int getImageId() {
         return imageId;
@@ -19,14 +36,6 @@ public class ReviewInfo {
 
     public void setImageId(int imageId) {
         this.imageId = imageId;
-    }
-
-    public String getReviewerName() {
-        return reviewerName;
-    }
-
-    public void setReviewerName(String reviewerName) {
-        this.reviewerName = reviewerName;
     }
 
     public String getReviewTime() {

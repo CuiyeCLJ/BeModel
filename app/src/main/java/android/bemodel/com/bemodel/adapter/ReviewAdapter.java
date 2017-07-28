@@ -52,7 +52,7 @@ public class ReviewAdapter extends ArrayAdapter<ReviewInfo> {
         }
 
         viewHolder.reviewerImage.setImageResource(reviewInfo.getImageId());
-        viewHolder.reviewerName.setText(reviewInfo.getReviewerName());
+        viewHolder.reviewerName.setText(reviewInfo.getReviewer().getUserName());
         viewHolder.reviewTime.setText(reviewInfo.getReviewTime());
         viewHolder.reviewContent.setText(reviewInfo.getReviewContent());
 

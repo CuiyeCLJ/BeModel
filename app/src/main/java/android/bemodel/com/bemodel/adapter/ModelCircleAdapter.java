@@ -4,7 +4,9 @@ import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.db.MessagesItemMsg;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
+import android.bemodel.com.bemodel.view.ReviewActivity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.HardwarePropertiesManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
@@ -43,7 +45,8 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-
+                Intent intent = new Intent(mContext, ReviewActivity.class);
+                mContext.startActivity(intent);
 
             }
         });

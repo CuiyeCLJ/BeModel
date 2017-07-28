@@ -6,9 +6,10 @@ package android.bemodel.com.bemodel.db;
 
 public class UserInfo {
 
-    int id;
-    String userName;
-    String location;
+    private int id;
+    private int iconID;
+    private String userName;
+    private String location;
 
     public int getId() {
         return id;
@@ -16,6 +17,14 @@ public class UserInfo {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getIconID() {
+        return iconID;
+    }
+
+    public void setIconID(int iconID) {
+        this.iconID = iconID;
     }
 
     public String getUserName() {

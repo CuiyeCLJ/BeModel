@@ -113,5 +113,4 @@ public class ModelCircleFragment extends Fragment {
         }).start();
     }
 
-
 }

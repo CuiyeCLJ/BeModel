@@ -37,7 +37,6 @@ public class MessagesItemAdapter extends RecyclerView.Adapter<MessagesItemAdapte
         return 0;
     }
 
-
     class BaseViewHolder extends RecyclerView.ViewHolder {
 
         public BaseViewHolder(View itemView) {

@@ -12,23 +12,14 @@ public class ModelCircleInfo {
     private int commentsCount; //评论数
     private String imageContext;
     private boolean haveImg;
-    private String userName;
-    private String userIcon;
+    private UserInfo user;
 
-    public String getUserIcon() {
-        return userIcon;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUserIcon(String userIcon) {
-        this.userIcon = userIcon;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
 
     public boolean isHaveImg() {
