@@ -6,14 +6,14 @@ package android.bemodel.com.bemodel.db;
 
 public class ModelCircleInfo {
 
-    int id;     //模特圈ID
-    String createdAt;  //模特圈创建时间
-    String text;        //模特圈信息内容
-    int commentsCount; //评论数
-    String imageContext;
-    boolean haveImg;
-    String userName;
-    String userIcon;
+    private int id;     //模特圈ID
+    private String createdAt;  //模特圈创建时间
+    private String text;        //模特圈信息内容
+    private int commentsCount; //评论数
+    private String imageContext;
+    private boolean haveImg;
+    private String userName;
+    private String userIcon;
 
     public String getUserIcon() {
         return userIcon;

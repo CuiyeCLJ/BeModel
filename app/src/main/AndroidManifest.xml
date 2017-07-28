@@ -21,7 +21,8 @@
         <activity android:name=".view.ModelCircleActivity" />
         <activity android:name=".view.MessagesActivity" />
         <activity android:name=".view.UploadWorksActivity" />
-        <activity android:name=".view.PersonalCenterActivity"></activity>
+        <activity android:name=".view.PersonalCenterActivity" />
+        <activity android:name=".view.ReviewActivity"></activity>
     </application>
 
 </manifest>

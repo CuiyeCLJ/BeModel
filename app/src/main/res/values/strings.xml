@@ -22,4 +22,6 @@
     <string name="log_off">退出登录</string>
     <string name="comment">评论</string>
     <string name="private_chat">私聊</string>
+    <string name="action_issuance">发布</string>
+    <string name="action_review_content">评论</string>
 </resources>

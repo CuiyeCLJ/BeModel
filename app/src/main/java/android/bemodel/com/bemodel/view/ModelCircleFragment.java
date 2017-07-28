@@ -1,5 +1,6 @@
 package android.bemodel.com.bemodel.view;
 
+import android.app.Activity;
 import android.bemodel.com.bemodel.adapter.ModelCircleAdapter;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.util.HttpUtil;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,17 +36,29 @@ public class ModelCircleFragment extends Fragment {
     public List<ModelCircleInfo> modelCircleInfoList;
     private Context context;
     private ModelCircleAdapter modelCircleAdapter;
+    private SwipeRefreshLayout swipeRefresh;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_model_circle, container, false);
-        initView(rootView, savedInstanceState);
+
+        initView();
+
+        swipeRefresh = (SwipeRefreshLayout)rootView.findViewById(R.id.swipe_refresh);
+//        swipeRefresh.setColorSchemeColors(R.color.colorPrimary);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshModelCicleInfo();
+            }
+        });
+
         return rootView;
     }
 
-    protected void initView(View view, Bundle savedInstanceState) {
+    protected void initView() {
         //展示逻辑
         context = getContext();
         recyclerView = (RecyclerView)rootView.findViewById(R.id.rv_model_Circle);
@@ -76,6 +90,27 @@ public class ModelCircleFragment extends Fragment {
 
             }
         });
+    }
+    //下拉刷新
+    private void refreshModelCicleInfo() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ((Activity)context).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        initView();
+                        modelCircleAdapter.notifyDataSetChanged();
+                        swipeRefresh.setRefreshing(false);
+                    }
+                });
+            }
+        }).start();
     }
 
 
