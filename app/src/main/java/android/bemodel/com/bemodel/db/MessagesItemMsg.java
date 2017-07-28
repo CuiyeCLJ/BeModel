@@ -10,18 +10,10 @@ import java.util.List;
 public class MessagesItemMsg {
 
     private int iconID;
-    private String username;
+    private UserInfo user;
     private String position;
     private String distance;
     private String time;
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     public static List<MessagesItemMsg> messagesItemMsgList = new ArrayList<>();
 
@@ -33,12 +25,12 @@ public class MessagesItemMsg {
         this.iconID = iconID;
     }
 
-    public String getUsername() {
-        return username;
+    public UserInfo getUser() {
+        return user;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(UserInfo user) {
+        this.user = user;
     }
 
     public String getPosition() {
@@ -55,5 +47,13 @@ public class MessagesItemMsg {
 
     public void setDistance(String distance) {
         this.distance = distance;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }
