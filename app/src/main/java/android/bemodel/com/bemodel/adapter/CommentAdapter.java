@@ -19,11 +19,11 @@ import java.util.List;
  * Created by Administrator on 2017.07.28.
  */
 
-public class ReviewAdapter extends ArrayAdapter<CommentInfo> {
+public class CommentAdapter extends ArrayAdapter<CommentInfo> {
 
     private int resourceId;
 
-    public ReviewAdapter(@NonNull Context context, @LayoutRes int resourceId, @NonNull List<CommentInfo> objects) {
+    public CommentAdapter(@NonNull Context context, @LayoutRes int resourceId, @NonNull List<CommentInfo> objects) {
         super(context, resourceId, objects);
         this.resourceId = resourceId;
     }
@@ -48,10 +48,10 @@ public class ReviewAdapter extends ArrayAdapter<CommentInfo> {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        viewHolder.reviewerImage.setImageResource(reviewInfo.getImageId());
+        viewHolder.reviewerImage.setImageResource(reviewInfo.getReviewer().getProfileImageUrl());
         viewHolder.reviewerName.setText(reviewInfo.getReviewer().getUserName());
-        viewHolder.reviewTime.setText(reviewInfo.getReviewTime());
-        viewHolder.reviewContent.setText(reviewInfo.getReviewContent());
+        viewHolder.reviewTime.setText(reviewInfo.getCreatedAt());
+        viewHolder.reviewContent.setText(reviewInfo.getText());
 
         return view;
     }
