@@ -6,10 +6,12 @@ package android.bemodel.com.bemodel.db;
 
 public class UserInfo {
 
-    private int id;
-    private int iconID;
-    private String userName;
-    private String location;
+    private int id;                 //用户ID
+    private String screenName;      //用户昵称
+    private String userName;        //用户名称
+    private String profileImageUrl; //用户头像地址 中图
+    private String avatarLarge;     //用户头像地址 大图
+    private String avatar_hd;       //用户头像地址 高清
 
     public int getId() {
         return id;
@@ -19,12 +21,12 @@ public class UserInfo {
         this.id = id;
     }
 
-    public int getIconID() {
-        return iconID;
+    public String getScreenName() {
+        return screenName;
     }
 
-    public void setIconID(int iconID) {
-        this.iconID = iconID;
+    public void setScreenName(String screenName) {
+        this.screenName = screenName;
     }
 
     public String getUserName() {
@@ -35,11 +37,27 @@ public class UserInfo {
         this.userName = userName;
     }
 
-    public String getLocation() {
-        return location;
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getAvatarLarge() {
+        return avatarLarge;
+    }
+
+    public void setAvatarLarge(String avatarLarge) {
+        this.avatarLarge = avatarLarge;
+    }
+
+    public String getAvatar_hd() {
+        return avatar_hd;
+    }
+
+    public void setAvatar_hd(String avatar_hd) {
+        this.avatar_hd = avatar_hd;
     }
 }

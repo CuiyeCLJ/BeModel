@@ -19,11 +19,12 @@ import java.util.Date;
 public class Utility {
 
 
-    public static ArrayList<ModelCircleInfo> getModelCircleContent(String response) {
+    public static ArrayList<ModelCircleInfo> getModelCircleContent(String jsonData) {
 
         ArrayList<ModelCircleInfo> modelCircleList = null;
         try {
-            JSONObject jsonObject = new JSONObject(response);
+
+            JSONArray jsonArray = new JSONArray(jsonData);
 
             for (int i = 0; i < 100; i++) {
                 ModelCircleInfo modelCircleInfo = new ModelCircleInfo();

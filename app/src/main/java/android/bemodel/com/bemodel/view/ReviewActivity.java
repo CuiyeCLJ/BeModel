@@ -1,7 +1,7 @@
 package android.bemodel.com.bemodel.view;
 
 import android.bemodel.com.bemodel.adapter.ReviewAdapter;
-import android.bemodel.com.bemodel.db.ReviewInfo;
+import android.bemodel.com.bemodel.db.CommentInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
 
-    private List<ReviewInfo> reviewInfoList = new ArrayList<>();
+    private List<CommentInfo> reviewInfoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
