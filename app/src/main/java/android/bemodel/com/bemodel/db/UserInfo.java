@@ -1,40 +1,24 @@
 package android.bemodel.com.bemodel.db;
 
+import cn.bmob.v3.BmobUser;
+
 /**
  * Created by Administrator on 2017.07.26.
  */
 
-public class UserInfo {
+public class UserInfo extends BmobUser {
 
-    private int id;                 //用户ID
-    private String screenName;      //用户昵称
-    private String userName;        //用户名称
+    private Integer id;                 //用户ID
     private String profileImageUrl; //用户头像地址 中图
     private String avatarLarge;     //用户头像地址 大图
-    private String avatar_hd;       //用户头像地址 高清
+    private String avatarHd;        //用户头像地址 高清
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getScreenName() {
-        return screenName;
-    }
-
-    public void setScreenName(String screenName) {
-        this.screenName = screenName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
     }
 
     public String getProfileImageUrl() {
@@ -53,11 +37,11 @@ public class UserInfo {
         this.avatarLarge = avatarLarge;
     }
 
-    public String getAvatar_hd() {
-        return avatar_hd;
+    public String getAvatarHd() {
+        return avatarHd;
     }
 
-    public void setAvatar_hd(String avatar_hd) {
-        this.avatar_hd = avatar_hd;
+    public void setAvatarHd(String avatar_hd) {
+        this.avatarHd = avatar_hd;
     }
 }

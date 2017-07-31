@@ -23,6 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -62,7 +65,7 @@ public class ModelCircleFragment extends Fragment {
         //展示逻辑
         context = getContext();
         recyclerView = (RecyclerView)rootView.findViewById(R.id.rv_model_Circle);
-        requestModelCircleInfo();
+        queryModelCircleInfoData();
         if (modelCircleInfoList != null) {
             modelCircleAdapter = new ModelCircleAdapter(context, modelCircleInfoList);
         } else {
@@ -73,23 +76,29 @@ public class ModelCircleFragment extends Fragment {
 
     }
 
-    public void requestModelCircleInfo() {
-        String url = "";
-        HttpUtil.sendOkHttpRequest(url, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+    public void queryModelCircleInfoData() {
+        BmobQuery<ModelCircleInfo> query = new BmobQuery<ModelCircleInfo>();
 
-            }
+        query.setLimit(50);
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                //得到服务器返回的具体内容
-                final String responseData = response.body().string();
 
-                modelCircleInfoList = Utility.getModelCircleContent(responseData);
 
-            }
-        });
+//        String url = "";
+//        HttpUtil.sendOkHttpRequest(url, new Callback() {
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                //得到服务器返回的具体内容
+//                final String responseData = response.body().string();
+//
+//                modelCircleInfoList = Utility.getModelCircleContent(responseData);
+//
+//            }
+//        });
     }
     //下拉刷新
     private void refreshModelCicleInfo() {

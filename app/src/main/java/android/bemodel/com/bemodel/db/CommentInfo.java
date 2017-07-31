@@ -2,23 +2,24 @@ package android.bemodel.com.bemodel.db;
 
 import java.lang.ref.SoftReference;
 
+import cn.bmob.v3.BmobObject;
+
 /**
  * Created by Administrator on 2017.07.28.
  */
 
-public class CommentInfo {
+public class CommentInfo extends BmobObject {
 
-    private int id;
+    private Integer id;
     private String text;
     private UserInfo reviewer;
-    private String createdAt;
     private ModelCircleInfo status;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -36,14 +37,6 @@ public class CommentInfo {
 
     public void setReviewer(UserInfo reviewer) {
         this.reviewer = reviewer;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
     }
 
     public ModelCircleInfo getStatus() {

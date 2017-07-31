@@ -20,6 +20,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.sms.BmobSMS;
+import cn.bmob.v3.Bmob;
+
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
@@ -29,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bmob.initialize(this, "af56c01af0a81b902b06a40b76af555a");
+        BmobSMS.initialize(context,Bmob af56c01af0a81b902b06a40b76af555a);
+
         setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
