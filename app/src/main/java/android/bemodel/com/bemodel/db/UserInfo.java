@@ -9,9 +9,18 @@ import cn.bmob.v3.BmobUser;
 public class UserInfo extends BmobUser {
 
     private Integer id;                 //用户ID
-    private String profileImageUrl; //用户头像地址 中图
-    private String avatarLarge;     //用户头像地址 大图
-    private String avatarHd;        //用户头像地址 高清
+    private Boolean sex;                //性别
+    private String profileImageUrl;     //用户头像地址 中图
+    private String avatarLarge;         //用户头像地址 大图
+    private String avatarHd;            //用户头像地址 高清
+
+    public Boolean getSex() {
+        return sex;
+    }
+
+    public void setSex(Boolean sex) {
+        this.sex = sex;
+    }
 
     public Integer getId() {
         return id;

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         Bmob.initialize(this, "af56c01af0a81b902b06a40b76af555a");
-        BmobSMS.initialize(context,Bmob af56c01af0a81b902b06a40b76af555a);
+        BmobSMS.initialize(this, "af56c01af0a81b902b06a40b76af555a");
 
         setContentView(R.layout.activity_main);
 
