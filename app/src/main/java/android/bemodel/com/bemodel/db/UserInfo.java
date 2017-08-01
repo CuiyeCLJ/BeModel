@@ -1,6 +1,7 @@
 package android.bemodel.com.bemodel.db;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobGeoPoint;
 
 /**
  * Created by Administrator on 2017.07.26.
@@ -13,6 +14,15 @@ public class UserInfo extends BmobUser {
     private String profileImageUrl;     //用户头像地址 中图
     private String avatarLarge;         //用户头像地址 大图
     private String avatarHd;            //用户头像地址 高清
+    private BmobGeoPoint geo;             //地理信息
+
+    public BmobGeoPoint getGeo() {
+        return geo;
+    }
+
+    public void setGeo(BmobGeoPoint geo) {
+        this.geo = geo;
+    }
 
     public Boolean getSex() {
         return sex;

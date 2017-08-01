@@ -17,6 +17,19 @@ public class MessagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_messages, container, false);
 
+
+        initViews();
+        loadData();
         return rootView;
     }
+
+    private void initViews() {
+
+    }
+
+    private void loadData() {
+
+    }
+
+
 }

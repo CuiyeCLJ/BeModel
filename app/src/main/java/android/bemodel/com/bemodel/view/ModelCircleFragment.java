@@ -50,7 +50,7 @@ public class ModelCircleFragment extends Fragment {
 
         rootView = inflater.inflate(R.layout.fragment_model_circle, container, false);
 
-        initView();
+        initViews();
 
         swipeRefresh = (SwipeRefreshLayout)rootView.findViewById(R.id.swipe_refresh);
 //        swipeRefresh.setColorSchemeColors(R.color.colorPrimary);
@@ -64,7 +64,7 @@ public class ModelCircleFragment extends Fragment {
         return rootView;
     }
 
-    protected void initView() {
+    protected void initViews() {
         //展示逻辑
         context = getContext();
         recyclerView = (RecyclerView)rootView.findViewById(R.id.rv_model_Circle);
@@ -142,7 +142,7 @@ public class ModelCircleFragment extends Fragment {
                 ((Activity)context).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        initView();
+                        initViews();
                         modelCircleAdapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
                     }

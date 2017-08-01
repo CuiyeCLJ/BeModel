@@ -1,6 +1,6 @@
 package android.bemodel.com.bemodel.adapter;
 
-import android.bemodel.com.bemodel.db.MessagesItemMsg;
+import android.bemodel.com.bemodel.db.MessagesInfo;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,14 +12,14 @@ import java.util.List;
  * Created by Administrator on 2017.07.24.
  */
 
-public class MessagesItemAdapter extends RecyclerView.Adapter<MessagesItemAdapter.BaseViewHolder> {
+public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.BaseViewHolder> {
 
     private Context context;
-    private List<MessagesItemMsg> messagesItemMsgList;
+    private List<MessagesInfo> messagesItemInfoList;
 
-    public MessagesItemAdapter(Context context, List<MessagesItemMsg> messagesItemMsgList) {
+    public MessagesAdapter(Context context, List<MessagesInfo> messagesInfoList) {
         this.context = context;
-        this.messagesItemMsgList = messagesItemMsgList;
+        this.messagesItemInfoList = messagesItemInfoList;
     }
 
     @Override

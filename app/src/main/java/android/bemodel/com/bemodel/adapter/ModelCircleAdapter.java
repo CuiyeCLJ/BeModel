@@ -67,7 +67,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-        holder.headImage;
+
         holder.userName.setText(modelCircleInfo.getUser().getUsername());
         holder.location.setText(modelCircleInfo.getGeo());
         holder.time.setText(modelCircleInfo.getCreatedAt());
