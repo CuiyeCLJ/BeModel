@@ -22,7 +22,6 @@
                 android:id="@+id/tv_reviewer_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="陈龙娟"
                 android:textSize="16sp"
                 android:layout_marginLeft="20dp"
                 android:layout_centerVertical="true"
@@ -35,9 +34,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="20dp"
-                android:text="5个小时前"
-                android:textSize="12sp"
-                />
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
@@ -48,7 +45,6 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="我真的很想你我真的很想你"
             android:textSize="14sp"/>
 
     </LinearLayout>

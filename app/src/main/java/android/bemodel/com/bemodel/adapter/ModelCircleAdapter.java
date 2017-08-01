@@ -46,6 +46,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
                 int position = viewHolder.getAdapterPosition();
                 ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
                 Intent intent = new Intent(mContext, CommentActivity.class);
+                intent.putExtra("modelCircleInfo_data", modelCircleInfo);
                 mContext.startActivity(intent);
 
             }
@@ -66,7 +67,13 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-
+        holder.headImage;
+        holder.userName.setText(modelCircleInfo.getUser().getUsername());
+        holder.location.setText(modelCircleInfo.getGeo());
+        holder.time.setText(modelCircleInfo.getCreatedAt());
+        holder.distance.setText(modelCircleInfo);
+        holder.photograph.setImageResource();
+        holder.describe.setText(modelCircleInfo.getText());
     }
 
     @Override

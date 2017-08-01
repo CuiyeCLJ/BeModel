@@ -13,7 +13,7 @@ public class CommentInfo extends BmobObject {
     private Integer id;
     private String text;
     private UserInfo reviewer;
-    private ModelCircleInfo status;
+    private ModelCircleInfo modelCircle;
 
     public Integer getId() {
         return id;
@@ -39,11 +39,11 @@ public class CommentInfo extends BmobObject {
         this.reviewer = reviewer;
     }
 
-    public ModelCircleInfo getStatus() {
-        return status;
+    public ModelCircleInfo getModelCircle() {
+        return modelCircle;
     }
 
-    public void setStatus(ModelCircleInfo status) {
-        this.status = status;
+    public void setModelCircle(ModelCircleInfo modelCircle) {
+        this.modelCircle = modelCircle;
     }
 }

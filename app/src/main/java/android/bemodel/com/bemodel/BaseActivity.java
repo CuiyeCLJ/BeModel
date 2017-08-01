@@ -15,11 +15,18 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Administrator on 2017.07.31.
  */
 
-public class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity {
 
     private static final String TAG = "BeModel";
 
     private CompositeSubscription mCompositeSubscription;
+
+    //初始化变量
+    protected abstract void initVariables();
+    //加载layout布局文件，初始化控件，为控件挂上事件方法
+    protected abstract void initViews(Bundle savedInstanceState);
+    //获取数据
+    protected abstract void loadData();
 
     /**
      * 解决Subscription内存泄露问题

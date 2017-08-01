@@ -14,6 +14,7 @@ import android.bemodel.com.bemodel.R;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,12 @@ import cn.bmob.v3.listener.FindListener;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
+import rx.Subscriber;
 
 
 public class ModelCircleFragment extends Fragment {
 
+    private static final String TAG ="BeModel";
     private View rootView;
 
     private RecyclerView recyclerView;
@@ -74,13 +77,39 @@ public class ModelCircleFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(modelCircleAdapter);
 
-    }
 
+    }
+    //从服务器获取数据
     public void queryModelCircleInfoData() {
         BmobQuery<ModelCircleInfo> query = new BmobQuery<ModelCircleInfo>();
 
         query.setLimit(50);
+        query.order("createdAt");
+        //判断是否有缓存
+        boolean isCache = query.hasCachedResult(ModelCircleInfo.class);
+        if (isCache) {
+            query.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
+        } else {
+            query.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
+        }
 
+        query.findObjectsObservable(ModelCircleInfo.class)
+                .subscribe(new Subscriber<List<ModelCircleInfo>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        loge(throwable);
+                    }
+
+                    @Override
+                    public void onNext(List<ModelCircleInfo> modelCircleInfos) {
+                        modelCircleInfoList = modelCircleInfos;
+                    }
+                });
 
 
 //        String url = "";
@@ -120,6 +149,15 @@ public class ModelCircleFragment extends Fragment {
                 });
             }
         }).start();
+    }
+
+    public void loge(Throwable e) {
+        Log.i(TAG,"===============================================================================");
+        if(e instanceof BmobException){
+            Log.e(TAG, "错误码："+((BmobException)e).getErrorCode()+",错误描述："+((BmobException)e).getMessage());
+        }else{
+            Log.e(TAG, "错误描述："+e.getMessage());
+        }
     }
 
 }

@@ -31,7 +31,7 @@ public class CommentAdapter extends ArrayAdapter<CommentInfo> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        CommentInfo reviewInfo = getItem(position);
+        CommentInfo commentInfo = getItem(position);
 
         View view;
         ViewHolder viewHolder;
@@ -48,10 +48,10 @@ public class CommentAdapter extends ArrayAdapter<CommentInfo> {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        viewHolder.reviewerImage.setImageResource(reviewInfo.getReviewer().getProfileImageUrl());
-        viewHolder.reviewerName.setText(reviewInfo.getReviewer().getUserName());
-        viewHolder.reviewTime.setText(reviewInfo.getCreatedAt());
-        viewHolder.reviewContent.setText(reviewInfo.getText());
+        viewHolder.reviewerImage.setImageResource();
+        viewHolder.reviewerName.setText(commentInfo.getReviewer().getUsername());
+        viewHolder.reviewTime.setText(commentInfo.getCreatedAt());
+        viewHolder.reviewContent.setText(commentInfo.getText());
 
         return view;
     }

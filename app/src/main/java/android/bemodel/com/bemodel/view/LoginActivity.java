@@ -32,10 +32,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        initView();
+        initViews(savedInstanceState);
     }
 
-    private void initView() {
+    @Override
+    protected void initVariables() {
+
+    }
+
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
         et_account = (EditText)findViewById(R.id.et_phone_number_login);
         et_password = (EditText)findViewById(R.id.et_password_login);
 
@@ -44,6 +50,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         btn_login.setOnClickListener(this);
         btn_register.setOnClickListener(this);
+    }
+
+    @Override
+    protected void loadData() {
+
     }
 
     String account;
