@@ -1,5 +1,6 @@
 package android.bemodel.com.bemodel.view;
 
+import android.bemodel.com.bemodel.activity.MainActivity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.DocumentsContract;
@@ -20,6 +22,7 @@ import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.Loader;
 import android.support.v4.media.RatingCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -36,10 +39,17 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.Manifest;
 
 import cn.bmob.v3.listener.FindListener;
@@ -68,7 +78,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     private Uri imageUri;
 
-
+    public LocationClient mLocationClient;
 
     @Nullable
     @Override
@@ -105,11 +115,31 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
 
+                    List<String> permissionList = new ArrayList<>();
+                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        permissionList.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+                    }
+                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                        permissionList.add(android.Manifest.permission.READ_PHONE_STATE);
+                    }
+                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    }
+                    if (!permissionList.isEmpty()) {
+                        String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+                        //调用ActivityCompat.requestPermissions()方法一次性申请
+                        ActivityCompat.requestPermissions(context, permissions, 1);
+                    } else {
+                        requestLocation();
+                    }
+
 
                 } else {
 
                 }
             }
+
+
         });
 
 //        ivUpload.setOnClickListener(new View.OnClickListener() {
@@ -154,6 +184,47 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 //        });
     }
 
+    private void requestLocation() {
+        initLocation();
+        mLocationClient.start();
+    }
+
+    private void initLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+        //设置位置更新时间为5秒
+        option.setScanSpan(5000);
+        //获取当前位置详细的地址信息
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mLocationClient.stop();
+    }
+
+    public class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            StringBuffer currentPosition = new StringBuffer();
+
+            currentPosition.append(bdLocation.getCity());   //获取所在市
+            currentPosition.append(bdLocation.getDistrict());   //获取所在区
+
+            tvLocation.setText(currentPosition);
+        }
+
+        @Override
+        public void onConnectHotSpotMessage(String s, int i) {
+
+        }
+    }
+
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -178,8 +249,8 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.btn_select_photo:
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(context, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     openAlbum();
                 }
@@ -191,10 +262,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
             case R.id.right_btn:
                 break;
-
-            case
-
-
 
         }
     }

@@ -1,13 +1,17 @@
 package android.bemodel.com.bemodel.activity;
 
+import android.Manifest;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.adapter.ViewPagerAdapter;
 import android.bemodel.com.bemodel.view.MessagesFragment;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.bemodel.com.bemodel.view.PersonalCenterFragment;
 import android.bemodel.com.bemodel.view.UploadWorksFragment;
+import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -39,6 +43,22 @@ public class MainActivity extends AppCompatActivity {
         BmobSMS.initialize(this, "af56c01af0a81b902b06a40b76af555a");
 
         setContentView(R.layout.activity_main);
+
+        /*
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!permissionList.isEmpty()) {
+            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(MainActivity.this, permissions, 1);
+        }   */
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
