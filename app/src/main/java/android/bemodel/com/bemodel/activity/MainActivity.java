@@ -7,6 +7,7 @@ import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.bemodel.com.bemodel.view.PersonalCenterFragment;
 import android.bemodel.com.bemodel.view.UploadWorksFragment;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private List<TabLayout.Tab> tabList;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,17 +45,17 @@ public class MainActivity extends AppCompatActivity {
             actionBar.hide();
         }
 
-        initView();
+        initViews();
 
     }
 
-    private void initView() {
+    private void initViews() {
         viewPager = (ViewPager)findViewById(R.id.vp_main);
         tabLayout = (TabLayout)findViewById(R.id.tl_main);
 
         tabList = new ArrayList<>();
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         viewPagerAdapter.addFragment(new ModelCircleFragment());
         viewPagerAdapter.addFragment(new MessagesFragment());

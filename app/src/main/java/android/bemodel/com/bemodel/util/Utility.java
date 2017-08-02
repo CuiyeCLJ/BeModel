@@ -1,6 +1,7 @@
 package android.bemodel.com.bemodel.util;
 
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
+import android.icu.text.RelativeDateTimeFormatter;
 import android.widget.AbsListView;
 
 import org.json.JSONArray;
@@ -18,7 +19,7 @@ import java.util.Date;
 
 public class Utility {
 
-
+/*
     public static ArrayList<ModelCircleInfo> getModelCircleContent(String jsonData) {
 
         ArrayList<ModelCircleInfo> modelCircleList = null;
@@ -53,6 +54,7 @@ public class Utility {
                 modelCircleInfo.setUserName(name);
                 modelCircleInfo.setUserIcon(userIcon);
                 modelCircleList.add(modelCircleInfo);
+
             }
 
         } catch (JSONException e) {
@@ -61,7 +63,11 @@ public class Utility {
 
         return modelCircleList;
 
+
     }
+    */
+
+
 
 }
 
