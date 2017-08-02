@@ -331,12 +331,28 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    openAlbum();
-                } else {
-                    Toast.makeText(context, "You denied the permission", Toast.LENGTH_SHORT).show();
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    openAlbum();
+//                } else {
+//                    Toast.makeText(context, "You denied the permission", Toast.LENGTH_SHORT).show();
+//                }
+//                break;
+//            case 2:
+                if (grantResults.length > 0) {
+                    for (int result :grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(context, "必须同意所有的权限才能使用该功能", Toast.LENGTH_SHORT).show();
+//                            finish();
+                            return;
+                        }
+                    }
+                    requestLocation();
+                }else {
+                    Toast.makeText(context, "发生未知错误", Toast.LENGTH_SHORT).show();
+//                    finish();
                 }
                 break;
+
             default:
         }
     }
