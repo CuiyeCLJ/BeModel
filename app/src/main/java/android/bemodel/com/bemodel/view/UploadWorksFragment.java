@@ -85,7 +85,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_upload_works, container, false);
 
-        context = getContext();
+        this.context = inflater.getContext();
 
         initViews();
 

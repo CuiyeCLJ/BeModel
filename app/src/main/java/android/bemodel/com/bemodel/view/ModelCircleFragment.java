@@ -36,7 +36,7 @@ import rx.Subscriber;
 public class ModelCircleFragment extends Fragment {
 
     private static final String TAG ="BeModel";
-    private View rootView;
+    private View view;
 
     private RecyclerView recyclerView;
     public List<ModelCircleInfo> modelCircleInfoList;
@@ -48,11 +48,12 @@ public class ModelCircleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        rootView = inflater.inflate(R.layout.fragment_model_circle, container, false);
+        view = inflater.inflate(R.layout.fragment_model_circle, container, false);
+        this.context = inflater.getContext();
 
         initViews();
 
-        swipeRefresh = (SwipeRefreshLayout)rootView.findViewById(R.id.swipe_refresh);
+        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
 //        swipeRefresh.setColorSchemeColors(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -61,13 +62,12 @@ public class ModelCircleFragment extends Fragment {
             }
         });
 
-        return rootView;
+        return view;
     }
 
     protected void initViews() {
         //展示逻辑
-        context = getContext();
-        recyclerView = (RecyclerView)rootView.findViewById(R.id.rv_model_Circle);
+        recyclerView = (RecyclerView)view.findViewById(R.id.rv_model_Circle);
         queryModelCircleInfoData();
         if (modelCircleInfoList != null) {
             modelCircleAdapter = new ModelCircleAdapter(context, modelCircleInfoList);
@@ -111,24 +111,8 @@ public class ModelCircleFragment extends Fragment {
                     }
                 });
 
-
-//        String url = "";
-//        HttpUtil.sendOkHttpRequest(url, new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                //得到服务器返回的具体内容
-//                final String responseData = response.body().string();
-//
-//                modelCircleInfoList = Utility.getModelCircleContent(responseData);
-//
-//            }
-//        });
     }
+
     //下拉刷新
     private void refreshModelCicleInfo() {
         new Thread(new Runnable() {

@@ -77,17 +77,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 BmobUser bmobUser = new BmobUser();
                 bmobUser.setMobilePhoneNumber(account);
                 bmobUser.setPassword(password);
-//                bmobUser.login(new SaveListener<BmobUser>() {
-//                    @Override
-//                    public void done(BmobUser bmobUser, BmobException e) {
-//                        if (e == null) {
-//                            toast(bmobUser.getUsername() + "登陆成功");
-//                            getCurrentUser();
-//                        } else {
-//                            loge(e);
-//                        }
-//                    }
-//                });
+
                 //v3.5.0开始新增加的rx风格的Api
                 bmobUser.loginObservable(BmobUser.class).subscribe(new Subscriber<BmobUser>() {
                     @Override

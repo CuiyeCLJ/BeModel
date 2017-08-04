@@ -30,13 +30,24 @@ public class Register2Activity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        initView();
+        initViews(savedInstanceState);
     }
 
-    private void initView() {
+
+    @Override
+    protected void initVariables() {
+
+    }
+
+    @Override
+    protected void initViews(Bundle savedInstanceState) {
         sw_sex_select = (Switch)findViewById(R.id.sw_sex_select_register2);
         et_nickname = (EditText)findViewById(R.id.et_nickname_register2);
         btn_complete_register = (Button)findViewById(R.id.btn_complete_register);
+    }
+
+    @Override
+    protected void loadData() {
 
     }
 

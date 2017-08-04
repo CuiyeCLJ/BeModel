@@ -4,6 +4,7 @@ import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.db.MessagesItemMsg;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.view.CommentActivity;
+import android.bemodel.com.bemodel.view.LoginActivity;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import java.io.PrintWriter;
 import java.util.List;
+
+import cn.bmob.v3.BmobUser;
 
 /**
  * Created by Administrator on 2017.07.23.
@@ -45,9 +48,16 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-                Intent intent = new Intent(mContext, CommentActivity.class);
-                intent.putExtra("modelCircleInfo_data", modelCircleInfo);
-                mContext.startActivity(intent);
+                BmobUser user = BmobUser.getCurrentUser();
+                if (user != null) {
+                    Intent intent = new Intent(mContext, CommentActivity.class);
+                    intent.putExtra("modelCircleInfo_data", modelCircleInfo);
+                    mContext.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(mContext, LoginActivity.class);
+                    mContext.startActivity(intent);
+                }
+
 
             }
         });
