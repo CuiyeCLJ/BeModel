@@ -45,6 +45,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
         view = inflater.inflate(R.layout.fragment_personal_center, container, false);
         this.context = inflater.getContext();
         initViews();
+        loadData();
         return view;
     }
 
@@ -87,10 +88,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
             });
 
         }
-
-
     }
-
 
     @Override
     public void onClick(View v) {

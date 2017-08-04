@@ -11,7 +11,6 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:background="@drawable/edit_bg"
-
         android:textColor="#FFa3a1a1"/>
 
     <TextView

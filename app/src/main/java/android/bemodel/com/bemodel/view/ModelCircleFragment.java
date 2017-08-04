@@ -37,10 +37,10 @@ public class ModelCircleFragment extends Fragment {
 
     private static final String TAG ="BeModel";
     private View view;
+    private Context context;
 
     private RecyclerView recyclerView;
     public List<ModelCircleInfo> modelCircleInfoList;
-    private Context context;
     private ModelCircleAdapter modelCircleAdapter;
     private SwipeRefreshLayout swipeRefresh;
 

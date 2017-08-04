@@ -10,17 +10,17 @@ import android.view.ViewGroup;
 
 public class MessagesFragment extends Fragment {
 
-    private View rootView;
+    private View view;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_messages, container, false);
+        view = inflater.inflate(R.layout.fragment_messages, container, false);
 
 
         initViews();
         loadData();
-        return rootView;
+        return view;
     }
 
     private void initViews() {

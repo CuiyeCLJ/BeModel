@@ -1,6 +1,8 @@
 package android.bemodel.com.bemodel.view;
 
+import android.app.Activity;
 import android.bemodel.com.bemodel.activity.MainActivity;
+import android.bemodel.com.bemodel.db.UserInfo;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
@@ -52,6 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.jar.Manifest;
 
+import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.listener.FindListener;
 
 import static android.app.Activity.RESULT_OK;
@@ -80,17 +83,21 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     public LocationClient mLocationClient;
 
+    private UserInfo user;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_upload_works, container, false);
-
         this.context = inflater.getContext();
+        user = (UserInfo) BmobUser.getCurrentUser();
 
         initViews();
 
         return view;
     }
+
+
 
     private void initViews() {
 
@@ -128,11 +135,10 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                     if (!permissionList.isEmpty()) {
                         String[] permissions = permissionList.toArray(new String[permissionList.size()]);
                         //调用ActivityCompat.requestPermissions()方法一次性申请
-                        ActivityCompat.requestPermissions(context, permissions, 1);
+                        ActivityCompat.requestPermissions((Activity) context, permissions, 1);
                     } else {
                         requestLocation();
                     }
-
 
                 } else {
 
@@ -259,9 +265,29 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.right_btn:
+                if (user != null) {
+                    uploadData();
+                } else {
+                    gotoLoginActivity();
+                }
                 break;
 
+            case R.id.btn_complete_register
+            case R.id.btn_complete_register
+
+            case R.id.btn_complete_register
+
+
         }
+    }
+    //上传数据到服务器
+    private void uploadData() {
+
+    }
+    //启动登录活动
+    private void gotoLoginActivity() {
+        Intent intent = new Intent(context, LoginActivity.class);
+        startActivity(intent);
     }
 
     private void openAlbum() {
