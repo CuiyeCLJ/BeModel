@@ -3,8 +3,11 @@ package android.bemodel.com.bemodel.view;
 import android.app.Activity;
 import android.bemodel.com.bemodel.activity.MainActivity;
 import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.util.PermissionListener;
+import android.bemodel.com.bemodel.util.PermissionManager;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -28,6 +31,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.media.RatingCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,13 +81,13 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     private Button btnRight;
     private TextView tvTitle;
 
-    private Button btnSelectPhoto;
-
     private Uri imageUri;
 
     public LocationClient mLocationClient;
 
     private UserInfo user;
+
+    private PermissionManager helper;
 
     @Nullable
     @Override
@@ -111,12 +115,33 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         btnRight = (Button)view.findViewById(R.id.right_btn);
         tvTitle = (TextView)view.findViewById(R.id.title_text);
 
-        btnSelectPhoto = (Button)view.findViewById(R.id.btn_select_photo);
-
         btnLeft.setVisibility(View.GONE);
         tvTitle.setText("上传作品");
         btnRight.setText("上传");
 
+        helper = PermissionManager.with(UploadWorksFragment.this)
+                .addRequestCode(UploadWorksFragment.CHOOSE_PHOTO)
+                .permissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                .permissions(android.Manifest.permission.READ_PHONE_STATE)
+                .permissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .setPermissionsListener(new PermissionListener() {
+                    @Override
+                    public void onGranted() {
+
+                    }
+
+                    @Override
+                    public void onDenied() {
+
+                    }
+
+                    @Override
+                    public void onShowRationale(String[] permissions) {
+
+                    }
+                })
+
+        /*
         swSelectLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -144,9 +169,8 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
                 }
             }
-
-
         });
+        */
 
 //        ivUpload.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -232,39 +256,15 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_upload:
-                File outputImage = new File(getExternalCachDir(), "output_image.jpg");
-                try {
-                    if (outputImage.exists()) {
-                        outputImage.delete();
-                    }
-                    outputImage.createNewFile();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (Build.VERSION.SDK_INT >= 24) {
-                    imageUri = FileProvider.getUriForFile(context, "com.bemodel.fileprovider", outputImage);
-                } else {
-                    imageUri = Uri.fromFile(outputImage);
-                }
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(intent, TAKE_PHOTO);
+            case R.id.iv_upload:    //创建对话框
+                openDialog();
                 break;
 
-            case R.id.btn_select_photo:
-                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(context, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-                } else {
-                    openAlbum();
-                }
-                break;
-
-            case R.id.bt_add_voice_uw:
+            case R.id.bt_add_voice_uw:  //添加语音
 
                 break;
 
-            case R.id.right_btn:
+            case R.id.right_btn:        //上传作品
                 if (user != null) {
                     uploadData();
                 } else {
@@ -274,6 +274,51 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
         }
     }
+
+    String[] items = new String[] {"拍摄", "相册"};
+
+    /**
+     * 创建对话框及注册点击事件
+     */
+    private void openDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setTitle("图片选择方式").setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case 0:     //调用摄像头拍照
+                                File outputImage = new File(getExternalCachDir(), "output_image.jpg");
+                                try {
+                                    if (outputImage.exists()) {
+                                        outputImage.delete();
+                                    }
+                                    outputImage.createNewFile();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                if (Build.VERSION.SDK_INT >= 24) {
+                                    imageUri = FileProvider.getUriForFile(context, "com.bemodel.fileprovider", outputImage);
+                                } else {
+                                    imageUri = Uri.fromFile(outputImage);
+                                }
+                                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                                startActivityForResult(intent, TAKE_PHOTO);
+                                break;
+
+                            case 1:     //从相册选取
+                                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                    ActivityCompat.requestPermissions(context, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                                } else {
+                                    openAlbum();
+                                }
+                                break;
+                        }
+                    }
+                }).create();
+        alertDialog.show();
+    }
+
     //上传数据到服务器
     private void uploadData() {
 
