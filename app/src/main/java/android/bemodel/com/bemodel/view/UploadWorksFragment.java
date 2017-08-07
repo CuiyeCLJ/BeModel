@@ -139,79 +139,8 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                     public void onShowRationale(String[] permissions) {
 
                     }
-                })
+                });
 
-        /*
-        swSelectLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-
-                    List<String> permissionList = new ArrayList<>();
-                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        permissionList.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-                    }
-                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                        permissionList.add(android.Manifest.permission.READ_PHONE_STATE);
-                    }
-                    if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                    }
-                    if (!permissionList.isEmpty()) {
-                        String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-                        //调用ActivityCompat.requestPermissions()方法一次性申请
-                        ActivityCompat.requestPermissions((Activity) context, permissions, 1);
-                    } else {
-                        requestLocation();
-                    }
-
-                } else {
-
-                }
-            }
-        });
-        */
-
-//        ivUpload.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                File outputImage = new File(getExternalCachDir(), "output_image.jpg");
-//                try {
-//                    if (outputImage.exists()) {
-//                        outputImage.delete();
-//                    }
-//                    outputImage.createNewFile();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                if (Build.VERSION.SDK_INT >= 24) {
-//                    imageUri = FileProvider.getUriForFile(context, "com.bemodel.fileprovider", outputImage);
-//                } else {
-//                    imageUri = Uri.fromFile(outputImage);
-//                }
-//                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-//                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-//                startActivityForResult(intent, TAKE_PHOTO);
-//
-//            }
-//        });
-//
-//        btnSelectPhoto.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-//                } else {
-//                    openAlbum();
-//                }
-//            }
-//        });
-//        btnAddVoice.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
     }
 
     private void requestLocation() {
