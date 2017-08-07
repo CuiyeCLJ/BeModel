@@ -2,7 +2,9 @@ package android.bemodel.com.bemodel.util;
 
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.icu.text.RelativeDateTimeFormatter;
+import android.provider.ContactsContract;
 import android.widget.AbsListView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +14,14 @@ import java.nio.channels.Pipe;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.QueryListener;
+
+import static android.R.attr.data;
+import static android.R.attr.theme;
+import static android.R.attr.timePickerDialogTheme;
 
 /**
  * Created by Administrator on 2017.07.25.
@@ -67,7 +77,25 @@ public class Utility {
     }
     */
 
+    /**
+     * 获取服务器时间
+     */
+    static String times;
 
+    public static String getServerTime() {
+        Bmob.getServerTime(new QueryListener<Long>() {
+            @Override
+            public void done(Long aLong, BmobException e) {
+                if (e == null) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    times = formatter.format(new Date(aLong * 1000L));
+                } else {
+                    times = e.getMessage();
+                }
+            }
+        });
+        return times;
+    }
 
 }
 

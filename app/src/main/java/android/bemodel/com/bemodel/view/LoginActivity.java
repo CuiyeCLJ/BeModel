@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.view;
 
 import android.bemodel.com.bemodel.BaseActivity;
 import android.bemodel.com.bemodel.activity.MainActivity;
+import android.bemodel.com.bemodel.db.UserInfo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         initViews(savedInstanceState);
     }

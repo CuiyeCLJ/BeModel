@@ -42,7 +42,6 @@
             android:background="@drawable/edit_bg"
             android:text="@string/action_issuance"/>
 
-
     </LinearLayout>
 
 </LinearLayout>

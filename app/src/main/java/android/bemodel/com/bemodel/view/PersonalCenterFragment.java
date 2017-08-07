@@ -37,6 +37,10 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
 
     private Button btnLoginOrLogoff;
 
+    private TextView tvTitleText;
+    private Button btnLeft;
+    private Button btnRight;
+
     private UserInfo user;
 
     @Nullable
@@ -61,6 +65,14 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
         rlGestureCipher = (RelativeLayout)view.findViewById(R.id.rl_gesture_cipher);
 
         btnLoginOrLogoff = (Button)view.findViewById(R.id.btn_login_or_logoff);
+
+        tvTitleText = (TextView)view.findViewById(R.id.title_text);
+        btnLeft = (Button)view.findViewById(R.id.left_btn);
+        btnRight = (Button)view.findViewById(R.id.right_btn);
+
+        tvTitleText.setText("个人中心");
+        btnLeft.setVisibility(View.GONE);
+        btnRight.setVisibility(View.GONE);
 
     }
 

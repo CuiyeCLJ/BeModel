@@ -11,8 +11,8 @@ import cn.bmob.v3.BmobObject;
 public class CommentInfo extends BmobObject {
 
     private Integer id;
-    private String text;
-    private UserInfo reviewer;
+    private String text;        //评论内容
+    private UserInfo reviewer;  //评论者
     private ModelCircleInfo modelCircle;
 
     public Integer getId() {

@@ -272,12 +272,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 }
                 break;
 
-            case R.id.btn_complete_register
-            case R.id.btn_complete_register
-
-            case R.id.btn_complete_register
-
-
         }
     }
     //上传数据到服务器

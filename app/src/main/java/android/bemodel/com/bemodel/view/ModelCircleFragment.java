@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,6 +46,10 @@ public class ModelCircleFragment extends Fragment {
     private ModelCircleAdapter modelCircleAdapter;
     private SwipeRefreshLayout swipeRefresh;
 
+    private TextView tvTitleText;
+    private Button btnLeft;
+    private Button btnRight;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +74,14 @@ public class ModelCircleFragment extends Fragment {
     protected void initViews() {
         //展示逻辑
         recyclerView = (RecyclerView)view.findViewById(R.id.rv_model_Circle);
+        tvTitleText = (TextView)view.findViewById(R.id.title_text);
+        btnLeft = (Button)view.findViewById(R.id.left_btn);
+        btnRight = (Button)view.findViewById(R.id.right_btn);
+
+        tvTitleText.setText("模特圈");
+        btnLeft.setText("全部");
+        btnRight.setVisibility(View.GONE);
+
         queryModelCircleInfoData();
         if (modelCircleInfoList != null) {
             modelCircleAdapter = new ModelCircleAdapter(context, modelCircleInfoList);
