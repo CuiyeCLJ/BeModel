@@ -21,6 +21,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     public static final int TAKE_PHOTO = 1;
     public static final int CHOOSE_PHOTO = 2;
+    public static final int REQUEST_CODE_LOCATION = 3;
 
     private Context context;
     private View view;
@@ -89,19 +91,20 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     private PermissionManager helper;
 
+    private MainActivity activity;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_upload_works, container, false);
         this.context = inflater.getContext();
+        activity = (MainActivity)getActivity();
         user = (UserInfo) BmobUser.getCurrentUser();
 
         initViews();
 
         return view;
     }
-
-
 
     private void initViews() {
 
@@ -119,27 +122,45 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         tvTitle.setText("上传作品");
         btnRight.setText("上传");
 
-        helper = PermissionManager.with(UploadWorksFragment.this)
-                .addRequestCode(UploadWorksFragment.CHOOSE_PHOTO)
-                .permissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
-                .permissions(android.Manifest.permission.READ_PHONE_STATE)
-                .permissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .setPermissionsListener(new PermissionListener() {
-                    @Override
-                    public void onGranted() {
+        mLocationClient = new LocationClient(getContext());
 
-                    }
+        swSelectLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    //注册一个定位监听器，当获取到位置信息时，就会回调这个定位监听器
+                    mLocationClient.registerLocationListener(new MyLocationListener());
 
-                    @Override
-                    public void onDenied() {
+                    helper = PermissionManager.with(UploadWorksFragment.this)
+                            .addRequestCode(UploadWorksFragment.REQUEST_CODE_LOCATION)
+                            .permissions(android.Manifest.permission.ACCESS_FINE_LOCATION)
+                            .permissions(android.Manifest.permission.READ_PHONE_STATE)
+                            .permissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .setPermissionsListener(new PermissionListener() {
+                                @Override
+                                public void onGranted() {
+                                    //当权限被授予时调用
+                                    requestLocation();
 
-                    }
+                                }
 
-                    @Override
-                    public void onShowRationale(String[] permissions) {
+                                @Override
+                                public void onDenied() {
+                                    //用户拒绝该权限时调用
 
-                    }
-                });
+                                }
+
+                                @Override
+                                public void onShowRationale(String[] permissions) {
+                                    //当用户拒绝某权限时并点击“不再提醒”的按钮时，下次应用再请求该权限时，
+                                    // 需要给出合适的响应（比如,给个展示对话框来解释应用为什么需要该权限）
+
+                                }
+                            }).request();
+
+                }
+            }
+        });
 
     }
 
@@ -185,7 +206,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_upload:    //创建对话框
+            case R.id.iv_upload:    //创建照片选择方式的对话框
                 openDialog();
                 break;
 
@@ -216,7 +237,8 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:     //调用摄像头拍照
-                                File outputImage = new File(getExternalCachDir(), "output_image.jpg");
+                                //创建File对象，用于存储拍照后的图片
+                                File outputImage = new File(activity.getExternalCacheDir(), "output_image.jpg");
                                 try {
                                     if (outputImage.exists()) {
                                         outputImage.delete();
@@ -237,7 +259,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
                             case 1:     //从相册选取
                                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                    ActivityCompat.requestPermissions(context, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                                    ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                                 } else {
                                     openAlbum();
                                 }
@@ -252,6 +274,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     private void uploadData() {
 
     }
+
     //启动登录活动
     private void gotoLoginActivity() {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -261,6 +284,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     private void openAlbum() {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");
         intent.setType("image/*");
+        //打开相册程序选择照片
         startActivityForResult(intent, CHOOSE_PHOTO);
     }
 
@@ -270,13 +294,15 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
             case TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        //将拍摄的照片显示出来
+                        Bitmap bitmap = BitmapFactory.decodeStream(activity.getContentResolver().openInputStream(imageUri));
                         ivUpload.setImageBitmap(bitmap);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
                 }
                 break;
+
             case CHOOSE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     if(Build.VERSION.SDK_INT >= 19) {   //判断手机系统版本号
@@ -319,17 +345,31 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         displayImage(imagePath);
     }
 
+    private void displayImage(String imagePath) {
+        if (imagePath != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            ivUpload.setImageBitmap(bitmap);
+        } else {
+            Toast.makeText(context, "failed to get image", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getImagePath(Uri contentUri, String selection) {
+        String path = null;
+        Cursor cursor = activity.getContentResolver().query(contentUri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case 1:
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    openAlbum();
-//                } else {
-//                    Toast.makeText(context, "You denied the permission", Toast.LENGTH_SHORT).show();
-//                }
-//                break;
-//            case 2:
                 if (grantResults.length > 0) {
                     for (int result :grantResults) {
                         if (result != PackageManager.PERMISSION_GRANTED) {
@@ -347,27 +387,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
             default:
         }
-    }
-
-    private void displayImage(String imagePath) {
-        if (imagePath != null) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-            ivUpload.setImageBitmap(bitmap);
-        } else {
-            Toast.makeText(context, "failed to get image", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private String getImagePath(Uri contentUri, String selection) {
-        String path = null;
-        Cursor cursor = getContentResolver().query(contentUri, null, null);
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-            }
-            cursor.close();
-        }
-        return path;
     }
 
 }
