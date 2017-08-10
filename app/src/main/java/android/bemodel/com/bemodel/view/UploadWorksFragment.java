@@ -2,9 +2,11 @@ package android.bemodel.com.bemodel.view;
 
 import android.app.Activity;
 import android.bemodel.com.bemodel.activity.MainActivity;
+import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.db.UserInfo;
 import android.bemodel.com.bemodel.util.PermissionListener;
 import android.bemodel.com.bemodel.util.PermissionManager;
+import android.bemodel.com.bemodel.util.Utility;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -33,6 +36,8 @@ import android.support.v4.media.RatingCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,19 +55,47 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.http.HttpClient;
+import com.loopj.android.http.HttpGet;
+import com.loopj.android.http.SyncHttpClient;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.http.Client;
+import com.qiniu.util.Auth;
 
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.jar.Manifest;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobGeoPoint;
+import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpResponse;
+import rx.Subscriber;
+import rx.internal.operators.CompletableOnSubscribeMergeDelayErrorArray;
 
 import static android.app.Activity.RESULT_OK;
+import static android.bemodel.com.bemodel.BaseActivity.log;
+import static android.bemodel.com.bemodel.util.Utility.Bitmap2Bytes;
+import static android.bemodel.com.bemodel.util.Utility.getRandomFileName;
 
 public class UploadWorksFragment extends Fragment implements View.OnClickListener {
 
@@ -92,6 +125,15 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     private PermissionManager helper;
 
     private MainActivity activity;
+
+    private String key;
+
+    private double latitude;
+    private double longitude;
+
+    private BmobGeoPoint geoPoint;
+
+    public static String TAG = "BeModel";
 
     @Nullable
     @Override
@@ -147,7 +189,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                                 @Override
                                 public void onDenied() {
                                     //用户拒绝该权限时调用
-
+                                    geoPoint = new BmobGeoPoint();
                                 }
 
                                 @Override
@@ -189,6 +231,14 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
+
+            //获得经度
+            latitude = bdLocation.getLatitude();
+            //获得纬度
+            longitude = bdLocation.getLongitude();
+
+            geoPoint = new BmobGeoPoint(longitude, latitude);
+
             StringBuffer currentPosition = new StringBuffer();
 
             currentPosition.append(bdLocation.getCity());   //获取所在市
@@ -232,7 +282,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
      */
     private void openDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(context)
-                .setTitle("图片选择方式").setItems(items, new DialogInterface.OnClickListener() {
+                .setTitle("图片选择").setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -273,6 +323,74 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     //上传数据到服务器
     private void uploadData() {
 
+        uploadImg();
+        ModelCircleInfo modelCircleInfo = new ModelCircleInfo();
+        if (ivUpload.getDrawable() == null) {
+            Toast.makeText(context, "图片不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String text = etContent.getText().toString();
+        if (text.equals("")) {
+            Toast.makeText(context, "描述不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        modelCircleInfo.setBmiddlePic(key);
+        modelCircleInfo.setText(text);
+        modelCircleInfo.setUser(user);
+        modelCircleInfo.setGeo(geoPoint);
+
+        modelCircleInfo.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e == null){
+                    Toast.makeText(context, "发布成功", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Log.e(TAG, "错误码: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * 上传图片到七牛
+     */
+    private void uploadImg() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String token = getUploadToken();    //上传凭证
+                Bitmap imageBitmap = ((BitmapDrawable)ivUpload.getDrawable()).getBitmap();
+                byte[] imageData = Bitmap2Bytes(imageBitmap);   //上传的数据
+
+                if (token != null) {
+                    key = getRandomFileName();    //上传数据保存的文件名
+                    UploadManager uploadManager = new UploadManager();
+                    uploadManager.put(imageData, key, token, new UpCompletionHandler() {
+                        @Override
+                        public void complete(String key, ResponseInfo info, JSONObject response) {
+
+                        }
+                    }, null);
+                } else {
+
+                }
+            }
+        }).start();
+    }
+
+    /**
+     * 获取七牛上传凭证uploadtoken
+     * @return
+     */
+    private String getUploadToken() {
+        String accessKey = "TmyHXHRtKzgXPJl1DXpsadI66ZgPkJD30gLEPKfS";
+        String secretKey = "3LcMf-bkLLwPsM6pNXvUMPuBvxECbGJ1X_Bt1grR";
+        String bucket = "bemodel-demo";
+
+        Auth auth = Auth.create(accessKey, secretKey);
+        String upToken = auth.uploadToken(bucket);
+        return upToken;
     }
 
     //启动登录活动

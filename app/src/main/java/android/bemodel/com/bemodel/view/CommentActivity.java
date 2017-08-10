@@ -132,7 +132,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             toast("评论不能为空");
             return;
         }
-        CommentInfo commentInfo = new CommentInfo();
+        final CommentInfo commentInfo = new CommentInfo();
         commentInfo.setText(reviewContent);
         commentInfo.setReviewer(user);
         commentInfo.setModelCircle(modelCircleInfo);
@@ -141,6 +141,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
             public void done(String s, BmobException e) {
                 if (e == null) {
                     toast("发布成功");
+                    //发布一条评论，使这条博文评论数 +1;
+                    modelCircleInfo.setCommentsCount(modelCircleInfo.getCommentsCount() + 1);
                 } else {
                     toast("发布失败");
                 }

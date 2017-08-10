@@ -79,11 +79,13 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
         ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
 
         holder.userName.setText(modelCircleInfo.getUser().getUsername());
-        holder.location.setText(modelCircleInfo.getGeo());
+//        holder.location.setText(modelCircleInfo.getGeo());
         holder.time.setText(modelCircleInfo.getCreatedAt());
         holder.distance.setText(modelCircleInfo);
         holder.photograph.setImageResource();
+
         holder.describe.setText(modelCircleInfo.getText());
+        holder.comment.setText("评论(" + modelCircleInfo.getCommentsCount() + ")");
     }
 
     @Override
