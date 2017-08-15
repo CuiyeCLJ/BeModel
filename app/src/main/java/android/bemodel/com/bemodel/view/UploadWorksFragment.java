@@ -238,6 +238,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
             longitude = bdLocation.getLongitude();
 
             geoPoint = new BmobGeoPoint(longitude, latitude);
+            user.setGeo(geoPoint);
 
             StringBuffer currentPosition = new StringBuffer();
 
@@ -338,6 +339,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         modelCircleInfo.setText(text);
         modelCircleInfo.setUser(user);
         modelCircleInfo.setGeo(geoPoint);
+        modelCircleInfo.setAddress(tvLocation.getText().toString());
 
         modelCircleInfo.save(new SaveListener<String>() {
             @Override

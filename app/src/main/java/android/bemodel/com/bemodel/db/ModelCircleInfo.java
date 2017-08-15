@@ -9,23 +9,23 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 
 public class ModelCircleInfo extends BmobObject {
 
-    private Integer id;                 //帖文ID
+    private Integer id;             //帖文ID
     private String text;            //帖文信息内容
     private String thumbnailPic;    //缩略图片地址
     private String bmiddlePic;      //中等图片地址
     private String originalPic;     //原始图片地址
     private Integer commentsCount;  //评论数
     private UserInfo user;          //帖文作者的用户信息
-    private BmobGeoPoint geo;             //地理信息
-//    private String address;         //地址信息
-//
-//    public String getAddress() {
-//        return address;
-//    }
-//
-//    public void setAddress(String address) {
-//        this.address = address;
-//    }
+    private BmobGeoPoint geo;       //地理信息
+    private String address;         //地址信息
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Integer getId() {
         return id;

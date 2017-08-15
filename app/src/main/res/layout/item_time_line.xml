@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -7,42 +8,45 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="wrap_content">
 
-        <ImageView
+        <android.bemodel.com.bemodel.view.CircleImageView
             android:id="@+id/iv_item_head_sculpture"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_margin="8dp"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:src="@drawable/ebaa" />
 
         <LinearLayout
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/tv_item_username"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+
                 android:textSize="16sp"
                 android:textColor="#000000"
                 android:maxLines="1"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"/>
 
             <TextView
                 android:id="@+id/tv_item_location"
-                android:textSize="10sp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:textSize="12sp"
                 android:textColor="#000000"
                 android:maxLines="1"
                 android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginLeft="8dp"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"/>
 
         </LinearLayout>
 
@@ -54,20 +58,22 @@
 
             <TextView
                 android:id="@+id/tv_item_time"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#000000"
                 android:maxLines="1"
                 android:gravity="center"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_height="0dp" />
 
             <TextView
                 android:id="@+id/tv_item_distance"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#000000"
                 android:maxLines="1"
                 android:gravity="center"
+                android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
@@ -76,15 +82,22 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/item_photograph"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_describe"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/item_photograph"
+            android:layout_width="match_parent"
+            android:layout_height="180dp" />
+
+        <TextView
+            android:id="@+id/tv_describe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -97,16 +110,19 @@
             android:layout_centerVertical="true"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp" />
 
         <Button
             android:id="@+id/bt_private_chat"
             android:text="@string/private_chat"
-            android:layout_centerVertical="true"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"/>
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="20dp"
+            tools:ignore="RtlHardcoded" />
 
     </RelativeLayout>
 

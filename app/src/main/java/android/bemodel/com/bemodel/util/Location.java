@@ -14,8 +14,7 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
 public class Location {
 
     public LocationClient mLocationClient;
-    double latitude;
-    double longitude;
+
 
     /**
      * 计算两点之间距离
@@ -23,7 +22,7 @@ public class Location {
      * @param end
      * @return km
      */
-    public double getDistance(LatLng start, LatLng end){
+    public static double getDistance(LatLng start, LatLng end){
         double latitude1 = (Math.PI/180)*start.latitude;
         double latitude2 = (Math.PI/180)*end.latitude;
 

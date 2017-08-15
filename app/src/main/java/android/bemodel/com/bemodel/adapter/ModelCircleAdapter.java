@@ -1,8 +1,10 @@
 package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
-import android.bemodel.com.bemodel.db.MessagesItemMsg;
+import android.bemodel.com.bemodel.db.MessagesInfo;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
+import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.util.Location;
 import android.bemodel.com.bemodel.view.CommentActivity;
 import android.bemodel.com.bemodel.view.LoginActivity;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
@@ -18,10 +20,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+
 import java.io.PrintWriter;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+
+import static com.baidu.mapapi.model.CoordUtil.getDistance;
 
 /**
  * Created by Administrator on 2017.07.23.
@@ -31,10 +37,12 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
 
     private List<ModelCircleInfo> mModelCircleInfoList;
     private Context mContext;
+    private UserInfo user;
 
     public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList) {
         this.mModelCircleInfoList = mModelCircleInfoList;
         this.mContext = mContext;
+        this.user = (UserInfo) BmobUser.getCurrentUser();
 
     }
 
@@ -81,9 +89,12 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
         holder.userName.setText(modelCircleInfo.getUser().getUsername());
 //        holder.location.setText(modelCircleInfo.getGeo());
         holder.time.setText(modelCircleInfo.getCreatedAt());
-        holder.distance.setText(modelCircleInfo);
+        LatLng start = new LatLng(user.getGeo().getLatitude(), user.getGeo().getLongitude());
+        LatLng end = new LatLng(modelCircleInfo.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude());
+        int distance = (int) Location.getDistance(start, end);
+        holder.distance.setText("距离" + distance + "公里");
         holder.photograph.setImageResource();
-
+        holder.location.setText(modelCircleInfo.getAddress());
         holder.describe.setText(modelCircleInfo.getText());
         holder.comment.setText("评论(" + modelCircleInfo.getCommentsCount() + ")");
     }
