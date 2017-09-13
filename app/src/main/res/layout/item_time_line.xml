@@ -14,8 +14,7 @@
             android:id="@+id/iv_item_head_sculpture"
             android:layout_margin="8dp"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ebaa" />
+            android:layout_height="50dp" />
 
         <LinearLayout
             android:layout_weight="2"

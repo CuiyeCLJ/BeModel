@@ -27,6 +27,8 @@ import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 
+import static android.bemodel.com.bemodel.util.Utility.getLongDistance;
+import static android.bemodel.com.bemodel.util.Utility.getTimeDifference;
 import static com.baidu.mapapi.model.CoordUtil.getDistance;
 
 /**
@@ -66,7 +68,6 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
                     mContext.startActivity(intent);
                 }
 
-
             }
         });
         //注册“私聊”按钮的点击事件
@@ -75,7 +76,6 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-
 
             }
         });
@@ -87,15 +87,20 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
         ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
 
         holder.userName.setText(modelCircleInfo.getUser().getUsername());
-//        holder.location.setText(modelCircleInfo.getGeo());
-        holder.time.setText(modelCircleInfo.getCreatedAt());
-        LatLng start = new LatLng(user.getGeo().getLatitude(), user.getGeo().getLongitude());
-        LatLng end = new LatLng(modelCircleInfo.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude());
-        int distance = (int) Location.getDistance(start, end);
-        holder.distance.setText("距离" + distance + "公里");
+
+        holder.time.setText(getTimeDifference(modelCircleInfo.getCreatedAt()));
+
+//        LatLng start = new LatLng(user.getGeo().getLatitude(), user.getGeo().getLongitude());
+//        LatLng end = new LatLng(modelCircleInfo.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude());
+//        int distance = (int) Location.getDistance(start, end);
+        holder.distance.setText(getLongDistance(user.getGeo().getLongitude(), user.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude(), modelCircleInfo.getGeo().getLatitude()));
+
         holder.photograph.setImageResource();
+
         holder.location.setText(modelCircleInfo.getAddress());
+
         holder.describe.setText(modelCircleInfo.getText());
+
         holder.comment.setText("评论(" + modelCircleInfo.getCommentsCount() + ")");
     }
 
