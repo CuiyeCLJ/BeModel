@@ -3,6 +3,7 @@ package android.bemodel.com.bemodel.activity;
 import android.Manifest;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.adapter.ViewPagerAdapter;
+import android.bemodel.com.bemodel.util.MyUtils;
 import android.bemodel.com.bemodel.view.MessagesFragment;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.bemodel.com.bemodel.view.PersonalCenterFragment;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private List<TabLayout.Tab> tabList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -325,7 +325,7 @@ public class ImageLoader {
         bindBitmap(uri, imageView, 0, 0);
     }
 
-    private void bindBitmap(final String uri, final ImageView imageView, final int reqWidth, final int reqHeight) {
+    public void bindBitmap(final String uri, final ImageView imageView, final int reqWidth, final int reqHeight) {
         imageView.setTag(TAG_KEY_URI, uri);
         Bitmap bitmap = loadBitmapFromMemCache(uri);
         if (bitmap != null) {

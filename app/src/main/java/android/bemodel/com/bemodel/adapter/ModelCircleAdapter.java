@@ -1,10 +1,13 @@
 package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
+import android.bemodel.com.bemodel.activity.MainActivity;
 import android.bemodel.com.bemodel.db.MessagesInfo;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.db.UserInfo;
 import android.bemodel.com.bemodel.util.Location;
+import android.bemodel.com.bemodel.util.MyUtils;
+import android.bemodel.com.bemodel.util.loader.ImageLoader;
 import android.bemodel.com.bemodel.view.CommentActivity;
 import android.bemodel.com.bemodel.view.LoginActivity;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
@@ -40,11 +43,15 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     private List<ModelCircleInfo> mModelCircleInfoList;
     private Context mContext;
     private UserInfo user;
+    private ImageLoader mImageLoader;
+    private int screenWidth;
 
     public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList) {
         this.mModelCircleInfoList = mModelCircleInfoList;
         this.mContext = mContext;
         this.user = (UserInfo) BmobUser.getCurrentUser();
+        this.screenWidth = MyUtils.getScreenMetrics(mContext).widthPixels;
+        this.mImageLoader = ImageLoader.build(mContext);
 
     }
 
@@ -94,8 +101,10 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
 //        LatLng end = new LatLng(modelCircleInfo.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude());
 //        int distance = (int) Location.getDistance(start, end);
         holder.distance.setText(getLongDistance(user.getGeo().getLongitude(), user.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude(), modelCircleInfo.getGeo().getLatitude()));
-
-        holder.photograph.setImageResource();
+        ImageView imageView = holder.photograph;
+        final String tag = (String)imageView.getTag();
+        mImageLoader.bindBitmap(modelCircleInfo.getThumbnailPic(), imageView, screenWidth, 180);
+//        holder.photograph.setImageResource();
 
         holder.location.setText(modelCircleInfo.getAddress());
 
