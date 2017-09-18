@@ -94,6 +94,7 @@ import rx.internal.operators.CompletableOnSubscribeMergeDelayErrorArray;
 
 import static android.app.Activity.RESULT_OK;
 import static android.bemodel.com.bemodel.BaseActivity.log;
+import static android.bemodel.com.bemodel.util.QiniuUtil.getUploadToken;
 import static android.bemodel.com.bemodel.util.Utility.Bitmap2Bytes;
 import static android.bemodel.com.bemodel.util.Utility.getRandomFileName;
 
@@ -361,7 +362,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String token = getUploadToken();    //上传凭证
+                String token = getUploadToken("bemodel-demo");    //上传凭证
                 Bitmap imageBitmap = ((BitmapDrawable)ivUpload.getDrawable()).getBitmap();
                 byte[] imageData = Bitmap2Bytes(imageBitmap);   //上传的数据
 
@@ -379,20 +380,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 }
             }
         }).start();
-    }
-
-    /**
-     * 获取七牛上传凭证uploadtoken
-     * @return
-     */
-    private String getUploadToken() {
-        String accessKey = "TmyHXHRtKzgXPJl1DXpsadI66ZgPkJD30gLEPKfS";
-        String secretKey = "3LcMf-bkLLwPsM6pNXvUMPuBvxECbGJ1X_Bt1grR";
-        String bucket = "bemodel-demo";
-
-        Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucket);
-        return upToken;
     }
 
     //启动登录活动

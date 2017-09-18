@@ -92,7 +92,6 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(modelCircleAdapter);
 
-
     }
     //从服务器获取数据
     public void queryModelCircleInfoData() {
