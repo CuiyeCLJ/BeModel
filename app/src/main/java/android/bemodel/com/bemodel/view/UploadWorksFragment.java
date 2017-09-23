@@ -1,6 +1,6 @@
 package android.bemodel.com.bemodel.view;
 
-import android.bemodel.com.bemodel.activity.MainActivity;
+import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.db.UserInfo;
 import android.bemodel.com.bemodel.util.PermissionListener;

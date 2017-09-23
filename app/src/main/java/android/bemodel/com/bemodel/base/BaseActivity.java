@@ -1,9 +1,11 @@
 package android.bemodel.com.bemodel.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,11 +17,13 @@ import rx.subscriptions.CompositeSubscription;
  * Created by Administrator on 2017.07.31.
  */
 
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = "BeModel";
 
     private CompositeSubscription mCompositeSubscription;
+
+    public Context context;
 
     //初始化变量
     protected abstract void initVariables();
@@ -60,6 +64,16 @@ public abstract class BaseActivity extends Activity {
         }else{
             Log.e(TAG, "错误描述："+e.getMessage());
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

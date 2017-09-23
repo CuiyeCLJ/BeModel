@@ -1,7 +1,7 @@
 package android.bemodel.com.bemodel.view;
 
 import android.bemodel.com.bemodel.base.BaseActivity;
-import android.bemodel.com.bemodel.activity.MainActivity;
+import android.bemodel.com.bemodel.home.MainActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;

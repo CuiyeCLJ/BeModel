@@ -1,21 +1,15 @@
 package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
-import android.bemodel.com.bemodel.activity.MainActivity;
-import android.bemodel.com.bemodel.db.MessagesInfo;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.db.UserInfo;
-import android.bemodel.com.bemodel.util.Location;
 import android.bemodel.com.bemodel.util.MyUtils;
 import android.bemodel.com.bemodel.util.loader.ImageLoader;
 import android.bemodel.com.bemodel.view.CommentActivity;
 import android.bemodel.com.bemodel.view.LoginActivity;
-import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.content.Context;
 import android.content.Intent;
-import android.os.HardwarePropertiesManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,16 +17,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.baidu.mapapi.model.LatLng;
-
-import java.io.PrintWriter;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
 
 import static android.bemodel.com.bemodel.util.Utility.getLongDistance;
 import static android.bemodel.com.bemodel.util.Utility.getTimeDifference;
-import static com.baidu.mapapi.model.CoordUtil.getDistance;
 
 /**
  * Created by Administrator on 2017.07.23.
