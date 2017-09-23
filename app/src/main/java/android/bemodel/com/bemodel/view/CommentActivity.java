@@ -1,14 +1,10 @@
 package android.bemodel.com.bemodel.view;
 
-import android.app.Activity;
-import android.bemodel.com.bemodel.BaseActivity;
+import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.adapter.CommentAdapter;
 import android.bemodel.com.bemodel.db.CommentInfo;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.db.UserInfo;
-import android.bemodel.com.bemodel.util.Utility;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.view.View;
@@ -20,7 +16,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.bmob.v3.BmobBatch;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;

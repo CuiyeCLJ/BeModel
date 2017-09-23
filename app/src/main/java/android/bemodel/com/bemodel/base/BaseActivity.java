@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel;
+package android.bemodel.com.bemodel.base;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -1,9 +1,7 @@
 package android.bemodel.com.bemodel.view;
 
-import android.bemodel.com.bemodel.BaseActivity;
+import android.bemodel.com.bemodel.base.BaseActivity;
 import android.content.Intent;
-import android.support.v4.view.PagerAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.util.Log;
@@ -17,7 +15,6 @@ import cn.bmob.sms.exception.BmobException;
 import cn.bmob.sms.listener.RequestSMSCodeListener;
 import cn.bmob.sms.listener.VerifySMSCodeListener;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.http.bean.Init;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 

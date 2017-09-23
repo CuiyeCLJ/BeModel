@@ -1,27 +1,18 @@
 package android.bemodel.com.bemodel.view;
 
-import android.bemodel.com.bemodel.BaseActivity;
+import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.activity.MainActivity;
-import android.bemodel.com.bemodel.db.UserInfo;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.print.PrinterId;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import rx.Subscriber;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
