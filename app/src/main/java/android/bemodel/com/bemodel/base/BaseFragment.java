@@ -12,6 +12,12 @@ import android.view.View;
 public abstract class BaseFragment extends Fragment implements IBaseView{
 
     private static final String TAG = "BaseFragment";
+    /**
+     * 当前Activity渲染的视图View
+     */
+    protected View contentView;
+
+    protected BaseActivity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

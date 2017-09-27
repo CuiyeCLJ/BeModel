@@ -1,6 +1,7 @@
 package android.bemodel.com.bemodel.home;
 
 import android.Manifest;
+import android.app.Activity;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.adapter.ViewPagerAdapter;
 import android.bemodel.com.bemodel.base.BaseActivity;
@@ -9,6 +10,7 @@ import android.bemodel.com.bemodel.view.MessagesFragment;
 import android.bemodel.com.bemodel.view.ModelCircleFragment;
 import android.bemodel.com.bemodel.view.PersonalCenterFragment;
 import android.bemodel.com.bemodel.view.UploadWorksFragment;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -29,13 +31,20 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import cn.bmob.sms.BmobSMS;
 import cn.bmob.v3.Bmob;
 
 public class MainActivity extends BaseActivity {
 
-    private ViewPager mViewPager;
-    private TabLayout tabLayout;
+    @BindView(R.id.vp_main) ViewPager mViewPager;
+    @BindView(R.id.tl_main) TabLayout tabLayout;
+
+//    private ViewPager mViewPager;
+//    private TabLayout tabLayout;
+//    mViewPager = (ViewPager)findViewById(R.id.vp_main);
+//    tabLayout = (TabLayout)findViewById(R.id.tl_main);
+
     private List<TabLayout.Tab> tabList;
 
     private ArrayList<Fragment> mFragmentList = new ArrayList<Fragment>();
@@ -44,21 +53,7 @@ public class MainActivity extends BaseActivity {
     private UploadWorksFragment mUploadWorksFragment;
     private PersonalCenterFragment mPersonalCenterFragment;
 
-
-    @Override
-    protected void initVariables() {
-
-    }
-
-    @Override
-    protected void initViews(Bundle savedInstanceState) {
-
-    }
-
-    @Override
-    protected void loadData() {
-
-    }
+    private ViewPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,27 +68,21 @@ public class MainActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
-
-        initViews();
+        initFragment(savedInstanceState);
+        setViewPager();
 
     }
 
-    private void initViews() {
-        mViewPager = (ViewPager)findViewById(R.id.vp_main);
-        tabLayout = (TabLayout)findViewById(R.id.tl_main);
+    @Override
+    protected void initVariables() {}
+
+    @Override
+    protected void loadData() {}
+
+    @Override
+    protected void initViews() {
 
         tabList = new ArrayList<>();
-
-        final ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-
-        viewPagerAdapter.addFragment(new ModelCircleFragment());
-        viewPagerAdapter.addFragment(new MessagesFragment());
-        viewPagerAdapter.addFragment(new UploadWorksFragment());
-        viewPagerAdapter.addFragment(new PersonalCenterFragment());
-
-        mViewPager.setAdapter(viewPagerAdapter);
-
-        tabLayout.setupWithViewPager(mViewPager);
 
         tabList.add(tabLayout.getTabAt(0));
         tabList.add(tabLayout.getTabAt(1));
@@ -121,6 +110,13 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+    }
+
+    private void setViewPager() {
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(viewPagerAdapter);
+        tabLayout.setupWithViewPager(mViewPager);
+
     }
 
     @Override
@@ -162,5 +158,15 @@ public class MainActivity extends BaseActivity {
         mFragmentList.add(mMessagesFragment);
         mFragmentList.add(mUploadWorksFragment);
         mFragmentList.add(mPersonalCenterFragment);
+    }
+
+    /**
+     * 入口
+     * @param activity
+     */
+    public static void startAction(Activity activity) {
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

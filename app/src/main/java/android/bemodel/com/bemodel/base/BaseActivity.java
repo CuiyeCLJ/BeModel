@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.bmob.v3.exception.BmobException;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -24,13 +26,22 @@ public abstract class BaseActivity extends AppCompatActivity {
     private CompositeSubscription mCompositeSubscription;
 
     public Context context;
+    private Unbinder mUnbinder;
 
     //初始化变量
     protected abstract void initVariables();
     //加载layout布局文件，初始化控件，为控件挂上事件方法
-    protected abstract void initViews(Bundle savedInstanceState);
+    protected abstract void initViews();
     //获取数据
     protected abstract void loadData();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUnbinder = ButterKnife.bind(this);
+        context = this;
+        this.initViews();
+    }
 
     /**
      * 解决Subscription内存泄露问题
@@ -41,11 +52,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             this.mCompositeSubscription = new CompositeSubscription();
         }
         this.mCompositeSubscription.add(s);
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     public void toast(String msg){
