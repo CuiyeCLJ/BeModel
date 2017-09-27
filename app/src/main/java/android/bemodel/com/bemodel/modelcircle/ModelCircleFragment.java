@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.modelcircle;
 
 import android.app.Activity;
 import android.bemodel.com.bemodel.adapter.ModelCircleAdapter;

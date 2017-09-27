@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.messages;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

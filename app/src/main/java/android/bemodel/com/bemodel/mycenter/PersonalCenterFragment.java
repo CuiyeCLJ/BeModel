@@ -1,6 +1,7 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.mycenter;
 
 import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.view.LoginActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;

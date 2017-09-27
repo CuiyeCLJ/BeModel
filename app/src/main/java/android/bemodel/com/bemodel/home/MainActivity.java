@@ -1,33 +1,22 @@
 package android.bemodel.com.bemodel.home;
 
-import android.Manifest;
 import android.app.Activity;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.adapter.ViewPagerAdapter;
 import android.bemodel.com.bemodel.base.BaseActivity;
-import android.bemodel.com.bemodel.util.MyUtils;
-import android.bemodel.com.bemodel.view.MessagesFragment;
-import android.bemodel.com.bemodel.view.ModelCircleFragment;
-import android.bemodel.com.bemodel.view.PersonalCenterFragment;
-import android.bemodel.com.bemodel.view.UploadWorksFragment;
+import android.bemodel.com.bemodel.messages.MessagesFragment;
+import android.bemodel.com.bemodel.modelcircle.ModelCircleFragment;
+import android.bemodel.com.bemodel.mycenter.PersonalCenterFragment;
+import android.bemodel.com.bemodel.uploadartwork.UploadWorksFragment;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

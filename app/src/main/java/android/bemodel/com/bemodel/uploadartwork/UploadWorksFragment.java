@@ -1,10 +1,11 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.uploadartwork;
 
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.db.ModelCircleInfo;
 import android.bemodel.com.bemodel.db.UserInfo;
 import android.bemodel.com.bemodel.util.PermissionListener;
 import android.bemodel.com.bemodel.util.PermissionManager;
+import android.bemodel.com.bemodel.view.LoginActivity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
