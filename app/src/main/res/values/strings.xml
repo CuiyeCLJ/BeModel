@@ -24,4 +24,6 @@
     <string name="private_chat">私聊</string>
     <string name="action_issuance">发布</string>
     <string name="action_review_content">评论</string>
+    <string name="model_cicle_left_button">全部</string>
+    <string name="upload_work_right_button">上传</string>
 </resources>

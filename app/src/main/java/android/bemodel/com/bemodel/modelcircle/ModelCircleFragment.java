@@ -79,9 +79,6 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
         btnLeft = (Button)view.findViewById(R.id.left_btn);
         btnRight = (Button)view.findViewById(R.id.right_btn);
 
-        tvTitleText.setText("模特圈");
-        btnLeft.setText("全部");
-        btnRight.setVisibility(View.GONE);
 
         queryModelCircleInfoData();
         if (modelCircleInfoList != null) {

@@ -128,9 +128,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         btnRight = (Button)view.findViewById(R.id.right_btn);
         tvTitle = (TextView)view.findViewById(R.id.title_text);
 
-        btnLeft.setVisibility(View.GONE);
-        tvTitle.setText("上传作品");
-        btnRight.setText("上传");
 
         mLocationClient = new LocationClient(getContext());
 

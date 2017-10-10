@@ -71,9 +71,6 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
         btnLeft = (Button)view.findViewById(R.id.left_btn);
         btnRight = (Button)view.findViewById(R.id.right_btn);
 
-        tvTitleText.setText("个人中心");
-        btnLeft.setVisibility(View.GONE);
-        btnRight.setVisibility(View.GONE);
 
     }
 

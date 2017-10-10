@@ -8,6 +8,7 @@ import android.bemodel.com.bemodel.messages.MessagesFragment;
 import android.bemodel.com.bemodel.modelcircle.ModelCircleFragment;
 import android.bemodel.com.bemodel.mycenter.PersonalCenterFragment;
 import android.bemodel.com.bemodel.uploadartwork.UploadWorksFragment;
+import android.bemodel.com.bemodel.widget.TitleActivity;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.vp_main) ViewPager mViewPager;
     @BindView(R.id.tl_main) TabLayout tabLayout;
+    @BindView(R.id.title_bar) TitleActivity mTitleActivity;
 
 //    private ViewPager mViewPager;
 //    private TabLayout tabLayout;
@@ -41,6 +43,7 @@ public class MainActivity extends BaseActivity {
     private MessagesFragment mMessagesFragment;
     private UploadWorksFragment mUploadWorksFragment;
     private PersonalCenterFragment mPersonalCenterFragment;
+
 
     private ViewPagerAdapter viewPagerAdapter;
 
@@ -86,6 +89,28 @@ public class MainActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        mTitleActivity.setTitle("模特圈");
+                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, true);
+                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
+                        break;
+                    case 1:
+                        mTitleActivity.setTitle("消息");
+                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
+                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
+                        break;
+                    case 2:
+                        mTitleActivity.setTitle("上传作品");
+                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
+                        mTitleActivity.showRightView(R.string.upload_work_right_button, true);
+                        break;
+                    case 3:
+                        mTitleActivity.setTitle("个人中心");
+                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
+                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
+                        break;
+                }
 
             }
 
