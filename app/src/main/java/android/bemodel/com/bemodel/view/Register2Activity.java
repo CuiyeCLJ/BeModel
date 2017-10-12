@@ -1,7 +1,7 @@
 package android.bemodel.com.bemodel.view;
 
 import android.bemodel.com.bemodel.base.BaseActivity;
-import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.bean.UserInfo;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.view.View;

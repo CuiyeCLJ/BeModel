@@ -1,6 +1,6 @@
 package android.bemodel.com.bemodel.adapter;
 
-import android.bemodel.com.bemodel.db.MessagesInfo;
+import android.bemodel.com.bemodel.bean.MessagesInfo;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

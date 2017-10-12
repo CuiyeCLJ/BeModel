@@ -1,6 +1,4 @@
-package android.bemodel.com.bemodel.db;
-
-import java.lang.ref.SoftReference;
+package android.bemodel.com.bemodel.bean;
 
 import cn.bmob.v3.BmobObject;
 

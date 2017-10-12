@@ -41,6 +41,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    protected void initViews() {
+
+    }
+
     protected void initViews(Bundle savedInstanceState) {
         etMobilePhoneNumber = (EditText)findViewById(R.id.et_telephone_number_register);
         etSmsCode = (EditText)findViewById(R.id.et_identifying_code_register);

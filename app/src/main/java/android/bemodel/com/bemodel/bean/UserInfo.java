@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.db;
+package android.bemodel.com.bemodel.bean;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;

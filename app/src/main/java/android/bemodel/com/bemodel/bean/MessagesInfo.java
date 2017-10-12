@@ -1,7 +1,4 @@
-package android.bemodel.com.bemodel.db;
-
-import java.util.ArrayList;
-import java.util.List;
+package android.bemodel.com.bemodel.bean;
 
 import cn.bmob.v3.BmobObject;
 

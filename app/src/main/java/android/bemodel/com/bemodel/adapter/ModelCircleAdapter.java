@@ -1,8 +1,8 @@
 package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
-import android.bemodel.com.bemodel.db.ModelCircleInfo;
-import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.bean.ModelCircleInfo;
+import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.MyUtils;
 import android.bemodel.com.bemodel.util.loader.ImageLoader;
 import android.bemodel.com.bemodel.view.CommentActivity;

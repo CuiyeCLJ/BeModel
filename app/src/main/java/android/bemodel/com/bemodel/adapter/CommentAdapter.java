@@ -1,7 +1,7 @@
 package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
-import android.bemodel.com.bemodel.db.CommentInfo;
+import android.bemodel.com.bemodel.bean.CommentInfo;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;

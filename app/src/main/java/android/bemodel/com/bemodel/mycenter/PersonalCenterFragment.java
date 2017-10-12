@@ -1,6 +1,6 @@
 package android.bemodel.com.bemodel.mycenter;
 
-import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.view.LoginActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.listener.FindListener;
 
 public class PersonalCenterFragment extends Fragment implements View.OnClickListener {
 

@@ -2,9 +2,9 @@ package android.bemodel.com.bemodel.view;
 
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.adapter.CommentAdapter;
-import android.bemodel.com.bemodel.db.CommentInfo;
-import android.bemodel.com.bemodel.db.ModelCircleInfo;
-import android.bemodel.com.bemodel.db.UserInfo;
+import android.bemodel.com.bemodel.bean.CommentInfo;
+import android.bemodel.com.bemodel.bean.ModelCircleInfo;
+import android.bemodel.com.bemodel.bean.UserInfo;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.view.View;

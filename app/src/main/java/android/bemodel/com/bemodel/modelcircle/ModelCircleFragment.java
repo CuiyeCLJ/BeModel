@@ -2,13 +2,12 @@ package android.bemodel.com.bemodel.modelcircle;
 
 import android.app.Activity;
 import android.bemodel.com.bemodel.adapter.ModelCircleAdapter;
-import android.bemodel.com.bemodel.db.ModelCircleInfo;
-import android.bemodel.com.bemodel.util.HttpUtil;
-import android.bemodel.com.bemodel.util.Utility;
+import android.bemodel.com.bemodel.base.BaseFragment;
+import android.bemodel.com.bemodel.bean.ModelCircleInfo;
 import android.content.Context;
-import android.graphics.PorterDuff;
+import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.annotation.RequiresApi;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -18,39 +17,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.widget.Button;
-import android.widget.Switch;
-import android.widget.TextView;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 import rx.Subscriber;
 
 
-public class ModelCircleFragment extends Fragment implements View.OnClickListener {
+public class ModelCircleFragment extends BaseFragment implements View.OnClickListener {
+
+    @BindView(R.id.rv_model_Circle)
+    RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh)
+    SwipeRefreshLayout swipeRefresh;
+
 
     private static final String TAG ="BeModel";
     private View view;
     private Context context;
 
-    private RecyclerView recyclerView;
     public List<ModelCircleInfo> modelCircleInfoList;
     private ModelCircleAdapter modelCircleAdapter;
-    private SwipeRefreshLayout swipeRefresh;
 
-    private TextView tvTitleText;
-    private Button btnLeft;
-    private Button btnRight;
-
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,9 +49,6 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
         view = inflater.inflate(R.layout.fragment_model_circle, container, false);
         this.context = inflater.getContext();
 
-        initViews();
-
-        swipeRefresh = (SwipeRefreshLayout)view.findViewById(R.id.swipe_refresh);
 //        swipeRefresh.setColorSchemeColors(R.color.colorPrimary);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -72,14 +60,15 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
         return view;
     }
 
-    protected void initViews() {
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_model_circle;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+    @Override
+    public void initView(Bundle savedInstanceState, View view) {
         //展示逻辑
-        recyclerView = (RecyclerView)view.findViewById(R.id.rv_model_Circle);
-        tvTitleText = (TextView)view.findViewById(R.id.title_text);
-        btnLeft = (Button)view.findViewById(R.id.left_btn);
-        btnRight = (Button)view.findViewById(R.id.right_btn);
-
-
         queryModelCircleInfoData();
         if (modelCircleInfoList != null) {
             modelCircleAdapter = new ModelCircleAdapter(context, modelCircleInfoList);
@@ -88,8 +77,8 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(modelCircleAdapter);
-
     }
+
     //从服务器获取数据
     public void queryModelCircleInfoData() {
         BmobQuery<ModelCircleInfo> query = new BmobQuery<ModelCircleInfo>();
@@ -135,9 +124,10 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
                     e.printStackTrace();
                 }
                 ((Activity)context).runOnUiThread(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
                     @Override
                     public void run() {
-                        initViews();
+                        initView();
                         modelCircleAdapter.notifyDataSetChanged();
                         swipeRefresh.setRefreshing(false);
                     }
@@ -162,5 +152,26 @@ public class ModelCircleFragment extends Fragment implements View.OnClickListene
                 queryModelCircleInfoData();
                 break;
         }
+    }
+
+
+    @Override
+    public void initData(Bundle bundle) {
+
+    }
+
+    @Override
+    public int bindLayout() {
+        return 0;
+    }
+
+    @Override
+    public void doBusiness() {
+
+    }
+
+    @Override
+    public void onWidgetClick(View view) {
+
     }
 }
