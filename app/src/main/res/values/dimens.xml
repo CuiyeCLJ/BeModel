@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="margin_chat_top" type="dimen" format="float">5.0dip</item>
+    <item name="base_scrollview_top_height" type="dimen" format="float">50.0dip</item>
+</resources>

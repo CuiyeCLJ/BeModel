@@ -35,12 +35,12 @@ dependencies {
     
     
     
-    compile
-    'com.jakewharton:butterknife:8.4.0'compile
-    'de.greenrobot:eventbus:3.0.0-beta1'compile
-    'com.android.support:appcompat-v7:24.2.0'compile
-    'com.android.support.constraint:constraint-layout:1.0.2'compile
-    'com.android.support:design:24.2.0'compile 'com.android.support:recyclerview-v7:24.2.0'
+    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'de.greenrobot:eventbus:3.0.0-beta1'
+    compile 'com.android.support:appcompat-v7:24.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.squareup.okhttp3:okhttp:3.8.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'cn.bmob.android:bmob-sms:1.0.1'
