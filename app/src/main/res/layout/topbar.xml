@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.bemodel.com.bemodel.widget.Topbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/topBar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    custom:leftBackground="@drawable/topbarbutton"
+    custom:leftText="@string/Back"
+    custom:leftTextColor="@color/base_color_text_black"
+    custom:rightBackground="@drawable/topbarbutton"
+    custom:rightText="@string/More"
+    custom:rightTextColor="@color/base_color_text_black"
+    custom:title="@string/title"
+    custom:titleTextColor="@color/base_color_text_black"
+    custom:titleTextSize="15sp" >
+
+</android.bemodel.com.bemodel.widget.Topbar>

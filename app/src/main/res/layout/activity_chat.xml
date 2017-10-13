@@ -7,6 +7,12 @@
     <include layout="@layout/my_second_titlebar"
         android:id="@+id/common_titlebar"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/base_color_text_black"
+        android:focusable="false" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
