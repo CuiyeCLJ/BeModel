@@ -74,6 +74,15 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /** 打Log
+     * ShowLog
+     * @return void
+     * @throws
+     */
+    public void showLog(String msg){
+        Log.i("life",msg);
+    }
+
     public void showToast(final String text) {
         if (!TextUtils.isEmpty(text)) {
             runOnUiThread(new Runnable() {

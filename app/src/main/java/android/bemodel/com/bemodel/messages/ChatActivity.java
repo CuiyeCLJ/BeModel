@@ -1,23 +1,28 @@
 package android.bemodel.com.bemodel.messages;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bemodel.com.bemodel.adapter.MessageChatAdapter;
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.bean.ChatUser;
-import android.bemodel.com.bemodel.bean.FaceText;
+import android.bemodel.com.bemodel.content.MyMessageReceiver;
 import android.bemodel.com.bemodel.util.CommonUtils;
-import android.bemodel.com.bemodel.util.FaceTextUtils;
 import android.bemodel.com.bemodel.widget.EmoticonsEditText;
 import android.bemodel.com.bemodel.widget.MySecondTitlebar;
 import android.bemodel.com.bemodel.widget.xlist.XListView;
+import android.bemodel.com.bemodel.config.BmobConstants;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.text.Editable;
@@ -36,7 +41,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.EventListener;
 import java.util.List;
 
@@ -45,8 +50,11 @@ import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobRecordManager;
 import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.config.BmobConfig;
+import cn.bmob.im.db.BmobDB;
+import cn.bmob.im.inteface.OnRecordChangeListener;
 import cn.bmob.im.inteface.UploadListener;
 import cn.bmob.im.util.BmobLog;
+
 
 public class ChatActivity extends BaseActivity implements View.OnClickListener, XListView.IXListViewListener, EventListener {
 
@@ -88,26 +96,34 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     @BindView(R.id.vp_emo)
     ViewPager pager_emo;
 
+    // 语音有关
+    @BindView(R.id.layout_record)
+    RelativeLayout layout_record;
+    @BindView(R.id.tv_voice_tips)
+    TextView tv_voice_tips;
+    @BindView(R.id.iv_record)
+    ImageView iv_record;
 
-    String targetId = "";
+    private String targetId = "";
 
-    ChatUser targetUser;
+    private ChatUser targetUser;
 
     private static int MsgPagerNum;
 
     private MySecondTitlebar mySecondTitlebar;
 
-    // 语音有关
-    RelativeLayout layout_record;
-    TextView tv_voice_tips;
-    ImageView iv_record;
+    private NewBroadcastReceiver receiver;
 
-    private Drawable[] drawable_Anims;// 话筒动画
-    BmobRecordManager recordManager;
-    BmobChatManager manager;
-    MessageChatAdapter mAdapter;
-    Toast toast;
+    private String localCameraPath = "";    // 拍照后得到的图片地址
 
+    private Drawable[] drawable_Anims;  // 话筒动画
+
+    private BmobRecordManager recordManager;
+    private BmobChatManager manager;
+    private MessageChatAdapter mAdapter;
+    private Toast toast;
+
+    public static final int NEW_MESSAGE = 0x001;    //收到消息
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +139,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     }
 
-
-    NewBroadcastReceiver  receiver;
     private void initNewMessageBroadCast() {
         // 注册接收消息广播
         receiver = new NewBroadcastReceiver();
@@ -147,9 +161,16 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 if (!from.equals(targetId)) {   // 如果不是当前正在聊天对象的消息，不处理
                     return;
                 }
-
+                //添加到当前页面
+                mAdapter.add(msg);
+                //定位
+                mXListView.setSelection(mAdapter.getCount() - 1);
+                //取消当前聊天对象的未读标示
+                BmobDB.create(ChatActivity.this).resetUnread(targetId);
 
             }
+            //截断广播
+            abortBroadcast();
         }
     }
 
@@ -166,7 +187,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         initXListView();
         initVoiceView();
     }
-
 
 
     private void initButtomView() {
@@ -258,6 +278,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     } catch (Exception e) {
                     }
                     return true;
+
                 case MotionEvent.ACTION_MOVE: {
                     if (event.getY() < 0) {
                         tv_voice_tips
@@ -269,6 +290,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     }
                     return true;
                 }
+
                 case MotionEvent.ACTION_UP:
                     v.setPressed(false);
                     layout_record.setVisibility(View.INVISIBLE);
@@ -288,14 +310,80 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             }
                         }
                     } catch (Exception e) {
-                        // TODO: handle exception
                     }
                     return true;
+
                 default:
                     return false;
             }
         }
     }
+
+    /**
+     * 初始化语音动画资源
+     */
+    private void initVoiceAnimRes() {
+        drawable_Anims = new Drawable[]{
+                getResources().getDrawable(R.drawable.chat_icon_voice2),
+                getResources().getDrawable(R.drawable.chat_icon_voice3),
+                getResources().getDrawable(R.drawable.chat_icon_voice4),
+                getResources().getDrawable(R.drawable.chat_icon_voice5),
+                getResources().getDrawable(R.drawable.chat_icon_voice6),
+        };
+    }
+
+    private void initRecordManager() {
+        recordManager = BmobRecordManager.getInstance(this);
+        recordManager.setOnRecordChangeListener(new OnRecordChangeListener() {
+            @Override
+            public void onVolumnChanged(int i) {
+                iv_record.setImageDrawable(drawable_Anims[i]);
+            }
+
+            @Override
+            public void onTimeChanged(int recordTime, String localPath) {
+                BmobLog.i("voice", "已录音长度:" + recordTime);
+                if (recordTime >= BmobRecordManager.MAX_RECORD_TIME) {// 1分钟结束，发送消息
+                    //需要重置按钮
+                    btn_speak.setPressed(false);
+                    btn_speak.setClickable(false);
+                    //取消录音框
+                    layout_record.setVisibility(View.INVISIBLE);
+                    //发送语音信息
+                    sendVoiceMessage(localPath, recordTime);
+                    //是为了防止过了录音时间后，会多发一条语音出去的情况。
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn_speak.setClickable(true);
+                        }
+                    }, 1000);
+                } else {
+
+                }
+            }
+        });
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            if (msg.what == NEW_MESSAGE) {
+                BmobMsg message = (BmobMsg) msg.obj;
+                String uid = message.getBelongId();
+                BmobMsg m = BmobChatManager.getInstance(ChatActivity.this).getMessage(message.getConversationId(), message.getMsgTime());
+                if (!uid.equals(targetId))// 如果不是当前正在聊天对象的消息，不处理
+                    return;
+                mAdapter.add(m);
+                // 定位
+                mXListView.setSelection(mAdapter.getCount() - 1);
+                //取消当前聊天对象的未读标示
+                BmobDB.create(ChatActivity.this).resetUnread(targetId);
+            }
+        }
+    };
+
+
 
     private void sendVoiceMessage(String local, int length) {
         manager.sendVoiceMessage(targetUser, local, length, new UploadListener() {
@@ -343,17 +431,40 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         edit_user_comment.setText("");
     }
 
-
-
     @Override
     protected void loadData() {
 
     }
 
-
     @Override
     public void onRefresh() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MsgPagerNum++;
+                int total = BmobDB.create(ChatActivity.this).queryChatTotalCount(targetId);
+                BmobLog.i("记录总数: " + total);
+                int currents = mAdapter.getCount();
+                if (total <= currents) {
+                    showToast("聊天记录加载完了");
+                } else {
+                    List<BmobMsg> msgList = initMsgData();
+                    mAdapter.setList(msgList);
+                    mXListView.setSelection(mAdapter.getCount() - currents - 1);
+                }
+                mXListView.stopRefresh();
+            }
+        }, 1000);
 
+    }
+
+    /**
+     * 加载信息历史，从数据库中读出
+     * @return
+     */
+    private List<BmobMsg> initMsgData() {
+        List<BmobMsg> list = BmobDB.create(this).queryMessages(targetId, MsgPagerNum);
+        return list;
     }
 
     @Override
@@ -456,7 +567,78 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
         }
     }
-    //----------------------------------------------------------------------------------------------------------------------------------
+
+    private void selectcommunicateByphone() {
+
+    }
+
+    /**
+     * 启动地图
+     */
+    private void selectLocationFromMap() {
+        Intent intent = new Intent(this, LocationActivity.class);
+        intent.putExtra("type", "select");
+        startActivityForResult(intent, BmobConstants.REQUESTCODE_TAKE_LOCATION);
+    }
+
+    /**
+     * 从本地选择图片
+     */
+    private void selectImageFromLocal() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+        } else {
+            intent = new Intent(Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        }
+        startActivityForResult(intent, BmobConstants.REQUESTCODE_TAKE_LOCAL);
+    }
+
+    /**
+     * 启动相机拍照 startCamera
+     */
+    private void selectImageFromCamera() {
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File dir = new File(BmobConstants.BMOB_PICTURE_PATH);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(dir, String.valueOf(System.currentTimeMillis()) + ".jpg");
+        localCameraPath = file.getPath();
+        Uri imageUri = Uri.fromFile(file);
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(openCameraIntent, BmobConstants.REQUESTCODE_TAKE_CAMERA);
+
+    }
+
+    private void sendImageMessage(String local) {
+        if (layout_more.getVisibility() == View.VISIBLE) {
+            layout_more.setVisibility(View.GONE);
+            layout_add.setVisibility(View.GONE);
+            layout_emo.setVisibility(View.GONE);
+        }
+        manager.sendImageMessage(targetUser, local, new UploadListener() {
+            @Override
+            public void onStart(BmobMsg bmobMsg) {
+                showLog("开始上传onStart：" + bmobMsg.getContent() + ",状态：" + bmobMsg.getStatus());
+                refreshMessage(bmobMsg);
+            }
+
+            @Override
+            public void onSuccess() {
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                showLog("上传失败 -->s：" + s);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     /**
      *
      * @param isEmo 是否点击笑脸，false表示没点击笑脸，true表示点击笑脸
@@ -498,6 +680,33 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).showSoftInput(edit_user_comment, 0);
         }
     }
-    //------------------------------------------------------------------------------------------------------------------------------------
 
+    //----------------------------------------------------------------------------------------------
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MyMessageReceiver.ehList.remove(this);  //监听推送的信息
+        //停止录音
+        if (recordManager.isRecording()) {
+            recordManager.cancelRecording();
+            layout_record.setVisibility(View.GONE);
+        }
+        //停止播放录音
+        if (NewRecordPlayClickListener.isPlaying && NewRecordPlayClickListener.currentPlayListener != null) {
+            NewRecordPlayClickListener.currentPlayListener.stopPlayRecord();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        hideSoftInputView();
+        try{
+            unregisterReceiver(receiver);
+        }catch (Exception e) {
+
+        }
+    }
 }
