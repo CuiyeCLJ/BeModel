@@ -1,7 +1,11 @@
 package android.bemodel.com.bemodel.base;
 
 import android.app.Activity;
+import android.bemodel.com.bemodel.bean.CustomApplcation;
+import android.bemodel.com.bemodel.view.LoginActivity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -118,6 +122,27 @@ public abstract class BaseActivity extends AppCompatActivity {
                 mToast.show();
             }
         });
+    }
+
+    /** 显示下线的对话框
+     * showOfflineDialog
+     * @return void
+     * @throws
+     */
+    public void showOfflineDialog(final Context context) {
+        DialogTips dialog = new DialogTips(this,"您的账号已在其他设备上登录!", "重新登录");
+        // 设置成功事件
+        dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int userId) {
+                CustomApplcation.getInstance().logout();
+                startActivity(new Intent(context, LoginActivity.class));
+                finish();
+                dialogInterface.dismiss();
+            }
+        });
+        // 显示确认对话框
+        dialog.show();
+        dialog = null;
     }
 
     @Override
