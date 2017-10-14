@@ -45,4 +45,6 @@
     <string name="Back">返回</string>
     <string name="More">更多</string>
     <string name="title">标题</string>
+    <string name="voice_short_tips">录音时间太短</string>
+    <string name="network_tips">当前网络不可用,请检查您的网络!</string>
 </resources>

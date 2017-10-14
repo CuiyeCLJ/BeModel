@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/my_second_titlebar"
-        android:id="@+id/common_titlebar"/>
+        android:id="@+id/udtb_chat"/>
 
     <View
         android:layout_width="match_parent"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public Context context;
     private Unbinder mUnbinder;
+    private Toast mToast;
 
     //初始化变量
     protected abstract void initVariables();
@@ -70,6 +72,43 @@ public abstract class BaseActivity extends AppCompatActivity {
         }else{
             Log.e(TAG, "错误描述："+e.getMessage());
         }
+    }
+
+    public void showToast(final String text) {
+        if (!TextUtils.isEmpty(text)) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    if (mToast == null) {
+                        mToast = Toast.makeText(getApplicationContext(), text,
+                                Toast.LENGTH_LONG);
+                    } else {
+                        mToast.setText(text);
+                    }
+                    mToast.show();
+                }
+            });
+
+        }
+    }
+
+    public void showToast(final int resId) {
+        runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                if (mToast == null) {
+                    mToast = Toast.makeText(BaseActivity.this.getApplicationContext(), resId,
+                            Toast.LENGTH_LONG);
+                } else {
+                    mToast.setText(resId);
+                }
+                mToast.show();
+            }
+        });
     }
 
     @Override
