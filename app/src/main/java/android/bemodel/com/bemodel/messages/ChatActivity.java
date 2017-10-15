@@ -2,9 +2,10 @@ package android.bemodel.com.bemodel.messages;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bemodel.com.bemodel.adapter.EmoViewPagerAdapter;
+import android.bemodel.com.bemodel.adapter.EmoteAdapter;
 import android.bemodel.com.bemodel.adapter.MessageChatAdapter;
 import android.bemodel.com.bemodel.base.BaseActivity;
-import android.bemodel.com.bemodel.bean.ChatUser;
 import android.bemodel.com.bemodel.bean.FaceText;
 import android.bemodel.com.bemodel.content.MyMessageReceiver;
 import android.bemodel.com.bemodel.util.CommonUtils;
@@ -58,6 +59,7 @@ import butterknife.BindView;
 import cn.bmob.im.BmobChatManager;
 import cn.bmob.im.BmobNotifyManager;
 import cn.bmob.im.BmobRecordManager;
+import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.im.bean.BmobInvitation;
 import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.config.BmobConfig;
@@ -68,8 +70,11 @@ import cn.bmob.im.inteface.UploadListener;
 import cn.bmob.im.util.BmobLog;
 import cn.bmob.v3.listener.PushListener;
 
-
-public class ChatActivity extends BaseActivity implements View.OnClickListener, XListView.IXListViewListener, EventListener {
+/**
+ * 聊天界面
+ */
+public class ChatActivity extends BaseActivity implements View.OnClickListener,
+        XListView.IXListViewListener, EventListener {
 
     @BindView(R.id.mListView)
     XListView mXListView;
@@ -119,21 +124,21 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     private String targetId = "";
 
-    private ChatUser targetUser;
+    private BmobChatUser targetUser;
 
     private static int MsgPagerNum;
 
     private MySecondTitlebar mySecondTitlebar;
 
-    private NewBroadcastReceiver receiver;
+    private NewBroadcastReceiver broadcastReceiver;
 
     private String localCameraPath = "";    // 拍照后得到的图片地址
 
-    private Drawable[] drawable_Anims;  // 话筒动画
+    private Drawable[] drawable_Anims;      // 话筒动画
 
     private BmobRecordManager recordManager;
-    private BmobChatManager manager;
-    private MessageChatAdapter mAdapter;
+    private BmobChatManager chatManager;
+    private MessageChatAdapter messageChatAdapter;
     private Toast toast;
 
     public static final int NEW_MESSAGE = 0x001;    //收到消息
@@ -142,11 +147,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        manager = BmobChatManager.getInstance(this);
+        chatManager = BmobChatManager.getInstance(this);
         MsgPagerNum = 0;
         //组装聊天对象
-        targetUser = (ChatUser)getIntent().getSerializableExtra("user");
+        targetUser = (BmobChatUser) getIntent().getSerializableExtra("user");
         targetId = targetUser.getObjectId();
+
         //注册广播接收器
         initNewMessageBroadCast();
 
@@ -154,15 +160,14 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     private void initNewMessageBroadCast() {
         // 注册接收消息广播
-        receiver = new NewBroadcastReceiver();
+        broadcastReceiver = new NewBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter(BmobConfig.BROADCAST_NEW_MESSAGE);
         //设置广播的优先级别大于Mainacitivity,这样如果消息来的时候正好在chat页面，直接显示消息，而不是提示消息未读
         intentFilter.setPriority(5);
-        registerReceiver(receiver, intentFilter);
+        registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private class NewBroadcastReceiver extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             String from = intent.getStringExtra("fromId");
@@ -175,9 +180,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     return;
                 }
                 //添加到当前页面
-                mAdapter.add(msg);
+                messageChatAdapter.add(msg);
                 //定位
-                mXListView.setSelection(mAdapter.getCount() - 1);
+                mXListView.setSelection(messageChatAdapter.getCount() - 1);
                 //取消当前聊天对象的未读标示
                 BmobDB.create(ChatActivity.this).resetUnread(targetId);
 
@@ -208,6 +213,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         btn_chat_add.setOnClickListener(this);
         btn_chat_emo.setOnClickListener(this);
         btn_chat_send.setOnClickListener(this);
+
         initAddView();
         initEmoView();
 
@@ -248,7 +254,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         tv_phone.setOnClickListener(this);
     }
 
-    List<FaceText> emos;
+    private List<FaceText> emos;
     private void initEmoView() {
         emos = FaceTextUtils.faceTexts;
 
@@ -268,14 +274,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         } else if (i == 1) {
             list.addAll(emos.subList(21, emos.size()));
         }
-        final EmoteAdapter gridAdapter = new EmoteAdapter(ChatActivity.this,
-                list);
+        final EmoteAdapter gridAdapter = new EmoteAdapter(ChatActivity.this, list);
         gridview.setAdapter(gridAdapter);
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1,
-                                    int position, long arg3) {
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 FaceText name = (FaceText) gridAdapter.getItem(position);
                 String key = name.text.toString();
                 try {
@@ -429,9 +433,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 BmobMsg m = BmobChatManager.getInstance(ChatActivity.this).getMessage(message.getConversationId(), message.getMsgTime());
                 if (!uid.equals(targetId))// 如果不是当前正在聊天对象的消息，不处理
                     return;
-                mAdapter.add(m);
+                messageChatAdapter.add(m);
                 // 定位
-                mXListView.setSelection(mAdapter.getCount() - 1);
+                mXListView.setSelection(messageChatAdapter.getCount() - 1);
                 //取消当前聊天对象的未读标示
                 BmobDB.create(ChatActivity.this).resetUnread(targetId);
             }
@@ -450,7 +454,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         mXListView.setDividerHeight(0);
         // 加载数据
         initOrRefresh();
-        mXListView.setSelection(mAdapter.getCount() - 1);
+        mXListView.setSelection(messageChatAdapter.getCount() - 1);
         mXListView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -467,7 +471,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         });
 
         // 重发按钮的点击事件
-        mAdapter.setOnInViewClickListener(R.id.iv_fail_resend,
+        messageChatAdapter.setOnInViewClickListener(R.id.iv_fail_resend,
                 new MessageChatAdapter.onInternalClickListener() {
 
                     @Override
@@ -480,20 +484,20 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void initOrRefresh() {
-        if (mAdapter != null) {
+        if (messageChatAdapter != null) {
             if (MyMessageReceiver.mNewNum != 0) {// 用于更新当在聊天界面锁屏期间来了消息，这时再回到聊天页面的时候需要显示新来的消息
                 int news=  MyMessageReceiver.mNewNum;//有可能锁屏期间，来了N条消息,因此需要倒叙显示在界面上
                 int size = initMsgData().size();
                 for(int i=(news-1);i>=0;i--){
-                    mAdapter.add(initMsgData().get(size-(i+1)));// 添加最后一条消息到界面显示
+                    messageChatAdapter.add(initMsgData().get(size-(i+1)));// 添加最后一条消息到界面显示
                 }
-                mXListView.setSelection(mAdapter.getCount() - 1);
+                mXListView.setSelection(messageChatAdapter.getCount() - 1);
             } else {
-                mAdapter.notifyDataSetChanged();
+                messageChatAdapter.notifyDataSetChanged();
             }
         } else {
-            mAdapter = new MessageChatAdapter(initMsgData(), this);
-            mXListView.setAdapter(mAdapter);
+            messageChatAdapter = new MessageChatAdapter(initMsgData(), this);
+            mXListView.setAdapter(messageChatAdapter);
         }
     }
 
@@ -560,7 +564,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                                 .setVisibility(View.INVISIBLE);
                     }
                 });
-        mAdapter.notifyDataSetChanged();
+        messageChatAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -616,11 +620,11 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                                 .setVisibility(View.INVISIBLE);
                     }
                 });
-        mAdapter.notifyDataSetChanged();
+        messageChatAdapter.notifyDataSetChanged();
     }
 
     private void sendVoiceMessage(String local, int length) {
-        manager.sendVoiceMessage(targetUser, local, length, new UploadListener() {
+        chatManager.sendVoiceMessage(targetUser, local, length, new UploadListener() {
             @Override
             public void onStart(BmobMsg bmobMsg) {
                 refreshMessage(bmobMsg);
@@ -628,13 +632,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onSuccess() {
-                mAdapter.notifyDataSetChanged();
+                messageChatAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(int i, String s) {
                 showToast("上传语音失败 -->s: " + s);
-                mAdapter.notifyDataSetChanged();
+                messageChatAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -697,7 +701,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         BmobMsg message = BmobMsg.createLocationSendMsg(this, targetId,
                 address, latitude, longtitude);
         // 默认发送完成，将数据保存到本地消息表和最近会话表中
-        manager.sendTextMessage(targetUser, message);
+        chatManager.sendTextMessage(targetUser, message);
         // 刷新界面
         refreshMessage(message);
     }
@@ -723,8 +727,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
      */
     private void refreshMessage(BmobMsg bmobMsg) {
         //更新界面
-        mAdapter.add(bmobMsg);
-        mXListView.setSelection(mAdapter.getCount() - 1);
+        messageChatAdapter.add(bmobMsg);
+        mXListView.setSelection(messageChatAdapter.getCount() - 1);
         edit_user_comment.setText("");
     }
 
@@ -741,13 +745,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 MsgPagerNum++;
                 int total = BmobDB.create(ChatActivity.this).queryChatTotalCount(targetId);
                 BmobLog.i("记录总数: " + total);
-                int currents = mAdapter.getCount();
+                int currents = messageChatAdapter.getCount();
                 if (total <= currents) {
                     showToast("聊天记录加载完了");
                 } else {
                     List<BmobMsg> msgList = initMsgData();
-                    mAdapter.setList(msgList);
-                    mXListView.setSelection(mAdapter.getCount() - currents - 1);
+                    messageChatAdapter.setList(msgList);
+                    mXListView.setSelection(messageChatAdapter.getCount() - currents - 1);
                 }
                 mXListView.stopRefresh();
             }
@@ -828,7 +832,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 BmobMsg message = BmobMsg.createTagSendMsg(this, targetId, msg);
                 message.setExtra("Bmob");
                 //默认发送完成，将数据保存到本地消息表和最近会话表中
-                manager.sendTextMessage(targetUser, message);
+                chatManager.sendTextMessage(targetUser, message);
                 //刷新信息界面
                 refreshMessage(message);
                 break;
@@ -916,7 +920,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             layout_add.setVisibility(View.GONE);
             layout_emo.setVisibility(View.GONE);
         }
-        manager.sendImageMessage(targetUser, local, new UploadListener() {
+        chatManager.sendImageMessage(targetUser, local, new UploadListener() {
             @Override
             public void onStart(BmobMsg bmobMsg) {
                 showLog("开始上传onStart：" + bmobMsg.getContent() + ",状态：" + bmobMsg.getStatus());
@@ -925,13 +929,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
             @Override
             public void onSuccess() {
-                mAdapter.notifyDataSetChanged();
+                messageChatAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(int i, String s) {
                 showLog("上传失败 -->s：" + s);
-                mAdapter.notifyDataSetChanged();
+                messageChatAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -1043,7 +1047,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         super.onDestroy();
         hideSoftInputView();
         try{
-            unregisterReceiver(receiver);
+            unregisterReceiver(broadcastReceiver);
         }catch (Exception e) {
 
         }

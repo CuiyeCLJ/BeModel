@@ -5,6 +5,7 @@ package android.bemodel.com.bemodel.bean;
  */
 
 public class FaceText {
+
     public String text;
 
     public FaceText(String text) {
