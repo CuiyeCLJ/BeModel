@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.messages;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bemodel.com.bemodel.NewRecordPlayClickListener;
 import android.bemodel.com.bemodel.adapter.EmoViewPagerAdapter;
 import android.bemodel.com.bemodel.adapter.EmoteAdapter;
 import android.bemodel.com.bemodel.adapter.MessageChatAdapter;
@@ -12,6 +13,7 @@ import android.bemodel.com.bemodel.util.CommonUtils;
 import android.bemodel.com.bemodel.util.FaceTextUtils;
 import android.bemodel.com.bemodel.widget.EmoticonsEditText;
 import android.bemodel.com.bemodel.widget.MySecondTitlebar;
+import android.bemodel.com.bemodel.widget.dialog.DialogTips;
 import android.bemodel.com.bemodel.widget.xlist.XListView;
 import android.bemodel.com.bemodel.config.BmobConstants;
 import android.content.BroadcastReceiver;
@@ -285,8 +287,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
                 try {
                     if (edit_user_comment != null && !TextUtils.isEmpty(key)) {
                         int start = edit_user_comment.getSelectionStart();
-                        CharSequence content = edit_user_comment.getText()
-                                .insert(start, key);
+                        CharSequence content = edit_user_comment.getText().insert(start, key);
                         edit_user_comment.setText(content);
                         // 定位光标位置
                         CharSequence info = edit_user_comment.getText();
@@ -456,10 +457,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
         initOrRefresh();
         mXListView.setSelection(messageChatAdapter.getCount() - 1);
         mXListView.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View arg0, MotionEvent arg1) {
-                // TODO Auto-generated method stub
                 hideSoftInputView();
                 layout_more.setVisibility(View.GONE);
                 layout_add.setVisibility(View.GONE);
@@ -473,7 +472,6 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
         // 重发按钮的点击事件
         messageChatAdapter.setOnInViewClickListener(R.id.iv_fail_resend,
                 new MessageChatAdapter.onInternalClickListener() {
-
                     @Override
                     public void OnClickListener(View parentV, View v,
                                                 Integer position, Object values) {
@@ -829,7 +827,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
                     showToast(R.string.network_tips);
                 }
                 //组装BmobMsg对象
-                BmobMsg message = BmobMsg.createTagSendMsg(this, targetId, msg);
+                BmobMsg message = BmobMsg.createTextSendMsg(this, targetId, msg);
                 message.setExtra("Bmob");
                 //默认发送完成，将数据保存到本地消息表和最近会话表中
                 chatManager.sendTextMessage(targetUser, message);

@@ -25,6 +25,10 @@
         <item name="android:textColor">@color/base_color_text_white</item>
     </style>
 
+    <style name="Smile.TextView._Orange">
+        <item name="android:textColor">@color/dialog_color_title</item>
+    </style>
+
     <style name="chat_text_date_style">
         <item name="android:padding">2dp</item>
         <item name="android:paddingTop">2dip</item>
@@ -51,6 +55,35 @@
         <item name="android:textColor">#818181</item>
         <item name="android:textSize">15sp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <!-- dialog -->
+    <style name="TextAppearance">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textColorHighlight">#FFFFFF</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColorLink">#FFFFFF</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.DialogWindowTitle">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="DialogWindowTitle">
+        <item name="android:maxLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.DialogWindowTitle</item>
+    </style>
+
+    <style name="alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowTitleStyle">@style/DialogWindowTitle</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
 </resources>

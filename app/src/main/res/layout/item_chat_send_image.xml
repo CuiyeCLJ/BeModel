@@ -44,8 +44,7 @@
             android:paddingLeft="5dp"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:paddingRight="15dp"
-            />
+            android:paddingRight="15dp" />
 
         <ImageView
             android:id="@+id/iv_fail_resend"
@@ -79,6 +78,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_picture"
             android:visibility="visible" />
+
     </RelativeLayout>
 
 </LinearLayout>
