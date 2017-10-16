@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.util;
+package android.bemodel.com.bemodel.util.permission;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

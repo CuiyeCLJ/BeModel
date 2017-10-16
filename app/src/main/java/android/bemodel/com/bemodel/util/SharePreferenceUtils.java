@@ -7,11 +7,11 @@ import android.content.SharedPreferences;
  * Created by Administrator on 2017.10.14.
  */
 
-public class SharePreferenceUtil {
+public class SharePreferenceUtils {
     private SharedPreferences mSharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    public SharePreferenceUtil(Context context, String name) {
+    public SharePreferenceUtils(Context context, String name) {
         mSharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         editor = mSharedPreferences.edit();
     }

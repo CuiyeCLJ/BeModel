@@ -4,7 +4,7 @@ import android.app.Application;
 import android.app.NotificationManager;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.util.CollectionUtils;
-import android.bemodel.com.bemodel.util.SharePreferenceUtil;
+import android.bemodel.com.bemodel.util.SharePreferenceUtils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -149,15 +149,15 @@ public class CustomApplcation extends Application {
     }
 
     // 单例模式，才能及时返回数据
-    SharePreferenceUtil mSpUtil;
+    SharePreferenceUtils mSpUtil;
     public static final String PREFERENCE_NAME = "_sharedinfo";
 
-    public synchronized SharePreferenceUtil getSpUtil() {
+    public synchronized SharePreferenceUtils getSpUtil() {
         if (mSpUtil == null) {
             String currentId = BmobUserManager.getInstance(
                     getApplicationContext()).getCurrentUserObjectId();
             String sharedName = currentId + PREFERENCE_NAME;
-            mSpUtil = new SharePreferenceUtil(this, sharedName);
+            mSpUtil = new SharePreferenceUtils(this, sharedName);
         }
         return mSpUtil;
     }

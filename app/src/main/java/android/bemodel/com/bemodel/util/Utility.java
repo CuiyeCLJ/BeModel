@@ -27,7 +27,7 @@ public class Utility {
     /**
      * 获取服务器时间
      */
-    public static String getServerTime() {
+    /*public static String getServerTime() {
         Bmob.getServerTime(new QueryListener<Long>() {
             @Override
             public void done(Long aLong, BmobException e) {
@@ -40,7 +40,7 @@ public class Utility {
             }
         });
         return times;
-    }
+    }*/
 
     /**
      * 计算两个时间差

@@ -3,8 +3,8 @@ package android.bemodel.com.bemodel.uploadartwork;
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.bean.ModelCircleInfo;
 import android.bemodel.com.bemodel.bean.UserInfo;
-import android.bemodel.com.bemodel.util.PermissionListener;
-import android.bemodel.com.bemodel.util.PermissionManager;
+import android.bemodel.com.bemodel.util.permission.PermissionListener;
+import android.bemodel.com.bemodel.util.permission.PermissionManager;
 import android.bemodel.com.bemodel.view.LoginActivity;
 import android.content.ContentUris;
 import android.content.Context;
@@ -61,7 +61,7 @@ import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 import static android.app.Activity.RESULT_OK;
-import static android.bemodel.com.bemodel.util.QiniuUtil.getUploadToken;
+import static android.bemodel.com.bemodel.util.QiniuUtils.getUploadToken;
 import static android.bemodel.com.bemodel.util.Utility.Bitmap2Bytes;
 import static android.bemodel.com.bemodel.util.Utility.getRandomFileName;
 

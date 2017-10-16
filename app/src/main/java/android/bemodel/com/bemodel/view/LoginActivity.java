@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.view;
 
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.home.MainActivity;
+import android.bemodel.com.bemodel.util.NetworkUtils;
 import android.content.Intent;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
@@ -11,29 +12,28 @@ import android.widget.EditText;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
+import butterknife.BindView;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import rx.Subscriber;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 
-    private EditText etAccount;
-    private EditText etPassword;
+    @BindView(R.id.et_phone_number_login) EditText etAccount;
+    @BindView(R.id.et_password_login) EditText etPassword;
 
-    private Button btn_login;
-    private Button btn_register;
+    @BindView(R.id.bt_sign_in) Button btn_login;
+    @BindView(R.id.bt_register) Button btn_register;
 
-    private TextView tvTitleText;
-    private Button btnLeft;
-    private Button btnRight;
+    @BindView(R.id.title_text) TextView tvTitleText;
+    @BindView(R.id.left_btn) Button btnLeft;
+    @BindView(R.id.right_btn) Button btnRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-        initViews(savedInstanceState);
     }
 
     @Override
@@ -42,16 +42,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        etAccount = (EditText)findViewById(R.id.et_phone_number_login);
-        etPassword = (EditText)findViewById(R.id.et_password_login);
-
-        btn_login = (Button)findViewById(R.id.bt_sign_in);
-        btn_register = (Button)findViewById(R.id.bt_register);
-
-        tvTitleText = (TextView)findViewById(R.id.title_text);
-        btnLeft = (Button)findViewById(R.id.left_btn);
-        btnRight = (Button)findViewById(R.id.right_btn);
+    protected void initViews() {
 
         tvTitleText.setText("登录");
         btnLeft.setText("取消");
@@ -59,8 +50,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 //        btn_login.setOnClickListener(this);
 //        btn_register.setOnClickListener(this);
-
-
     }
 
     @Override
@@ -75,6 +64,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_sign_in:
+                boolean isNetConnected = NetworkUtils.isNetworkAvailable(this);
+                if (!isNetConnected) {  //检查网络是否可用
+                    showToast(R.string.network_tips);
+                    return;
+                }
                 loginHandle();
                 break;
 

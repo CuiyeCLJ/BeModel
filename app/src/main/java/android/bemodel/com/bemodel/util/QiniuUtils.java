@@ -7,7 +7,7 @@ import com.qiniu.util.Auth;
  * Created by Administrator on 2017.09.16.
  */
 
-public class QiniuUtil {
+public class QiniuUtils {
 
     /**
      * 获取七牛上传凭证uploadtoken

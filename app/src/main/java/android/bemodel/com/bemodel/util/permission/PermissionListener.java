@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.util;
+package android.bemodel.com.bemodel.util.permission;
 
 /**
  * Created by Administrator on 2017.08.07.

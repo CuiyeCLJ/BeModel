@@ -11,7 +11,7 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
  * Created by Administrator on 2017.08.10.
  */
 
-public class Location {
+public class LocationUtils {
 
     public LocationClient mLocationClient;
 
