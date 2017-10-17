@@ -66,6 +66,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     }
      */
 
+    public void removeItem(int position){
+        messagesList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public MessagesInfo getItem(final int position) {
         return messagesList.get(position);
     }
