@@ -34,7 +34,6 @@ public class CollectionUtils {
         return friends;
     }
 
-
     /** map转list
      * @Title: map2list
      * @return List<BmobChatUser>

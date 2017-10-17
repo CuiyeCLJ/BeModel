@@ -18,9 +18,13 @@ public class MessagesFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_messages, container, false);
 
 
-        initViews();
-        loadData();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
     }
 
     private void initViews() {

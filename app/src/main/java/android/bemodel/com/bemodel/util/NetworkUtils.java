@@ -81,7 +81,6 @@ public class NetworkUtils {
     }
 
     /**
-     *
      * @param context
      * @return
      */

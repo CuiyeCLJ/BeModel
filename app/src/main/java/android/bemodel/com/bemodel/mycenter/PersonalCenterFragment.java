@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import butterknife.BindView;
 import cn.bmob.v3.BmobUser;
 
 public class PersonalCenterFragment extends Fragment implements View.OnClickListener {
@@ -25,21 +26,17 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
 
     private Context context;
 
-    private LinearLayout llLoggingStatus;
-    private RelativeLayout rlMyWorks;
-    private RelativeLayout rlInviteFriends;
-    private RelativeLayout rlFeedback;
-    private RelativeLayout rlGestureCipher;
+    @BindView(R.id.ll_logging_status) LinearLayout llLoggingStatus;
+    @BindView(R.id.rl_my_works) RelativeLayout rlMyWorks;
+    @BindView(R.id.rl_invite_friends) RelativeLayout rlInviteFriends;
+    @BindView(R.id.rl_feedback) RelativeLayout rlFeedback;
+    @BindView(R.id.rl_gesture_cipher) RelativeLayout rlGestureCipher;
 
-    private ImageView ivUserProfileImage;
+    @BindView(R.id.iv_user_profile_image) ImageView ivUserProfileImage;
 
-    private TextView tvUserName;
+    @BindView(R.id.tv_user_name) TextView tvUserName;
 
-    private Button btnLoginOrLogoff;
-
-    private TextView tvTitleText;
-    private Button btnLeft;
-    private Button btnRight;
+    @BindView(R.id.btn_login_or_logoff) Button btnLoginOrLogoff;
 
     private UserInfo user;
 
@@ -54,22 +51,6 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     }
 
     private void initViews() {
-
-        llLoggingStatus = (LinearLayout)view.findViewById(R.id.ll_logging_status);
-        ivUserProfileImage = (ImageView)view.findViewById(R.id.iv_user_profile_image);
-        tvUserName = (TextView)view.findViewById(R.id.tv_user_name);
-
-        rlMyWorks = (RelativeLayout)view.findViewById(R.id.rl_my_works);
-        rlInviteFriends = (RelativeLayout)view.findViewById(R.id.rl_invite_friends);
-        rlFeedback = (RelativeLayout)view.findViewById(R.id.rl_feedback);
-        rlGestureCipher = (RelativeLayout)view.findViewById(R.id.rl_gesture_cipher);
-
-        btnLoginOrLogoff = (Button)view.findViewById(R.id.btn_login_or_logoff);
-
-        tvTitleText = (TextView)view.findViewById(R.id.title_text);
-        btnLeft = (Button)view.findViewById(R.id.left_btn);
-        btnRight = (Button)view.findViewById(R.id.right_btn);
-
 
     }
 

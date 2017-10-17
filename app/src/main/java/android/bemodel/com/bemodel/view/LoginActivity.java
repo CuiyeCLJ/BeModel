@@ -1,5 +1,6 @@
 package android.bemodel.com.bemodel.view;
 
+import android.app.ProgressDialog;
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.util.NetworkUtils;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
 import rx.Subscriber;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
@@ -95,10 +97,34 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             toast("请填写你的密码");
             return;
         }
-        BmobUser bmobUser = new BmobUser();
+
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
+        progressDialog.setMessage("正在登陆...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
+
+        final BmobUser bmobUser = new BmobUser();
         bmobUser.setMobilePhoneNumber(account);
         bmobUser.setPassword(password);
 
+        bmobUser.login(mContext, new SaveListener() {
+            @Override
+            public void onSuccess() {
+                toast(bmobUser.getUsername() + "登陆成功");
+                getCurrentUser();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                toast("登录失败:" + s);
+                progressDialog.dismiss();
+            }
+        });
+
+        /*
         //v3.5.0开始新增加的rx风格的Api
         bmobUser.loginObservable(BmobUser.class).subscribe(new Subscriber<BmobUser>() {
             @Override
@@ -119,6 +145,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 startActivity(intent);
             }
         });
+         */
+
     }
 
     //获取本地用户
@@ -126,4 +154,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

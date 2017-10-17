@@ -1,13 +1,12 @@
 package android.bemodel.com.bemodel.base;
 
-import android.app.Activity;
 import android.bemodel.com.bemodel.bean.CustomApplcation;
 import android.bemodel.com.bemodel.view.LoginActivity;
+import android.bemodel.com.bemodel.widget.dialog.DialogTips;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -30,7 +29,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private CompositeSubscription mCompositeSubscription;
 
-    public Context context;
+    public Context mContext;
     private Unbinder mUnbinder;
     private Toast mToast;
 
@@ -45,7 +44,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUnbinder = ButterKnife.bind(this);
-        context = this;
+        mContext = this;
         this.initViews();
     }
 
@@ -93,7 +92,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                 @Override
                 public void run() {
-                    // TODO Auto-generated method stub
                     if (mToast == null) {
                         mToast = Toast.makeText(getApplicationContext(), text,
                                 Toast.LENGTH_LONG);
@@ -112,7 +110,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 if (mToast == null) {
                     mToast = Toast.makeText(BaseActivity.this.getApplicationContext(), resId,
                             Toast.LENGTH_LONG);
