@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.mycenter;
 
 import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.view.LoginActivity;
+import android.bemodel.com.bemodel.widget.CircleImageView;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -12,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -22,21 +22,19 @@ import cn.bmob.v3.BmobUser;
 
 public class PersonalCenterFragment extends Fragment implements View.OnClickListener {
 
-    private View view;
-
-    private Context context;
-
     @BindView(R.id.ll_logging_status) LinearLayout llLoggingStatus;
     @BindView(R.id.rl_my_works) RelativeLayout rlMyWorks;
     @BindView(R.id.rl_invite_friends) RelativeLayout rlInviteFriends;
     @BindView(R.id.rl_feedback) RelativeLayout rlFeedback;
     @BindView(R.id.rl_gesture_cipher) RelativeLayout rlGestureCipher;
 
-    @BindView(R.id.iv_user_profile_image) ImageView ivUserProfileImage;
-
+    @BindView(R.id.iv_user_profile_image) CircleImageView ivUserProfileImage;
     @BindView(R.id.tv_user_name) TextView tvUserName;
-
     @BindView(R.id.btn_login_or_logoff) Button btnLoginOrLogoff;
+
+    private View view;
+
+    private Context mContext;
 
     private UserInfo user;
 
@@ -44,7 +42,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_personal_center, container, false);
-        this.context = inflater.getContext();
+        this.mContext = inflater.getContext();
         initViews();
         loadData();
         return view;
@@ -72,7 +70,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
             btnLoginOrLogoff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, LoginActivity.class);
+                    Intent intent = new Intent(mContext, LoginActivity.class);
                     startActivity(intent);
                 }
             });

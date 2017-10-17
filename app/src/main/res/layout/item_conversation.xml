@@ -5,10 +5,12 @@
     android:background="@drawable/edit_bg"
     android:layout_margin="5dp">
 
-    <ImageView
+    <android.bemodel.com.bemodel.widget.CircleImageView
         android:id="@+id/iv_avatar_conversation"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/ebaa"
+        android:scaleType="centerCrop"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"/>
 

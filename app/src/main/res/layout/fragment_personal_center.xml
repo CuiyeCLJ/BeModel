@@ -13,7 +13,7 @@
         android:focusable="true"
         android:orientation="horizontal">
         
-        <ImageView
+        <android.bemodel.com.bemodel.widget.CircleImageView
             android:id="@+id/iv_user_profile_image"
             android:layout_width="50dp"
             android:layout_height="50dp"

@@ -5,7 +5,7 @@ import android.bemodel.com.bemodel.base.BaseListAdapter;
 import android.bemodel.com.bemodel.base.ViewHolder;
 import android.bemodel.com.bemodel.util.FaceTextUtils;
 import android.bemodel.com.bemodel.util.ImageLoadOptions;
-import android.bemodel.com.bemodel.util.TimeUtil;
+import android.bemodel.com.bemodel.util.TimeUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -162,7 +162,7 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
             }
         });
 
-        tv_time.setText(TimeUtil.getChatTime(Long.parseLong(item.getMsgTime())));
+        tv_time.setText(TimeUtils.getChatTime(Long.parseLong(item.getMsgTime())));
 
         if (getItemViewType(position) == TYPE_SEND_TXT
 //                || getItemViewType(position) == TYPE_SEND_IMAGE   //图片单独处理
