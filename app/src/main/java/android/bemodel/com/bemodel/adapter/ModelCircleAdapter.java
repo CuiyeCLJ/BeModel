@@ -39,7 +39,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList) {
         this.mModelCircleInfoList = mModelCircleInfoList;
         this.mContext = mContext;
-        this.user = (UserInfo) BmobUser.getCurrentUser();
+        this.user = BmobUser.getCurrentUser(mContext, UserInfo.class);
         this.screenWidth = MyUtils.getScreenMetrics(mContext).widthPixels;
         this.mImageLoader = ImageLoader.build(mContext);
 
@@ -55,7 +55,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
             public void onClick(View v) {
                 int position = viewHolder.getAdapterPosition();
                 ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-                BmobUser user = BmobUser.getCurrentUser();
+                BmobUser user = BmobUser.getCurrentUser(mContext, UserInfo.class);
                 if (user != null) {
                     Intent intent = new Intent(mContext, CommentActivity.class);
                     intent.putExtra("modelCircleInfo_data", modelCircleInfo);

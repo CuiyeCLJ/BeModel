@@ -8,13 +8,34 @@ import cn.bmob.v3.BmobObject;
 
 public class MessagesInfo extends BmobObject {
 
-    private UserInfo user;
+    private String targetId;    //聊天对方Id
 
-    public UserInfo getUser() {
-        return user;
+    private UserInfo targetUser;
+
+    private String message;
+
+    public String getTargetId() {
+        return targetId;
     }
 
-    public void setUser(UserInfo user) {
-        this.user = user;
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
     }
+
+    public UserInfo getTargetUser() {
+        return targetUser;
+    }
+
+    public void setTargetUser(UserInfo targetUser) {
+        this.targetUser = targetUser;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }

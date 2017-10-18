@@ -70,13 +70,13 @@ public class MessagesFragment extends Fragment implements OnItemClickListener, O
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MessagesInfo messages = adapter.getItem(position);
         //重置未读信息
-        BmobDB.create(getActivity()).resetUnread(messages.getTargetid());
+        BmobDB.create(getActivity()).resetUnread(messages.getTargetId());
         //组装聊天对象
         ChatUser chatUser = new ChatUser();
-        chatUser.setAvatar(messages.getAvatar());
-        chatUser.setNick(messages.getNick());
-        chatUser.setUsername(messages.getUserName());
-        chatUser.setObjectId(messages.getTargetid());
+        chatUser.setAvatar(messages.getTargetUser().getAvatar());
+        chatUser.setNick(messages.getTargetUser().getNick());
+        chatUser.setUsername(messages.getTargetUser().getUsername());
+        chatUser.setObjectId(messages.getTargetId());
         Intent intent = new Intent(getActivity(), ChatActivity.class);
         intent.putExtra("user", chatUser);
         startActivity(intent);
@@ -90,7 +90,7 @@ public class MessagesFragment extends Fragment implements OnItemClickListener, O
     }
 
     public void showDeleteDialog(final MessagesInfo messages, final int position) {
-        DialogTips dialog = new DialogTips(getActivity(), messages,getUserName(), "删除会话", "确定", true, true);
+        DialogTips dialog = new DialogTips(getActivity(), messages.getTargetUser().getUsername(), "删除会话", "确定", true, true);
         //设置成功事件
         dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
             @Override
@@ -109,6 +109,6 @@ public class MessagesFragment extends Fragment implements OnItemClickListener, O
      */
     private void deleteConversation(MessagesInfo messages, int position) {
         adapter.removeItem(position);
-        BmobDB.create(getActivity()).deleteRecent(messages.getTargetid());
+        BmobDB.create(getActivity()).deleteRecent(messages.getTargetId());
     }
 }

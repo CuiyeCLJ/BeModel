@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.bean.MessagesInfo;
+import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.widget.CircleImageView;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import cn.bmob.v3.BmobUser;
+
+import static cn.bmob.v3.BmobUser.getCurrentUser;
+
 /**
  * Created by Administrator on 2017.07.24.
  */
@@ -21,6 +26,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
 
     private Context context;
     private List<MessagesInfo> messagesList;
+    private UserInfo mUser;
 
     public MessagesAdapter(List<MessagesInfo> messagesItemInfoList) {
         this.messagesList = messagesItemInfoList;
@@ -29,6 +35,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public MessagesAdapter(Context context, List<MessagesInfo> messagesInfoList) {
         this.context = context;
         this.messagesList = messagesInfoList;
+        mUser = BmobUser.getCurrentUser(context, UserInfo.class);
     }
 
     @Override
@@ -42,7 +49,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         MessagesInfo messages = messagesList.get(position);
         holder.ivAvatar.setImageResource();
-        holder.tvUsername.setText(messages.getUser());
+        holder.tvUsername.setText(messages.getTargetUser().getUsername());
         holder.tvLocation.setText();
         holder.tvDistance.setText();
     }
