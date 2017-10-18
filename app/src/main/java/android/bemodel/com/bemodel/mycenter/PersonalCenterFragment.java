@@ -53,14 +53,15 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     }
 
     protected void loadData() {
-        user = (UserInfo) BmobUser.getCurrentUser();
+        user = BmobUser.getCurrentUser(mContext, UserInfo.class);
         if (user != null) {
             tvUserName.setText(user.getUsername());
             btnLoginOrLogoff.setText("退出登录");
             btnLoginOrLogoff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    user.logOut();
+                    user.logOut(mContext);
+                    BmobUser currentUser = BmobUser.getCurrentUser(mContext);
                 }
             });
 

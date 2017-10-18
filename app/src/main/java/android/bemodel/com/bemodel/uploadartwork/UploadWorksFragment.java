@@ -6,6 +6,7 @@ import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.permission.PermissionListener;
 import android.bemodel.com.bemodel.util.permission.PermissionManager;
 import android.bemodel.com.bemodel.view.LoginActivity;
+import android.bemodel.com.bemodel.widget.CircleImageView;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -55,6 +56,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import butterknife.BindView;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
 import cn.bmob.v3.exception.BmobException;
@@ -71,14 +73,14 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     public static final int CHOOSE_PHOTO = 2;
     public static final int REQUEST_CODE_LOCATION = 3;
 
-    private Context context;
+    private Context mContext;
     private View view;
 
-    private ImageView ivUpload;
-    private EditText etContent;
-    private Button btnAddVoice;
-    private TextView tvLocation;
-    private Switch swSelectLocation;
+    @BindView(R.id.iv_upload) CircleImageView ivUpload;
+    @BindView(R.id.et_content_uw) EditText etContent;
+    @BindView(R.id.bt_add_voice_uw) Button btnAddVoice;
+    @BindView(R.id.tv_my_location) TextView tvLocation;
+    @BindView(R.id.sw_show_location) Switch swSelectLocation;
 
     private Button btnLeft;
     private Button btnRight;
@@ -107,9 +109,9 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_upload_works, container, false);
-        this.context = inflater.getContext();
+        this.mContext = inflater.getContext();
         activity = (MainActivity)getActivity();
-        user = (UserInfo) BmobUser.getCurrentUser();
+        user = BmobUser.getCurrentUser(mContext, UserInfo.class);
 
         initViews();
 
@@ -117,17 +119,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     }
 
     private void initViews() {
-
-        ivUpload = (ImageView) view.findViewById(R.id.iv_upload);
-        etContent = (EditText)view.findViewById(R.id.et_content_uw);
-        btnAddVoice = (Button)view.findViewById(R.id.bt_add_voice_uw);
-        tvLocation = (TextView)view.findViewById(R.id.tv_my_location);
-        swSelectLocation = (Switch)view.findViewById(R.id.sw_show_location);
-
-        btnLeft = (Button)view.findViewById(R.id.left_btn);
-        btnRight = (Button)view.findViewById(R.id.right_btn);
-        tvTitle = (TextView)view.findViewById(R.id.title_text);
-
 
         mLocationClient = new LocationClient(getContext());
 
@@ -247,7 +238,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
      * 创建对话框及注册点击事件
      */
     private void openDialog() {
-        AlertDialog alertDialog = new AlertDialog.Builder(context)
+        AlertDialog alertDialog = new AlertDialog.Builder(mContext)
                 .setTitle("图片选择").setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -264,7 +255,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                                     e.printStackTrace();
                                 }
                                 if (Build.VERSION.SDK_INT >= 24) {
-                                    imageUri = FileProvider.getUriForFile(context, "com.bemodel.fileprovider", outputImage);
+                                    imageUri = FileProvider.getUriForFile(mContext, "com.bemodel.fileprovider", outputImage);
                                 } else {
                                     imageUri = Uri.fromFile(outputImage);
                                 }
@@ -274,7 +265,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                                 break;
 
                             case 1:     //从相册选取
-                                if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                                if (ContextCompat.checkSelfPermission(mContext, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                                     ActivityCompat.requestPermissions(activity, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                                 } else {
                                     openAlbum();
@@ -292,12 +283,12 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         uploadImg();
         ModelCircleInfo modelCircleInfo = new ModelCircleInfo();
         if (ivUpload.getDrawable() == null) {
-            Toast.makeText(context, "图片不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "图片不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         String text = etContent.getText().toString();
         if (text.equals("")) {
-            Toast.makeText(context, "描述不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "描述不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
         modelCircleInfo.setBmiddlePic(key);
@@ -306,16 +297,26 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         modelCircleInfo.setGeo(geoPoint);
         modelCircleInfo.setAddress(tvLocation.getText().toString());
 
-        modelCircleInfo.save(new SaveListener<String>() {
+        modelCircleInfo.save(new SaveListener() {
             @Override
-            public void done(String s, BmobException e) {
-                if (e == null){
-                    Toast.makeText(context, "发布成功", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    Log.e(TAG, "错误码: " + e.getMessage());
-                }
+            public void onSuccess() {
+                Toast.makeText(mContext, "发布成功", Toast.LENGTH_SHORT).show();
             }
+
+            @Override
+            public void onFailure(int i, String s) {
+                Log.e(TAG);
+            }
+
+//            @Override
+//            public void done(String s, BmobException e) {
+//                if (e == null){
+//
+//                } else {
+//
+//
+//                }
+//            }
         });
     }
 
@@ -348,7 +349,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     //启动登录活动
     private void gotoLoginActivity() {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(mContext, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -392,7 +393,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     private void handleImageOnKitKat(Intent data) {
         String imagePath = null;
         Uri uri = data.getData();
-        if (DocumentsContract.isDocumentUri(context, uri)) {
+        if (DocumentsContract.isDocumentUri(mContext, uri)) {
             String docId = DocumentsContract.getDocumentId(uri);
             if ("com.android.providers.media.documents".equals(uri.getAuthority())) {
                 String id = docId.split(":")[1];
@@ -421,7 +422,7 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
             ivUpload.setImageBitmap(bitmap);
         } else {
-            Toast.makeText(context, "failed to get image", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "failed to get image", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -444,14 +445,14 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 if (grantResults.length > 0) {
                     for (int result :grantResults) {
                         if (result != PackageManager.PERMISSION_GRANTED) {
-                            Toast.makeText(context, "必须同意所有的权限才能使用该功能", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "必须同意所有的权限才能使用该功能", Toast.LENGTH_SHORT).show();
 //                            finish();
                             return;
                         }
                     }
                     requestLocation();
                 }else {
-                    Toast.makeText(context, "发生未知错误", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "发生未知错误", Toast.LENGTH_SHORT).show();
 //                    finish();
                 }
                 break;
