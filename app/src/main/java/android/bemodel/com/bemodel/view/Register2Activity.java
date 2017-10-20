@@ -1,7 +1,11 @@
 package android.bemodel.com.bemodel.view;
 
+import android.app.ProgressDialog;
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.bean.UserInfo;
+import android.bemodel.com.bemodel.home.MainActivity;
+import android.bemodel.com.bemodel.util.NetworkUtils;
+import android.content.Intent;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.view.View;
@@ -11,27 +15,26 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import butterknife.BindView;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class Register2Activity extends BaseActivity implements View.OnClickListener {
 
-    private EditText et_nickname;
+    @BindView(R.id.et_nickname_register2) EditText et_nickname;
 
-    private Switch sw_sex_select;
+    @BindView(R.id.sw_sex_select_register2) Switch sw_sex_select;
 
-    private TextView tvTitleText;
-    private Button btnLeft;
-    private Button btnRight;
+    @BindView(R.id.title_text) TextView tvTitleText;
+    @BindView(R.id.left_btn) Button btnLeft;
+    @BindView(R.id.right_btn) Button btnRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
-        initViews(savedInstanceState);
     }
-
 
     @Override
     protected void initVariables() {
@@ -39,17 +42,14 @@ public class Register2Activity extends BaseActivity implements View.OnClickListe
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        sw_sex_select = (Switch)findViewById(R.id.sw_sex_select_register2);
-        et_nickname = (EditText)findViewById(R.id.et_nickname_register2);
-
-        btnLeft = (Button)findViewById(R.id.left_btn);
-        btnRight = (Button)findViewById(R.id.right_btn);
-        tvTitleText = (TextView)findViewById(R.id.title_text);
+    protected void initViews() {
 
         btnLeft.setText("上一步");
         btnRight.setText("完成");
         tvTitleText.setText("注册");
+
+        btnLeft.setOnClickListener(this);
+        btnRight.setOnClickListener(this);
     }
 
     @Override
@@ -95,20 +95,50 @@ public class Register2Activity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        UserInfo userInfo = (UserInfo)getIntent().getSerializableExtra("bmobUser_data");
-        userInfo.setUsername(userName);
-        userInfo.setSex(sex);
+        boolean isNetConnected = NetworkUtils.isNetworkAvailable(this);
+        if (!isNetConnected) {
+            showToast(R.string.network_tips);
+            return;
+        }
 
-        addSubscription(userInfo.signUp(new SaveListener<UserInfo>() {
+        final ProgressDialog progress = new ProgressDialog(Register2Activity.this);
+        progress.setMessage("正在注册...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.show();
+
+        UserInfo user = (UserInfo)getIntent().getSerializableExtra("bmobUser_data");
+        user.setUsername(userName);
+        user.setSex(sex);
+
+        user.signUp(mContext, new SaveListener() {
             @Override
-            public void done(UserInfo userInfo, BmobException e) {
-                if (e == null) {
-                    toast("注册成功: " + userInfo.toString());
-                } else {
-                    loge(e);
-                }
+            public void onSuccess() {
+                progress.dismiss();
+                toast("注册成功");
+
+                Intent intent = new Intent(Register2Activity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
             }
-        }));
+
+            @Override
+            public void onFailure(int i, String s) {
+                toast("注册失败：" + s);
+                progress.dismiss();
+            }
+        });
+
+//        addSubscription(user.signUp(new SaveListener<UserInfo>() {
+//            @Override
+//            public void done(UserInfo userInfo, BmobException e) {
+//                if (e == null) {
+//                    toast("注册成功: " + userInfo.toString());
+//                } else {
+//                    loge(e);
+//                }
+//            }
+//        }));
     }
 
 }

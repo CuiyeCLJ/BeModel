@@ -101,7 +101,7 @@ public class CircleImageView extends ImageView {
         int bitmapSize = Math.min(bitmap.getHeight(), bitmap.getWidth());
 
 
-        //        int bitmapSizeX = bitmap.getWidth();
+        //int bitmapSizeX = bitmap.getWidth();
         //      scaleX = mWidth * 1.0f / bitmapSizeX;
         /**注意这里，我使用的是图片最长的（就是宽度）来伸缩，那么用这个的话，
          * 我们就会发现，较短的那边（就是高度）在经过Matrix的拉伸后会发现失真，强行地被拉长，
@@ -144,9 +144,9 @@ public class CircleImageView extends ImageView {
      */
 
     /*
-       * Canvas理解成系统提供给我们的一块内存区域(但实际上它只是一套画图的API，真正的内存是下面的Bitmap)，
-        *而且它还提供了一整套对这个内存区域进行操作的方法，所有的这些操作都是画图API。
-        *也就是说在这种方式下我们已经能一笔一划或者使用Graphic来画我们所需要的东西了，要画什么要显示什么都由我们自己控制。
+     * Canvas理解成系统提供给我们的一块内存区域(但实际上它只是一套画图的API，真正的内存是下面的Bitmap)，
+     *而且它还提供了一整套对这个内存区域进行操作的方法，所有的这些操作都是画图API。
+     *也就是说在这种方式下我们已经能一笔一划或者使用Graphic来画我们所需要的东西了，要画什么要显示什么都由我们自己控制。
      */
     @Override
     protected void onDraw(Canvas canvas) {

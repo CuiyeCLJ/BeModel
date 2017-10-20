@@ -31,11 +31,6 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.tl_main) TabLayout tabLayout;
     @BindView(R.id.title_bar) TitleActivity mTitleActivity;
 
-//    private ViewPager mViewPager;
-//    private TabLayout tabLayout;
-//    mViewPager = (ViewPager)findViewById(R.id.vp_main);
-//    tabLayout = (TabLayout)findViewById(R.id.tl_main);
-
     private List<TabLayout.Tab> tabList;
 
     private ArrayList<Fragment> mFragmentList = new ArrayList<Fragment>();
@@ -43,7 +38,6 @@ public class MainActivity extends BaseActivity {
     private MessagesFragment mMessagesFragment;
     private UploadWorksFragment mUploadWorksFragment;
     private PersonalCenterFragment mPersonalCenterFragment;
-
 
     private ViewPagerAdapter viewPagerAdapter;
 
@@ -81,10 +75,10 @@ public class MainActivity extends BaseActivity {
         tabList.add(tabLayout.getTabAt(2));
         tabList.add(tabLayout.getTabAt(3));
 
-        tabList.get(0).setIcon(R.drawable.home).setText("模特圈");
-        tabList.get(1).setIcon(R.drawable.messages).setText("消息");
-        tabList.get(2).setIcon(R.drawable.uploadwork).setText("上传作品");
-        tabList.get(3).setIcon(R.drawable.personalcenter).setText("个人中心");
+        tabList.get(0).setIcon(R.drawable.homepage).setText("模特圈");
+        tabList.get(1).setIcon(R.drawable.message).setText("消息");
+        tabList.get(2).setIcon(R.drawable.upload).setText("上传作品");
+        tabList.get(3).setIcon(R.drawable.people).setText("个人中心");
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

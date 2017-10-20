@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.view;
 
 import android.app.ProgressDialog;
 import android.bemodel.com.bemodel.base.BaseActivity;
+import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.util.NetworkUtils;
 import android.content.Intent;
@@ -59,9 +60,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     }
 
-    String account;
-    String password;
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -86,6 +84,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         }
     }
 
+    String account;
+    String password;
+
     private void loginHandle() {
         account = etAccount.getText().toString().trim();
         password = etPassword.getText().toString().trim();
@@ -103,14 +104,18 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
 
-        final BmobUser bmobUser = new BmobUser();
-        bmobUser.setMobilePhoneNumber(account);
-        bmobUser.setPassword(password);
+//        final BmobUser bmobUser = new BmobUser();
+//        bmobUser.setMobilePhoneNumber(account);
+//        bmobUser.setPassword(password);
 
-        bmobUser.login(mContext, new SaveListener() {
+        final UserInfo user = new UserInfo();
+        user.setMobilePhoneNumber(account);
+        user.setPassword(password);
+
+        user.login(mContext, new SaveListener() {
             @Override
             public void onSuccess() {
-                toast(bmobUser.getUsername() + "登陆成功");
+                toast(user.getUsername() + "登陆成功");
                 getCurrentUser();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
