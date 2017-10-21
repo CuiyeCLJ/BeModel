@@ -48,4 +48,6 @@
     <string name="voice_short_tips">录音时间太短</string>
     <string name="network_tips">当前网络不可用,请检查您的网络!</string>
     <string name="tips">提示</string>
+    <string name="snap_load_fail">加载失败，请重试</string>
+    <string name="retry">重试</string>
 </resources>

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -27,12 +28,12 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
     private List<CommentInfo> commentInfoList = new ArrayList<>();
     private ModelCircleInfo modelCircleInfo;
 
-    private TextView tvTitleText;
-    private Button btnLeft;
-    private Button btnRight;
+    @BindView(R.id.title_text) TextView tvTitleText;
+    @BindView(R.id.left_btn) Button btnLeft;
+    @BindView(R.id.right_btn) Button btnRight;
 
-    private EditText etReviewContent;
-    private Button btnIssuanceReview;
+    @BindView(R.id.et_review_content) EditText etReviewContent;
+    @BindView(R.id.btn_issuance_review) Button btnIssuanceReview;
 
     private UserInfo user;
 
@@ -41,7 +42,6 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
 
-        initViews(savedInstanceState);
         initVariables();
         loadData();
         CommentAdapter commentAdapter = new CommentAdapter(CommentActivity.this, R.layout.comment_item, commentInfoList);
@@ -51,24 +51,20 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void initVariables() {
-        user = (UserInfo) BmobUser.getCurrentUser();
+        user = BmobUser.getCurrentUser(mContext, UserInfo.class);
         modelCircleInfo = (ModelCircleInfo)getIntent().getSerializableExtra("modelCircleInfo_data");
 
     }
 
     @Override
-    protected void initViews(Bundle savedInstanceState) {
-        tvTitleText = (TextView)findViewById(R.id.title_text);
-        btnLeft = (Button)findViewById(R.id.left_btn);
-        btnRight = (Button)findViewById(R.id.right_btn);
-
-        etReviewContent = (EditText)findViewById(R.id.et_review_content);
-        btnIssuanceReview = (Button)findViewById(R.id.btn_issuance_review);
+    protected void initViews() {
 
         tvTitleText.setText("评论");
         btnLeft.setText("返回");
         btnRight.setVisibility(View.GONE);
 
+        btnLeft.setOnClickListener(this);
+        btnIssuanceReview.setOnClickListener(this);
     }
 
     @Override
@@ -77,7 +73,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         bmobQuery.addWhereEqualTo("modelCircle", modelCircleInfo);
         bmobQuery.setLimit(50);
         bmobQuery.order("createdAt");
-        boolean isCache = bmobQuery.hasCachedResult(CommentInfo.class);
+        boolean isCache = bmobQuery.hasCachedResult(mContext, CommentInfo.class);
         if (isCache) {
             bmobQuery.setCachePolicy(BmobQuery.CachePolicy.CACHE_ELSE_NETWORK);
         } else {

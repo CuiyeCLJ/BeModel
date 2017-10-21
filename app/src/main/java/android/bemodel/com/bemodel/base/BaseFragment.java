@@ -3,6 +3,7 @@ package android.bemodel.com.bemodel.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,6 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
 
     protected BaseActivity mActivity;
 
-    protected View rootView;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,21 +30,25 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (rootView == null)
-            rootView = inflater.inflate(getLayoutResource(), container, false);
-        initView(savedInstanceState, rootView);
-        return rootView;
+        setRetainInstance(true);
+        contentView = inflater.inflate(bindLayout(), null);
+//        Log.d(TAG, "onCreateView: ");
+        return contentView;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        initData(bundle);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mActivity = (BaseActivity) getActivity();
+        initView(savedInstanceState, contentView);
+        doBusiness();
     }
 
     @Override
@@ -55,6 +58,9 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
 
     @Override
     public void onDestroyView() {
+        if (contentView != null) {
+            ((ViewGroup) contentView.getParent()).removeView(contentView);
+        }
         super.onDestroyView();
     }
 
@@ -68,6 +74,4 @@ public abstract class BaseFragment extends Fragment implements IBaseView{
         super.onSaveInstanceState(outState);
     }
 
-    //获取布局文件
-    protected abstract int getLayoutResource();
 }
