@@ -1,5 +1,6 @@
 package android.bemodel.com.bemodel.home;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.adapter.ViewPagerAdapter;
@@ -8,8 +9,10 @@ import android.bemodel.com.bemodel.messages.MessagesFragment;
 import android.bemodel.com.bemodel.modelcircle.ModelCircleFragment;
 import android.bemodel.com.bemodel.mycenter.PersonalCenterFragment;
 import android.bemodel.com.bemodel.uploadartwork.UploadWorksFragment;
+import android.bemodel.com.bemodel.util.ToastUtils;
 import android.bemodel.com.bemodel.widget.TitleActivity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,6 +20,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.joker.annotation.PermissionsDenied;
+import com.joker.annotation.PermissionsGranted;
+import com.joker.annotation.PermissionsRequestSync;
+import com.joker.api.Permissions4M;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +34,22 @@ import butterknife.BindView;
 import cn.bmob.sms.BmobSMS;
 import cn.bmob.v3.Bmob;
 
+import static android.bemodel.com.bemodel.home.MainActivity.LOCATION_CODE;
+import static android.bemodel.com.bemodel.home.MainActivity.PHONE_CODE;
+import static android.bemodel.com.bemodel.home.MainActivity.STORAGE_CODE;
+
+@PermissionsRequestSync(permission = {Manifest.permission.ACCESS_FINE_LOCATION,
+Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+value = {LOCATION_CODE, PHONE_CODE, STORAGE_CODE})
 public class MainActivity extends BaseActivity {
+
+    private static final String TAG = "MainActivity";
+
+    public static final int LOCATION_CODE = 7;
+    public static final int PHONE_CODE = 8;
+    public static final int STORAGE_CODE = 9;
+
+
 
     @BindView(R.id.vp_main) ViewPager mViewPager;
     @BindView(R.id.tl_main) TabLayout tabLayout;
@@ -33,7 +57,7 @@ public class MainActivity extends BaseActivity {
 
     private List<TabLayout.Tab> tabList;
 
-    private ArrayList<Fragment> mFragmentList = new ArrayList<Fragment>();
+    private ArrayList<Fragment> mFragmentList = new ArrayList<>();
     private ModelCircleFragment mModelCircleFragment;
     private MessagesFragment mMessagesFragment;
     private UploadWorksFragment mUploadWorksFragment;
@@ -54,9 +78,59 @@ public class MainActivity extends BaseActivity {
         if (actionBar != null) {
             actionBar.hide();
         }
+
         initFragment(savedInstanceState);
         setViewPager();
 
+        //同步申请多个权限
+        Permissions4M.get(MainActivity.this).requestSync();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Permissions4M.onRequestPermissionsResult(MainActivity.this, requestCode, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionsGranted({LOCATION_CODE, PHONE_CODE, STORAGE_CODE})
+    public void syncGranted(int code) {
+        switch (code) {
+            case LOCATION_CODE:
+                ToastUtils.showLong("地理位置权限授权成功");
+                Log.d(TAG, "syncGranted: 地理位置权限授权成功");
+                break;
+            case PHONE_CODE:
+                ToastUtils.showLong("读取电话状态权限授权成功");
+                Log.d(TAG, "syncGranted: 读取电话状态权限授权成功");
+                break;
+            case STORAGE_CODE:
+                ToastUtils.showLong("读取SD卡权限授权成功");
+                Log.d(TAG, "syncGranted: 读取SD卡权限授权成功");
+                break;
+            default:
+                break;
+        }
+    }
+    
+    @PermissionsDenied({LOCATION_CODE, PHONE_CODE, STORAGE_CODE})
+    public void syncDenied(int code) {
+        switch (code) {
+            case LOCATION_CODE:
+                ToastUtils.showLong("地理位置权限授权失败");
+                Log.d(TAG, "syncDenied: 地理位置权限授权失败");
+                break;
+            case PHONE_CODE:
+                ToastUtils.showLong("读取电话状态权限授权失败");
+                Log.d(TAG, "syncDenied: 读取电话状态权限授权失败");
+                break;
+            case STORAGE_CODE:
+                ToastUtils.showLong("读取SD卡权限授权失败");
+                Log.d(TAG, "syncDenied: 读取SD卡权限授权失败");
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -83,28 +157,28 @@ public class MainActivity extends BaseActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        mTitleActivity.setTitle("模特圈");
-                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, true);
-                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
-                        break;
-                    case 1:
-                        mTitleActivity.setTitle("消息");
-                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
-                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
-                        break;
-                    case 2:
-                        mTitleActivity.setTitle("上传作品");
-                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
-                        mTitleActivity.showRightView(R.string.upload_work_right_button, true);
-                        break;
-                    case 3:
-                        mTitleActivity.setTitle("个人中心");
-                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
-                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
-                        break;
-                }
+//                switch (tab.getPosition()) {
+//                    case 0:
+//                        mTitleActivity.setTitle("模特圈");
+//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, true);
+//                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
+//                        break;
+//                    case 1:
+//                        mTitleActivity.setTitle("消息");
+//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
+//                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
+//                        break;
+//                    case 2:
+//                        mTitleActivity.setTitle("上传作品");
+//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
+//                        mTitleActivity.showRightView(R.string.upload_work_right_button, true);
+//                        break;
+//                    case 3:
+//                        mTitleActivity.setTitle("个人中心");
+//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
+//                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
+//                        break;
+//                }
 
             }
 
@@ -121,7 +195,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setViewPager() {
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragmentList);
         mViewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(mViewPager);
 

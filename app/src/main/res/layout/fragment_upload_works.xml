@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <include layout="@layout/my_title_bar"
+        android:id="@+id/title_bar" />
 
     <LinearLayout
         android:orientation="vertical"
