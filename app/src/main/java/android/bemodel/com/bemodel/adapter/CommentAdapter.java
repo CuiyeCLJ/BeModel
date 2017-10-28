@@ -2,6 +2,7 @@ package android.bemodel.com.bemodel.adapter;
 
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.bean.CommentInfo;
+import android.bemodel.com.bemodel.util.image.ImageLoader;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -22,10 +23,12 @@ import java.util.List;
 public class CommentAdapter extends ArrayAdapter<CommentInfo> {
 
     private int resourceId;
+    private ImageLoader imageLoader;
 
     public CommentAdapter(@NonNull Context context, @LayoutRes int resourceId, @NonNull List<CommentInfo> objects) {
         super(context, resourceId, objects);
         this.resourceId = resourceId;
+        imageLoader = new ImageLoader();
     }
 
     @NonNull
@@ -48,7 +51,7 @@ public class CommentAdapter extends ArrayAdapter<CommentInfo> {
             viewHolder = (ViewHolder)view.getTag();
         }
 
-        viewHolder.reviewerImage.setImageResource();
+        imageLoader.dispalyImage(commentInfo.getModelCircle().getUser().getAvatar(), viewHolder.reviewerImage);
         viewHolder.reviewerName.setText(commentInfo.getReviewer().getUsername());
         viewHolder.reviewTime.setText(commentInfo.getCreatedAt());
         viewHolder.reviewContent.setText(commentInfo.getText());

@@ -52,4 +52,6 @@
     <string name="retry">重试</string>
     <string name="UploadWorksFragment_rightButton_text">上传</string>
     <string name="UploadWorksFragment_textView_title">上传作品</string>
+    <string name="PersonalCenterFragment_title_text">个人中心</string>
+    <string name="MessagesFragment_tvTitle_text">消息</string>
 </resources>

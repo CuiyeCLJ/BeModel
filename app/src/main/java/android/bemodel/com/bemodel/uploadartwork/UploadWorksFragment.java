@@ -90,11 +90,12 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     private Context mContext;
     private View view;
 
-    @BindView(R.id.iv_upload) CircleImageView ivUpload;
+    @BindView(R.id.iv_upload) ImageView ivUpload;
     @BindView(R.id.et_content_uw) EditText etContent;
     @BindView(R.id.bt_add_voice_uw) Button btnAddVoice;
     @BindView(R.id.tv_my_location) TextView tvLocation;
     @BindView(R.id.sw_show_location) Switch swSelectLocation;
+
     @BindView(R.id.left_btn) Button btnLeft;
     @BindView(R.id.right_btn) Button btnRight;
     @BindView(R.id.title_text) TextView tvTitle;
@@ -134,11 +135,13 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     private void initViews() {
 
-        swSelectLocation.setOnCheckedChangeListener(this);
         btnLeft.setVisibility(View.GONE);
         btnRight.setText(R.string.UploadWorksFragment_rightButton_text);
         tvTitle.setText(R.string.UploadWorksFragment_textView_title);
+        swSelectLocation.setOnCheckedChangeListener(this);
         btnRight.setOnClickListener(this);
+        ivUpload.setOnClickListener(this);
+        btnAddVoice.setOnClickListener(this);
 
 //        swSelectLocation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
@@ -187,7 +190,8 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 if (user != null) {
                     uploadData();
                 } else {
-                    gotoLoginActivity();
+//                    gotoLoginActivity();
+                    LoginActivity.startAction(mContext);
                 }
                 break;
 
@@ -195,21 +199,6 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
                 break;
 
         }
-    }
-
-    private void requestLocation() {
-        initLocation();
-        mLocationClient.start();
-    }
-
-    private void initLocation() {
-        LocationClientOption option = new LocationClientOption();
-        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
-        //设置位置更新时间为5秒
-        option.setScanSpan(5000);
-        //获取当前位置详细的地址信息
-        option.setIsNeedAddress(true);
-        mLocationClient.setLocOption(option);
     }
 
     /**
@@ -298,6 +287,21 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
         });
     }
 
+    private void requestLocation() {
+        initLocation();
+        mLocationClient.start();
+    }
+
+    private void initLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Device_Sensors);
+        //设置位置更新时间为5秒
+        option.setScanSpan(5000);
+        //获取当前位置详细的地址信息
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+    }
+
     /**
      * 上传图片到七牛
      */
@@ -326,10 +330,10 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
     }
 
     //启动登录活动
-    private void gotoLoginActivity() {
-        Intent intent = new Intent(mContext, LoginActivity.class);
-        startActivity(intent);
-    }
+//    private void gotoLoginActivity() {
+//        Intent intent = new Intent(mContext, LoginActivity.class);
+//        startActivity(intent);
+//    }
 
     private void openAlbum() {
         Intent intent = new Intent("android.intent.action.GET_CONTENT");

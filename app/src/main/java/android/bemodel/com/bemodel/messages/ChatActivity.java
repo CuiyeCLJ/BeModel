@@ -9,8 +9,9 @@ import android.bemodel.com.bemodel.adapter.MessageChatAdapter;
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.bean.FaceText;
 import android.bemodel.com.bemodel.content.MyMessageReceiver;
-import android.bemodel.com.bemodel.util.CommonUtils;
 import android.bemodel.com.bemodel.util.FaceTextUtils;
+import android.bemodel.com.bemodel.util.NetworkUtils;
+import android.bemodel.com.bemodel.util.SDCardUtils;
 import android.bemodel.com.bemodel.widget.EmoticonsEditText;
 import android.bemodel.com.bemodel.widget.MySecondTitlebar;
 import android.bemodel.com.bemodel.widget.dialog.DialogTips;
@@ -325,7 +326,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    if (!CommonUtils.checkSdCard()) {
+                    if (!SDCardUtils.checkSdCard()) {
                         showToast("发送语音需要sdcard支持！");
                         return false;
                     }
@@ -822,7 +823,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
                     showToast("请输入发送信息！");
                     return;
                 }
-                boolean isNetConnected = CommonUtils.isNetworkAvailable(this);
+                boolean isNetConnected = NetworkUtils.isNetworkAvailable(this);
                 if (!isNetConnected) {
                     showToast(R.string.network_tips);
                 }

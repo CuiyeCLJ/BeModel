@@ -1,6 +1,7 @@
 package android.bemodel.com.bemodel.mycenter;
 
 import android.bemodel.com.bemodel.bean.UserInfo;
+import android.bemodel.com.bemodel.util.image.ImageLoader;
 import android.bemodel.com.bemodel.view.LoginActivity;
 import android.bemodel.com.bemodel.widget.CircleImageView;
 import android.content.Context;
@@ -32,17 +33,22 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
     @BindView(R.id.tv_user_name) TextView tvUserName;
     @BindView(R.id.btn_login_or_logoff) Button btnLoginOrLogoff;
 
+    @BindView(R.id.left_btn) Button btnLeft;
+    @BindView(R.id.right_btn) Button btnRight;
+    @BindView(R.id.title_text) TextView tvTitle;
+
     private View view;
-
     private Context mContext;
-
     private UserInfo user;
+
+    private ImageLoader imageLoader;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_personal_center, container, false);
         this.mContext = inflater.getContext();
+        imageLoader = new ImageLoader();
         initViews();
         loadData();
         return view;
@@ -50,12 +56,22 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
 
     private void initViews() {
 
+        btnLeft.setVisibility(View.GONE);
+        btnRight.setVisibility(View.GONE);
+        tvTitle.setText(R.string.PersonalCenterFragment_title_text);
+        rlMyWorks.setOnClickListener(this);
+        rlInviteFriends.setOnClickListener(this);
+        rlFeedback.setOnClickListener(this);
+        rlGestureCipher.setOnClickListener(this);
+
     }
 
     protected void loadData() {
         user = BmobUser.getCurrentUser(mContext, UserInfo.class);
         if (user != null) {
             tvUserName.setText(user.getUsername());
+            //加载个人头像
+            imageLoader.dispalyImage(user.getProfileImageUrl(), ivUserProfileImage);
             btnLoginOrLogoff.setText("退出登录");
             btnLoginOrLogoff.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -71,8 +87,7 @@ public class PersonalCenterFragment extends Fragment implements View.OnClickList
             btnLoginOrLogoff.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, LoginActivity.class);
-                    startActivity(intent);
+                    LoginActivity.startAction(mContext);
                 }
             });
 

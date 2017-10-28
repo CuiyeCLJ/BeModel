@@ -5,6 +5,7 @@ import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.util.NetworkUtils;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
@@ -152,6 +153,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         });
          */
 
+    }
+
+    public static void startAction(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 
     //获取本地用户

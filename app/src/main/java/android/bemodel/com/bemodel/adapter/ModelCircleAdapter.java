@@ -4,6 +4,7 @@ import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.bean.ModelCircleInfo;
 import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.MyUtils;
+import android.bemodel.com.bemodel.util.TimeUtils;
 import android.bemodel.com.bemodel.util.loader.ImageLoader;
 import android.bemodel.com.bemodel.view.CommentActivity;
 import android.bemodel.com.bemodel.view.LoginActivity;
@@ -35,6 +36,8 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     private UserInfo user;
     private ImageLoader mImageLoader;
     private int screenWidth;
+    public OnItemClickListener itemClickListener;
+    private android.bemodel.com.bemodel.util.image.ImageLoader imageLoader;
 
     public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList) {
         this.mModelCircleInfoList = mModelCircleInfoList;
@@ -42,7 +45,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
         this.user = BmobUser.getCurrentUser(mContext, UserInfo.class);
         this.screenWidth = MyUtils.getScreenMetrics(mContext).widthPixels;
         this.mImageLoader = ImageLoader.build(mContext);
-
+        this.imageLoader = new android.bemodel.com.bemodel.util.image.ImageLoader();
     }
 
     @Override
@@ -83,29 +86,37 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
 
-        holder.userName.setText(modelCircleInfo.getUser().getUsername());
-
-        holder.time.setText(getTimeDifference(modelCircleInfo.getCreatedAt()));
 
 //        LatLng start = new LatLng(user.getGeo().getLatitude(), user.getGeo().getLongitude());
 //        LatLng end = new LatLng(modelCircleInfo.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude());
 //        int distance = (int) Location.getDistance(start, end);
-        holder.distance.setText(getLongDistance(user.getGeo().getLongitude(), user.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude(), modelCircleInfo.getGeo().getLatitude()));
-        ImageView imageView = holder.photograph;
-        final String tag = (String)imageView.getTag();
-        mImageLoader.bindBitmap(modelCircleInfo.getThumbnailPic(), imageView, screenWidth, 180);
+
+//        ImageView imageView = holder.photograph;
+//        final String tag = (String)imageView.getTag();
+//        mImageLoader.bindBitmap(modelCircleInfo.getThumbnailPic(), imageView, screenWidth, 180);
+
 //        holder.photograph.setImageResource();
-
+        imageLoader.dispalyImage(user.getProfileImageUrl(), holder.headImage);
+        holder.userName.setText(modelCircleInfo.getUser().getUsername());
         holder.location.setText(modelCircleInfo.getAddress());
-
+        holder.time.setText(TimeUtils.getDescriptionTimeFromTimestamp(TimeUtils.stringToLong(modelCircleInfo.getCreatedAt(), "yyyy-MM-dd HH:mm:ss")));
+        holder.distance.setText(getLongDistance(user.getGeo().getLongitude(), user.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude(), modelCircleInfo.getGeo().getLatitude()));
+        mImageLoader.bindBitmap(modelCircleInfo.getThumbnailPic(), holder.photograph);
         holder.describe.setText(modelCircleInfo.getText());
-
         holder.comment.setText("评论(" + modelCircleInfo.getCommentsCount() + ")");
     }
 
     @Override
     public int getItemCount() {
         return mModelCircleInfoList.size();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -135,5 +146,6 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
             comment = (Button)itemView.findViewById(R.id.bt_comment);
             privateChat = (Button)itemView.findViewById(R.id.bt_private_chat);
         }
+
     }
 }

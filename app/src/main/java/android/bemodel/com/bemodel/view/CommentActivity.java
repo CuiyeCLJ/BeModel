@@ -5,6 +5,7 @@ import android.bemodel.com.bemodel.adapter.CommentAdapter;
 import android.bemodel.com.bemodel.bean.CommentInfo;
 import android.bemodel.com.bemodel.bean.ModelCircleInfo;
 import android.bemodel.com.bemodel.bean.UserInfo;
+import android.bemodel.com.bemodel.util.ToastUtils;
 import android.os.Bundle;
 import android.bemodel.com.bemodel.R;
 import android.view.View;
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
 import rx.Subscriber;
 
@@ -79,23 +81,34 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         } else {
             bmobQuery.setCachePolicy(BmobQuery.CachePolicy.NETWORK_ELSE_CACHE);
         }
-        bmobQuery.findObjectsObservable(CommentInfo.class)
-                .subscribe(new Subscriber<List<CommentInfo>>() {
-                    @Override
-                    public void onCompleted() {
+        bmobQuery.findObjects(this, new FindListener<CommentInfo>() {
+            @Override
+            public void onSuccess(List<CommentInfo> list) {
+                commentInfoList = list;
+            }
 
-                    }
-
-                    @Override
-                    public void onError(Throwable throwable) {
-                        loge(throwable);
-                    }
-
-                    @Override
-                    public void onNext(List<CommentInfo> commentInfos) {
-                        commentInfoList = commentInfos;
-                    }
-                });
+            @Override
+            public void onError(int i, String s) {
+                ToastUtils.showLong("请检查网络！");
+            }
+        });
+//        bmobQuery.findObjectsObservable(CommentInfo.class)
+//                .subscribe(new Subscriber<List<CommentInfo>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable throwable) {
+//                        loge(throwable);
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<CommentInfo> commentInfos) {
+//                        commentInfoList = commentInfos;
+//                    }
+//                });
     }
 
     @Override
@@ -127,17 +140,29 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         commentInfo.setText(reviewContent);
         commentInfo.setReviewer(user);
         commentInfo.setModelCircle(modelCircleInfo);
-        commentInfo.save(new SaveListener<String>() {
+        commentInfo.save(mContext, new SaveListener() {
             @Override
-            public void done(String s, BmobException e) {
-                if (e == null) {
-                    toast("发布成功");
-                    //发布一条评论，使这条博文评论数 +1;
-                    modelCircleInfo.setCommentsCount(modelCircleInfo.getCommentsCount() + 1);
-                } else {
-                    toast("发布失败");
-                }
+            public void onSuccess() {
+                ToastUtils.showLong("评论成功");
+                modelCircleInfo.setCommentsCount(modelCircleInfo.getCommentsCount() + 1);
+            }
+
+            @Override
+            public void onFailure(int i, String s) {
+                ToastUtils.showLong("评论失败");
             }
         });
+//        commentInfo.save(mContext, new SaveListener<>() {
+//            @Override
+//            public void done(String s, BmobException e) {
+//                if (e == null) {
+//                    toast("发布成功");
+//                    //发布一条评论，使这条博文评论数 +1;
+//
+//                } else {
+//                    toast("发布失败");
+//                }
+//            }
+//        });
     }
 }

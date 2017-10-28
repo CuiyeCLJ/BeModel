@@ -127,7 +127,6 @@ public class ImageLoader {
     }
 
     /**
-     *
      * @param url
      * @param reqWidth
      * @param reqHeight

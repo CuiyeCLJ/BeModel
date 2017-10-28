@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 
 import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
 import com.google.gson.internal.bind.TreeTypeAdapter;
@@ -25,17 +26,19 @@ import com.google.gson.internal.bind.TreeTypeAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import cn.bmob.im.db.BmobDB;
 import cn.bmob.v3.b.V;
 
 public class MessagesFragment extends Fragment implements OnItemClickListener, OnItemLongClickListener {
 
+    @BindView(R.id.left_btn) Button btnLeft;
+    @BindView(R.id.right_btn) Button btnRight;
+    @BindView(R.id.title_text) Button tvTitleText;
+
     private View view;
-
-    RecyclerView recyclerView;
-
-    MessagesAdapter adapter;
-
+    private RecyclerView recyclerView;
+    private MessagesAdapter adapter;
     private List<MessagesInfo> messagesInfoList = new ArrayList<>();
 
     @Nullable
@@ -58,6 +61,9 @@ public class MessagesFragment extends Fragment implements OnItemClickListener, O
 
 
     private void initViews() {
+        btnLeft.setVisibility(View.GONE);
+        btnRight.setVisibility(View.GONE);
+        tvTitleText.setText(R.string.MessagesFragment_tvTitle_text);
         recyclerView.setOnClickListener((View.OnClickListener) this);
         recyclerView.setOnLongClickListener((View.OnLongClickListener) this);
     }

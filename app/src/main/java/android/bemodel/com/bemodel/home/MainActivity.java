@@ -49,11 +49,8 @@ public class MainActivity extends BaseActivity {
     public static final int PHONE_CODE = 8;
     public static final int STORAGE_CODE = 9;
 
-
-
     @BindView(R.id.vp_main) ViewPager mViewPager;
     @BindView(R.id.tl_main) TabLayout tabLayout;
-    @BindView(R.id.title_bar) TitleActivity mTitleActivity;
 
     private List<TabLayout.Tab> tabList;
 
