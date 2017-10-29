@@ -53,7 +53,7 @@ public abstract class BaseListAdapter<E> extends BaseAdapter {
         super();
         this.list = list;
         this.mContext = mContext;
-        mInflater = LayoutInflater.from(mContext)
+        mInflater = LayoutInflater.from(mContext);
     }
 
     @Override

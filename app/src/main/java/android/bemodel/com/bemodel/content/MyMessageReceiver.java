@@ -4,7 +4,7 @@ import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.CustomApplcation;
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.util.CollectionUtils;
-import android.bemodel.com.bemodel.util.CommonUtils;
+import android.bemodel.com.bemodel.util.NetworkUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -52,7 +52,7 @@ public class MyMessageReceiver extends BroadcastReceiver {
 
         userManager = BmobUserManager.getInstance(context);
         currentUser = userManager.getCurrentUser();
-        boolean isNetConnected = CommonUtils.isNetworkAvailable(context);
+        boolean isNetConnected = NetworkUtils.isNetworkAvailable(context);
         if (isNetConnected) {
             parseMessage(context, json);
         } else {
