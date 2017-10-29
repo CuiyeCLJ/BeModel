@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.messages;
+package android.bemodel.com.bemodel.ui.messages;
 
 import android.bemodel.com.bemodel.adapter.MessagesAdapter;
 import android.bemodel.com.bemodel.bean.ChatUser;
@@ -20,15 +20,11 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 
-import com.google.gson.internal.bind.ReflectiveTypeAdapterFactory;
-import com.google.gson.internal.bind.TreeTypeAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import cn.bmob.im.db.BmobDB;
-import cn.bmob.v3.b.V;
 
 public class MessagesFragment extends Fragment implements OnItemClickListener, OnItemLongClickListener {
 

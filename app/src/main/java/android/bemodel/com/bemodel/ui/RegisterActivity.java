@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.ui;
 
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.bean.UserInfo;
@@ -16,7 +16,6 @@ import cn.bmob.sms.BmobSMS;
 import cn.bmob.sms.exception.BmobException;
 import cn.bmob.sms.listener.RequestSMSCodeListener;
 import cn.bmob.sms.listener.VerifySMSCodeListener;
-import cn.bmob.v3.BmobUser;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener {
 

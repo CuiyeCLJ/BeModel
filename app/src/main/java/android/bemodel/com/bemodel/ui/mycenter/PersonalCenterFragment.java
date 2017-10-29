@@ -1,11 +1,10 @@
-package android.bemodel.com.bemodel.mycenter;
+package android.bemodel.com.bemodel.ui.mycenter;
 
 import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.image.ImageLoader;
-import android.bemodel.com.bemodel.view.LoginActivity;
+import android.bemodel.com.bemodel.ui.LoginActivity;
 import android.bemodel.com.bemodel.widget.CircleImageView;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;

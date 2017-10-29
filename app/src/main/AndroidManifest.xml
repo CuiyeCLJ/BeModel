@@ -37,10 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.RegisterActivity" />
-        <activity android:name=".view.Register2Activity" />
-        <activity android:name=".view.CommentActivity" />
+        <activity android:name=".ui.LoginActivity" />
+        <activity android:name=".ui.RegisterActivity" />
+        <activity android:name=".ui.Register2Activity" />
+        <activity android:name=".ui.CommentActivity" />
 
         <service
             android:name="com.baidu.location.f"
@@ -57,7 +57,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name=".messages.ChatActivity"></activity>
+        <activity android:name=".ui.messages.ChatActivity"></activity>
 
 
         <!-- IM聊天所需的Push start-->

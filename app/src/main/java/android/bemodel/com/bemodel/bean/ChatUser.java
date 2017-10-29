@@ -10,6 +10,7 @@ import cn.bmob.v3.datatype.BmobRelation;
 public class ChatUser extends BmobUser {
 
     private static final long serialVersionUID = 1L;
+
     private String nick;    //昵称
     private String avatar;  //头像信息
     private BmobRelation contacts;  //好友联系人

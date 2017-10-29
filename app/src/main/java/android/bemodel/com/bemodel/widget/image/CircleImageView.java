@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.widget.image;
 
 import android.annotation.SuppressLint;
 import android.bemodel.com.bemodel.R;

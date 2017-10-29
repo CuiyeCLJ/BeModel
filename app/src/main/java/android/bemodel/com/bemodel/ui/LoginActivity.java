@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.ui;
 
 import android.app.ProgressDialog;
 import android.bemodel.com.bemodel.base.BaseActivity;
@@ -16,10 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
-import rx.Subscriber;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 

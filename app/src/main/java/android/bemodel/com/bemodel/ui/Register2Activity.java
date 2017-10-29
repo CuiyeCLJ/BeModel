@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.ui;
 
 import android.app.ProgressDialog;
 import android.bemodel.com.bemodel.base.BaseActivity;
@@ -16,7 +16,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import butterknife.BindView;
-import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 public class Register2Activity extends BaseActivity implements View.OnClickListener {

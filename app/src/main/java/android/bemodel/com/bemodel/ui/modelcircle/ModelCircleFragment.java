@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.modelcircle;
+package android.bemodel.com.bemodel.ui.modelcircle;
 
 import android.app.Activity;
 import android.bemodel.com.bemodel.adapter.ModelCircleAdapter;
@@ -76,9 +76,9 @@ public class ModelCircleFragment extends BaseFragment implements View.OnClickLis
         //展示逻辑
         loadData();
         if (modelCircleInfoList != null) {
-            modelCircleAdapter = new ModelCircleAdapter(context, modelCircleInfoList);
+            modelCircleAdapter = new ModelCircleAdapter(context, modelCircleInfoList, recyclerView);
         } else {
-            modelCircleAdapter = new ModelCircleAdapter(context, null);
+            modelCircleAdapter = new ModelCircleAdapter(context, null, recyclerView);
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(modelCircleAdapter);

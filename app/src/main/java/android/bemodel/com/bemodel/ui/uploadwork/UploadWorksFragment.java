@@ -1,14 +1,12 @@
-package android.bemodel.com.bemodel.uploadartwork;
+package android.bemodel.com.bemodel.ui.uploadwork;
 
 import android.Manifest;
 import android.bemodel.com.bemodel.home.MainActivity;
 import android.bemodel.com.bemodel.bean.ModelCircleInfo;
 import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.ToastUtils;
-import android.bemodel.com.bemodel.util.permission.PermissionListener;
 import android.bemodel.com.bemodel.util.permission.PermissionManager;
-import android.bemodel.com.bemodel.view.LoginActivity;
-import android.bemodel.com.bemodel.widget.CircleImageView;
+import android.bemodel.com.bemodel.ui.LoginActivity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,11 +18,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Contacts;
-import android.provider.ContactsContract;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -51,12 +46,10 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.joker.api.Permissions4M;
-import com.joker.api.wrapper.ListenerWrapper;
 import com.joker.api.wrapper.Wrapper;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.qiniu.android.storage.UploadManager;
-import com.qiniu.cdn.CdnResult;
 
 import org.json.JSONObject;
 
@@ -65,10 +58,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.datatype.BmobGeoPoint;
-import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
 
 import static android.app.Activity.RESULT_OK;

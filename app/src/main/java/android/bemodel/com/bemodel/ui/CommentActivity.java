@@ -1,4 +1,4 @@
-package android.bemodel.com.bemodel.view;
+package android.bemodel.com.bemodel.ui;
 
 import android.bemodel.com.bemodel.base.BaseActivity;
 import android.bemodel.com.bemodel.adapter.CommentAdapter;
@@ -20,10 +20,8 @@ import java.util.List;
 import butterknife.BindView;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
-import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.SaveListener;
-import rx.Subscriber;
 
 public class CommentActivity extends BaseActivity implements View.OnClickListener {
 

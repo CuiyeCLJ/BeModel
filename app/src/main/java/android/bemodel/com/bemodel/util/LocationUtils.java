@@ -71,7 +71,7 @@ public class LocationUtils {
      * @param distance  单位为km
      * @return
      */
-    private static String getDescriptionDistance(double distance) {
+    public static String getDescriptionDistance(double distance) {
         int d;
         String distanceStr = null;
         if (distance < 1) {

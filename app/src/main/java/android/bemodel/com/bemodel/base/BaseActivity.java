@@ -1,7 +1,7 @@
 package android.bemodel.com.bemodel.base;
 
-import android.bemodel.com.bemodel.bean.CustomApplcation;
-import android.bemodel.com.bemodel.view.LoginActivity;
+import android.bemodel.com.bemodel.CustomApplcation;
+import android.bemodel.com.bemodel.ui.LoginActivity;
 import android.bemodel.com.bemodel.widget.dialog.DialogTips;
 import android.content.Context;
 import android.content.DialogInterface;

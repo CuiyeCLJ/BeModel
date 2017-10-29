@@ -6,10 +6,11 @@ import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.MyUtils;
 import android.bemodel.com.bemodel.util.TimeUtils;
 import android.bemodel.com.bemodel.util.loader.ImageLoader;
-import android.bemodel.com.bemodel.view.CommentActivity;
-import android.bemodel.com.bemodel.view.LoginActivity;
+import android.bemodel.com.bemodel.ui.CommentActivity;
+import android.bemodel.com.bemodel.ui.LoginActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,6 @@ import java.util.List;
 import cn.bmob.v3.BmobUser;
 
 import static android.bemodel.com.bemodel.util.Utility.getLongDistance;
-import static android.bemodel.com.bemodel.util.Utility.getTimeDifference;
 
 /**
  * Created by Administrator on 2017.07.23.
@@ -37,15 +37,50 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     private ImageLoader mImageLoader;
     private int screenWidth;
     public OnItemClickListener itemClickListener;
+    public OnLoadMoreListener onLoadMoreListener;
     private android.bemodel.com.bemodel.util.image.ImageLoader imageLoader;
+    private boolean isLoading = false;
 
-    public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList) {
+    public ModelCircleAdapter(Context mContext, List<ModelCircleInfo> mModelCircleInfoList, RecyclerView recyclerView) {
         this.mModelCircleInfoList = mModelCircleInfoList;
         this.mContext = mContext;
         this.user = BmobUser.getCurrentUser(mContext, UserInfo.class);
         this.screenWidth = MyUtils.getScreenMetrics(mContext).widthPixels;
         this.mImageLoader = ImageLoader.build(mContext);
         this.imageLoader = new android.bemodel.com.bemodel.util.image.ImageLoader();
+        init(recyclerView);
+    }
+
+    private void init(RecyclerView recyclerView) {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
+                int itemCount = linearLayoutManager.getItemCount();
+                int lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+                //dy > 0 表示上滑
+                if (!isLoading && dy > 0 && lastVisibleItemPosition >= itemCount - 1) {
+                    if (onLoadMoreListener != null) {
+                        onLoadMoreListener.onLoadMore();
+                    }
+                    isLoading = true;
+                }
+            }
+        });
+
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+    }
+
+    public boolean isLoading() {
+        return isLoading;
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
     }
 
     @Override
@@ -85,23 +120,15 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ModelCircleInfo modelCircleInfo = mModelCircleInfoList.get(position);
-
-
-//        LatLng start = new LatLng(user.getGeo().getLatitude(), user.getGeo().getLongitude());
-//        LatLng end = new LatLng(modelCircleInfo.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude());
-//        int distance = (int) Location.getDistance(start, end);
-
 //        ImageView imageView = holder.photograph;
 //        final String tag = (String)imageView.getTag();
 //        mImageLoader.bindBitmap(modelCircleInfo.getThumbnailPic(), imageView, screenWidth, 180);
-
-//        holder.photograph.setImageResource();
-        imageLoader.dispalyImage(user.getProfileImageUrl(), holder.headImage);
+        imageLoader.dispalyImage(user.getAvatar(), holder.headImage);
         holder.userName.setText(modelCircleInfo.getUser().getUsername());
         holder.location.setText(modelCircleInfo.getAddress());
         holder.time.setText(TimeUtils.getDescriptionTimeFromTimestamp(TimeUtils.stringToLong(modelCircleInfo.getCreatedAt(), "yyyy-MM-dd HH:mm:ss")));
         holder.distance.setText(getLongDistance(user.getGeo().getLongitude(), user.getGeo().getLatitude(), modelCircleInfo.getGeo().getLongitude(), modelCircleInfo.getGeo().getLatitude()));
-        mImageLoader.bindBitmap(modelCircleInfo.getThumbnailPic(), holder.photograph);
+        mImageLoader.bindBitmap(modelCircleInfo.getBmiddlePic(), holder.photograph);
         holder.describe.setText(modelCircleInfo.getText());
         holder.comment.setText("评论(" + modelCircleInfo.getCommentsCount() + ")");
     }
@@ -117,6 +144,10 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public interface OnLoadMoreListener {
+        void onLoadMore();
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

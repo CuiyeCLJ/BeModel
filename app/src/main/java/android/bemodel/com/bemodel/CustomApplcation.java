@@ -1,8 +1,7 @@
-package android.bemodel.com.bemodel.bean;
+package android.bemodel.com.bemodel;
 
 import android.app.Application;
 import android.app.NotificationManager;
-import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.util.CollectionUtils;
 import android.bemodel.com.bemodel.util.SharePreferenceUtils;
 import android.content.Context;
@@ -37,6 +36,7 @@ import cn.bmob.v3.datatype.BmobGeoPoint;
  */
 
 public class CustomApplcation extends Application {
+
     public static CustomApplcation mInstance;
     public LocationClient mLocationClient;
     public MyLocationListener mMyLocationListener;

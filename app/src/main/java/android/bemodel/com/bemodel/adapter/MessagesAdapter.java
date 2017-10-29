@@ -3,6 +3,7 @@ package android.bemodel.com.bemodel.adapter;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.bean.MessagesInfo;
 import android.bemodel.com.bemodel.bean.UserInfo;
+import android.bemodel.com.bemodel.util.LocationUtils;
 import android.bemodel.com.bemodel.util.Utility;
 import android.bemodel.com.bemodel.util.image.ImageLoader;
 import android.bemodel.com.bemodel.widget.CircleImageView;
@@ -52,11 +53,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MessagesInfo messages = messagesList.get(position);
-//        holder.ivAvatar.setImageResource();
         imageLoader.dispalyImage(messages.getTargetUser().getAvatar(), holder.ivAvatar);
         holder.tvUsername.setText(messages.getTargetUser().getUsername());
-        holder.tvLocation.setText(messages.getTargetUser());
-        holder.tvDistance.setText();
+        holder.tvLocation.setText(messages.getTargetUser().getAddress());
+        holder.tvDistance.setText(LocationUtils.getDescriptionDistance(LocationUtils.getDistance(mUser.getGeo().getLatitude(), mUser.getGeo().getLongitude(),
+                messages.getTargetUser().getGeo().getLatitude(), messages.getTargetUser().getGeo().getLongitude())));//getDescriptionDistance
     }
 
     /*
