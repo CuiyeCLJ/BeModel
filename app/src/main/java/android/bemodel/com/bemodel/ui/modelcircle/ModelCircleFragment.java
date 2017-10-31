@@ -35,7 +35,7 @@ import static android.bemodel.com.bemodel.util.ToastUtils.showShort;
 import static com.baidu.location.d.j.v;
 
 
-public class ModelCircleFragment extends BaseFragment implements View.OnClickListener {
+public class ModelCircleFragment extends BaseFragment implements ModelCircleContract.View, View.OnClickListener {
 
     @BindView(R.id.rv_model_Circle)
     RecyclerView recyclerView;
@@ -48,6 +48,8 @@ public class ModelCircleFragment extends BaseFragment implements View.OnClickLis
 
     public List<ModelCircleInfo> modelCircleInfoList;
     private ModelCircleAdapter modelCircleAdapter;
+
+    private ModelCircleContract.Presenter mPresenter;
 
     @Nullable
     @Override
@@ -196,5 +198,10 @@ public class ModelCircleFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onWidgetClick(View view) {
 
+    }
+
+    @Override
+    public void setPresenter(ModelCircleContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }
