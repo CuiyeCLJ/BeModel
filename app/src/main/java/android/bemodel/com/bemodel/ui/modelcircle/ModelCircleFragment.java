@@ -35,11 +35,11 @@ import static android.bemodel.com.bemodel.util.ToastUtils.showShort;
 import static com.baidu.location.d.j.v;
 
 
-public class ModelCircleFragment extends BaseFragment implements ModelCircleContract.View, View.OnClickListener {
+public class ModelCircleFragment extends BaseFragment implements ModelCircleContract.View<List<ModelCircleInfo>>, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.rv_model_Circle)
     RecyclerView recyclerView;
-    @BindView(R.id.swipe_refresh)
+    @BindView(R.id.srl_contentView)
     SwipeRefreshLayout swipeRefresh;
 
     private static final String TAG ="BeModel";
@@ -153,28 +153,28 @@ public class ModelCircleFragment extends BaseFragment implements ModelCircleCont
         loadData();
     }
 
-    //下拉刷新
-    private void refreshModelCicleInfo(final Bundle savedInstanceState) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                ((Activity)context).runOnUiThread(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-                    @Override
-                    public void run() {
-                        requestDataRefresh();
-                        modelCircleAdapter.notifyDataSetChanged();
-                        swipeRefresh.setRefreshing(false);
-                    }
-                });
-            }
-        }).start();
-    }
+//    //下拉刷新
+//    private void refreshModelCicleInfo(final Bundle savedInstanceState) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(2000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                ((Activity)context).runOnUiThread(new Runnable() {
+//                    @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
+//                    @Override
+//                    public void run() {
+//                        requestDataRefresh();
+//                        modelCircleAdapter.notifyDataSetChanged();
+//                        swipeRefresh.setRefreshing(false);
+//                    }
+//                });
+//            }
+//        }).start();
+//    }
 
     @Override
     public void onClick(View v) {
@@ -204,4 +204,37 @@ public class ModelCircleFragment extends BaseFragment implements ModelCircleCont
     public void setPresenter(ModelCircleContract.Presenter presenter) {
         mPresenter = presenter;
     }
+
+    @Override
+    public void showLoading(boolean pullToRefresh) {
+
+    }
+
+    @Override
+    public void showContent() {
+
+    }
+
+    @Override
+    public void showError(Throwable e, boolean pullToRefresh) {
+
+    }
+
+    @Override
+    public void setData(List<ModelCircleInfo> data) {
+        modelCircleAdapter.setModelCircleInfoList(data);
+        modelCircleAdapter.notifyDataSetChanged();
+        swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void loadData(boolean pullToRefresh) {
+        mPresenter.updateStatus(pullToRefresh);
+    }
+
+    @Override
+    public void onRefresh() {
+        loadData(true);
+    }
+
 }

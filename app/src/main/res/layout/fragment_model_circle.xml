@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <include layout="@layout/my_title_bar"
         android:id="@+id/title_bar"/>
 
+    <!--Loading View-->
+    <ProgressBar
+        android:id="@+id/pb_loadingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"/>
+
+    <!--Content View-->
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+        android:id="@+id/srl_contentView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -21,5 +31,11 @@
         </android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <!--Error view-->
+    <TextView
+        android:id="@+id/tv_errorView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

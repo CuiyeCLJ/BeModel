@@ -71,6 +71,10 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
 
     }
 
+    public void setModelCircleInfoList(List<ModelCircleInfo> mModelCircleInfoList) {
+        this.mModelCircleInfoList = mModelCircleInfoList;
+    }
+
     public void setLoading(boolean loading) {
         isLoading = loading;
     }
@@ -132,6 +136,8 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
         holder.describe.setText(modelCircleInfo.getText());
         holder.comment.setText("评论(" + modelCircleInfo.getCommentsCount() + ")");
     }
+
+
 
     @Override
     public int getItemCount() {
