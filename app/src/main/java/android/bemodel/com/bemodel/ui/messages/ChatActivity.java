@@ -428,13 +428,15 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
+        @Override
         public void handleMessage(Message msg) {
             if (msg.what == NEW_MESSAGE) {
                 BmobMsg message = (BmobMsg) msg.obj;
                 String uid = message.getBelongId();
                 BmobMsg m = BmobChatManager.getInstance(ChatActivity.this).getMessage(message.getConversationId(), message.getMsgTime());
-                if (!uid.equals(targetId))// 如果不是当前正在聊天对象的消息，不处理
+                if (!uid.equals(targetId)) { // 如果不是当前正在聊天对象的消息，不处理
                     return;
+                }
                 messageChatAdapter.add(m);
                 // 定位
                 mXListView.setSelection(messageChatAdapter.getCount() - 1);
@@ -642,6 +644,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
         });
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -966,8 +969,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
     public void hideSoftInputView() {
         InputMethodManager manager = ((InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE));
         if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-            if (getCurrentFocus() != null)
+            if (getCurrentFocus() != null) {
                 manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 
@@ -976,8 +980,9 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener,
      */
     public void showSoftInputView() {
         if (getWindow().getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
-            if (getCurrentFocus() != null)
+            if (getCurrentFocus() != null) {
                 ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).showSoftInput(edit_user_comment, 0);
+            }
         }
     }
 

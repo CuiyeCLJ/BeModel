@@ -5,13 +5,14 @@
     android:layout_height="wrap_content"
     android:background="@drawable/edit_bg">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_head_picture_im"
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="center"
-
-        android:layout_margin="4dp" />
+        android:layout_margin="4dp"
+        android:src="@drawable/headpic"
+        android:scaleType="centerCrop"/>
 
     <LinearLayout
         android:orientation="vertical"

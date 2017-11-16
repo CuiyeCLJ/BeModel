@@ -6,7 +6,6 @@ import android.bemodel.com.bemodel.bean.UserInfo;
 import android.bemodel.com.bemodel.util.LocationUtils;
 import android.bemodel.com.bemodel.util.Utility;
 import android.bemodel.com.bemodel.util.image.ImageLoader;
-import android.bemodel.com.bemodel.widget.CircleImageView;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static cn.bmob.v3.BmobUser.getCurrentUser;
 
@@ -88,6 +88,7 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         return messagesList.get(position);
     }
 
+    @Override
     public long getItemId(final int position) {
         return position;
     }

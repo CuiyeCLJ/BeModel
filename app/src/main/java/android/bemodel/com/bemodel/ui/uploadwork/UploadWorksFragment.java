@@ -110,6 +110,15 @@ public class UploadWorksFragment extends Fragment implements View.OnClickListene
 
     private String[] items = new String[] {"拍摄", "相册"};
 
+    public static UploadWorksFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        UploadWorksFragment fragment = new UploadWorksFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

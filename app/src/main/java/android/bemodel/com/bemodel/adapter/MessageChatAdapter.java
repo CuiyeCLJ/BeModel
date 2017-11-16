@@ -1,5 +1,6 @@
 package android.bemodel.com.bemodel.adapter;
 
+import android.bemodel.com.bemodel.NewRecordPlayClickListener;
 import android.bemodel.com.bemodel.R;
 import android.bemodel.com.bemodel.base.BaseListAdapter;
 import android.bemodel.com.bemodel.base.ViewHolder;

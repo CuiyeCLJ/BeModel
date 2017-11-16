@@ -37,6 +37,15 @@ public class MessagesFragment extends Fragment implements OnItemClickListener, O
     private MessagesAdapter adapter;
     private List<MessagesInfo> messagesInfoList = new ArrayList<>();
 
+    public static MessagesFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        MessagesFragment fragment = new MessagesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

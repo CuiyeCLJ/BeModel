@@ -51,6 +51,15 @@ public class ModelCircleFragment extends BaseFragment implements ModelCircleCont
 
     private ModelCircleContract.Presenter mPresenter;
 
+    public static ModelCircleFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        ModelCircleFragment fragment = new ModelCircleFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

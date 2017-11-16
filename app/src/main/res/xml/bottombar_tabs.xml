@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tas>
+    <tab
+        id="@+id/tab_home"
+        icon="@drawable/ic_home"
+        title="模特圈" />
+
+    <tab
+        id="@+id/tab_message"
+        icon="@drawable/ic_message"
+        title="信息" />
+
+    <tab
+        id="@+id/tab_upload"
+        icon="@drawable/ic_upload_to_cloud"
+        title="上传作品" />
+
+    <tab
+        id="@+id/tab_user"
+        icon="@drawable/ic_user"
+        title="个人中心" />
+</tas>

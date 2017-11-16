@@ -8,6 +8,7 @@
         android:id="@+id/iv_face_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/headpic"
         android:contentDescription="@string/add_avator"/>
 
 </RelativeLayout>

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Administrator on 2017.07.28.
  */
@@ -41,7 +43,7 @@ public class CommentAdapter extends ArrayAdapter<CommentInfo> {
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.reviewerImage = (ImageView)view.findViewById(R.id.iv_reviewer_image);
+            viewHolder.reviewerImage = (CircleImageView) view.findViewById(R.id.iv_reviewer_image);
             viewHolder.reviewerName = (TextView)view.findViewById(R.id.tv_reviewer_name);
             viewHolder.reviewTime = (TextView)view.findViewById(R.id.tv_review_time);
             viewHolder.reviewContent = (TextView)view.findViewById(R.id.tv_review_content);
@@ -60,7 +62,7 @@ public class CommentAdapter extends ArrayAdapter<CommentInfo> {
     }
 
     class ViewHolder {
-        ImageView reviewerImage;
+        CircleImageView reviewerImage;
         TextView reviewerName;
         TextView reviewTime;
         TextView reviewContent;

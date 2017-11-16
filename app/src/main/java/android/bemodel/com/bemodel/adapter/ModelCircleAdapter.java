@@ -22,6 +22,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.bmob.v3.BmobUser;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.bemodel.com.bemodel.util.Utility.getLongDistance;
 
@@ -160,7 +161,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
 
         View modelCircleInfoView;
 
-        ImageView headImage;
+        CircleImageView headImage;
         TextView userName;
         TextView location;
         TextView time;
@@ -173,7 +174,7 @@ public class ModelCircleAdapter extends RecyclerView.Adapter<ModelCircleAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
             modelCircleInfoView = itemView;
-            headImage = (ImageView)itemView.findViewById(R.id.iv_item_head_sculpture);
+            headImage = (CircleImageView) itemView.findViewById(R.id.iv_item_head_sculpture);
             userName = (TextView)itemView.findViewById(R.id.tv_item_username);
             location = (TextView)itemView.findViewById(R.id.tv_item_location);
             time = (TextView)itemView.findViewById(R.id.tv_item_time);

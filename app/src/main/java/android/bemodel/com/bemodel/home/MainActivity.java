@@ -11,6 +11,7 @@ import android.bemodel.com.bemodel.ui.mycenter.PersonalCenterFragment;
 import android.bemodel.com.bemodel.ui.uploadwork.UploadWorksFragment;
 import android.bemodel.com.bemodel.util.ToastUtils;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -25,11 +26,14 @@ import com.joker.annotation.PermissionsDenied;
 import com.joker.annotation.PermissionsGranted;
 import com.joker.annotation.PermissionsRequestSync;
 import com.joker.api.Permissions4M;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import cn.bmob.sms.BmobSMS;
 import cn.bmob.v3.Bmob;
 
@@ -48,35 +52,46 @@ public class MainActivity extends BaseActivity {
     public static final int PHONE_CODE = 8;
     public static final int STORAGE_CODE = 9;
 
-    @BindView(R.id.vp_main) ViewPager mViewPager;
-    @BindView(R.id.tl_main) TabLayout tabLayout;
+    @BindView(R.id.vp_main)
+    ViewPager mViewPager;
+    @BindView(R.id.bottom_bar)
+    BottomBar mBottomBar;
 
-    private List<TabLayout.Tab> tabList;
-
-    private ArrayList<Fragment> mFragmentList = new ArrayList<>();
+    private List<Fragment> mFragmentList;
     private ModelCircleFragment mModelCircleFragment;
     private MessagesFragment mMessagesFragment;
     private UploadWorksFragment mUploadWorksFragment;
     private PersonalCenterFragment mPersonalCenterFragment;
 
-    private ViewPagerAdapter viewPagerAdapter;
+    private ViewPagerAdapter mViewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         Bmob.initialize(this, "af56c01af0a81b902b06a40b76af555a");
         BmobSMS.initialize(this, "af56c01af0a81b902b06a40b76af555a");
-
-        setContentView(R.layout.activity_main);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.hide();
         }
 
-        initFragment(savedInstanceState);
+//        initFragment(savedInstanceState);
+        initViewPager();
         setViewPager();
+
+        mBottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                int position = mBottomBar.findPositionForTabWithId(tabId);
+                mViewPager.setCurrentItem(position, false);
+                mViewPagerAdapter.getItem(position);
+            }
+        });
 
         //同步申请多个权限
         Permissions4M.get(MainActivity.this).requestSync();
@@ -136,64 +151,37 @@ public class MainActivity extends BaseActivity {
     protected void loadData() {}
 
     @Override
-    protected void initViews() {
+    protected void initViews() {}
 
-        tabList = new ArrayList<>();
+    private void initViewPager() {
+        mFragmentList = new ArrayList<>();
+        mFragmentList.add(ModelCircleFragment.newInstance());
+        mFragmentList.add(MessagesFragment.newInstance());
+        mFragmentList.add(UploadWorksFragment.newInstance());
+        mFragmentList.add(PersonalCenterFragment.newInstance());
 
-        tabList.add(tabLayout.getTabAt(0));
-        tabList.add(tabLayout.getTabAt(1));
-        tabList.add(tabLayout.getTabAt(2));
-        tabList.add(tabLayout.getTabAt(3));
-
-        tabList.get(0).setIcon(R.drawable.homepage).setText("模特圈");
-        tabList.get(1).setIcon(R.drawable.message).setText("消息");
-        tabList.get(2).setIcon(R.drawable.upload).setText("上传作品");
-        tabList.get(3).setIcon(R.drawable.people).setText("个人中心");
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-//                switch (tab.getPosition()) {
-//                    case 0:
-//                        mTitleActivity.setTitle("模特圈");
-//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, true);
-//                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
-//                        break;
-//                    case 1:
-//                        mTitleActivity.setTitle("消息");
-//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
-//                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
-//                        break;
-//                    case 2:
-//                        mTitleActivity.setTitle("上传作品");
-//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
-//                        mTitleActivity.showRightView(R.string.upload_work_right_button, true);
-//                        break;
-//                    case 3:
-//                        mTitleActivity.setTitle("个人中心");
-//                        mTitleActivity.showLeftView(R.string.model_cicle_left_button, false);
-//                        mTitleActivity.showRightView(R.string.upload_work_right_button, false);
-//                        break;
-//                }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
+            public void onPageSelected(int position) {
+                mBottomBar.selectTabAtPosition(position, true);
             }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
     }
 
     private void setViewPager() {
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragmentList);
-        mViewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(mViewPager);
+        mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mFragmentList);
+        mViewPager.setAdapter(mViewPagerAdapter);
+        mViewPager.setOffscreenPageLimit(mFragmentList.size());
 
     }
 
